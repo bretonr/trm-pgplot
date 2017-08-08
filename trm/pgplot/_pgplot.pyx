@@ -282,6 +282,10 @@ def pgopen(device):
     """
     return cpgopen(device.encode())
 
+def pgpage():
+    """pgpage(): advance to next page or panel"""
+    cpgpage()
+
 def pgpanl(ix, iy):
     """pgpanl(ix, iy): switch to a different panel"""
     cpgpanl(ix, iy)
@@ -331,6 +335,10 @@ def pgslct(devid):
 def pgsubp(nx, ny):
     """pgsubp(nx, ny): subdivides view surface into panels"""
     cpgsubp(nx, ny)
+
+def pgsvp(xleft, xright, ybot, ytop):
+   """pgsvp(xleft, xright, ybot, ytop): sets viewport"""
+   cpgsvp(xleft, xright, ybot, ytop)
 
 def pgswin(x1, x2, y1, y2):
     """pgswin(x1, x2, y1, y2): defines physical scales"""
