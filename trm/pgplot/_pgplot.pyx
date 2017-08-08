@@ -73,6 +73,7 @@ cdef extern from "cpgplot.h":
    void cpgpt1(float xpt, float ypt, int symbol)
    void cpgptxt(float x, float y, float angle, float fjust, const char *text)
    void cpgrect(float x1, float x2, float y1, float y2)
+   void cpgwnad(float x1, float x2, float y1, float y2)
 
    #int cpgbeg(int unit, const char *file, int nxsub, int nysub);
    #void cpgconb(const float *a, int idim, int jdim, int i1, int i2, int j1, int j2, const float *c, int nc, const float *tr, float blank);
@@ -130,7 +131,10 @@ cdef extern from "cpgplot.h":
    #void cpgvect(const float *a, const float *b, int idim, int jdim, int i1, int i2#, int j1, int j2, float c, int nc, const float *tr, float blank);
    #void cpgvsiz(float xleft, float xright, float ybot, float ytop);
    #void cpgwedg(const char *side, float disp, float width, float fg, float bg, con#st char *label);
-   #void cpgwnad(float x1, float x2, float y1, float y2);
+
+def pgbox(xopt, xtick, nxsub, yopt, ytick, nysub):
+    """pgbox(xopt, xtick, nxsub, yopt, ytick, nysub): sets up axes"""
+    cpgbox(xopt.encode(), xtick, nxsub, yopt.encode(), ytick, nysub)
 
 def pgbbuf():
     """pgbbuf(): begins plot buffering
@@ -282,6 +286,10 @@ def pgpanl(ix, iy):
     """pgpanl(ix, iy): switch to a different panel"""
     cpgpanl(ix, iy)
 
+def pgptxt(x, y, angle, fjust, text):
+    """pgptxt(x, y, angle, fjust, text): draw text at arbitrary position"""
+    cpgptxt(x, y, angle, fjust, text.encode())
+
 def pgrect(x1, x2, y1, y2):
    """pgrect(x1, x2, y1, y2): plot a rectangle"""
    cpgrect(x1, x2, y1, y2)
@@ -292,7 +300,7 @@ def pgsci(ci):
 
 def pgsch(ch):
     """pgsch(ch): sets character height"""
-    cpgslw(ch)
+    cpgsch(ch)
 
 def pgscf(font):
     """pgscf(font): sets font (1 to 4)"""
@@ -323,3 +331,15 @@ def pgslct(devid):
 def pgsubp(nx, ny):
     """pgsubp(nx, ny): subdivides view surface into panels"""
     cpgsubp(nx, ny)
+
+def pgswin(x1, x2, y1, y2):
+    """pgswin(x1, x2, y1, y2): defines physical scales"""
+    cpgswin(x1, x2, y1, y2)
+
+def pgwnad(x1, x2, y1, y2):
+    """pgwnad(x1, x2, y1, y2): defines physical scales"""
+    cpgwnad(x1, x2, y1, y2)
+
+def pgvstd():
+    """pgvstd(): sets up standard viewport"""
+    cpgvstd()
