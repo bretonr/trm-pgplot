@@ -6,26 +6,43 @@ from Cython.Build import cythonize
 
 """Setup script for the pgplot Cython wrapper"""
 
+# setup the paths to get the libraries and headers
+include_dirs = []
+libraries    = ['cpgplot', 'pgplot', 'X11', 'png', 'm', 'z', 'gfortran']
+library_dirs = ['/usr/X11R6/lib']
+
+include_dirs.append(numpy.get_include())
+
+if os.name == 'posix':
+    if 'PGPLOT_DIR' in os.environ:
+        library_dirs.append(os.environ['PGPLOT_DIR'])
+        include_dirs.append(os.environ['PGPLOT_DIR'])
+    else:
+        print('Environment variable PGPLOT_DIR not defined!', file=sys.stderr)
+else:
+    raise Exception('os = {:s} not supported'.format(os.name))
+
 pgplot = [Extension(
-    'trm.pgplot._pgplot',
-    [os.path.join('trm','pgplot','_pgplot.pyx')],
-    libraries=['cpgplot', 'pgplot', 'X11', 'png', 'm', 'z', 'gfortran'],
-    library_dirs=['/usr/X11R6/lib'],
-    include_dirs=[numpy.get_include()],
-#    extra_compile_args=["-fno-strict-aliasing"],
-    define_macros   = [('MAJOR_VERSION', '0'),
-                       ('MINOR_VERSION', '1')]),
-            ]
+        'trm.pgplot._pgplot',
+        [os.path.join('trm','pgplot','_pgplot.pyx')],
+        libraries=libraries,
+        library_dirs=library_dirs,
+        include_dirs=include_dirs,
+        extra_compile_args=[],
+        define_macros   = [
+            ('MAJOR_VERSION', '0'),
+            ('MINOR_VERSION', '1')]),
+          ]
 
 setup(name='trm.pgplot',
-      version     = '0.9',
-      packages    = ['trm', 'trm.pgplot',],
+      version = '0.9',
+      packages = ['trm', 'trm.pgplot',],
       ext_modules=cythonize(pgplot),
 
       # metadata
       author='Tom Marsh',
       author_email='t.r.marsh@warwick.ac.uk',
-      description="Python wrapper of pgplot",
+      description="Python/Cython wrapper of pgplot",
       url='http://www.astro.warwick.ac.uk/',
       )
 
