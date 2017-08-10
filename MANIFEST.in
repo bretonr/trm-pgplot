@@ -1,0 +1,3 @@
+include trm/pgplot/_pgplot.pyx
+include trm/pgplot/_pgplot.c
+
