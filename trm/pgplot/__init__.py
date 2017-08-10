@@ -17,14 +17,36 @@ from ._pgplot import *
 
 class PGdevice:
     """
-    Class to open a PGPLOT device to see if one can handle closing them better. The
-    idea is to use the class destructor to close the device to avoid dangling devices.
+    Class to open a PGPLOT device which automatically closes it on exit from a
+    program, when ctrl-C is hit or when deleted using its destructor. It also
+    keeps tabs on the ID of the device making it easy to switch between
+    multiple plots. Use of this class is optional. If you do want to use it,
+    then rather than starting and ending a plot with:
+
+        pgopen('/xs')
+        .
+        .
+        .
+        pgclos()
+
+    say, you would write
+
+        dev = PGdevice('/xs')
+        .
+        .
+        .
+        dev.close()
+
+    although the explicit close can be left off as one will be issued
+    automatically as soon as 'dev' goes out of scope. If you are plotting to
+    multiple devices then 'select' as in 'dev.select()' makes it easy to
+    direct plotting to a particular device.
 
     Attributes::
 
       devid  : (int)
-         the integer identifier returned by pgopen. This is used to select the device when
-         it is closed and on destruction.
+         the integer identifier returned by pgopen. This is used to select the
+         device when it is closed and on destruction.
 
       device : (string)
          the name used to open the device.
