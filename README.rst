@@ -24,7 +24,17 @@ Most of the routines use the same arguments as their PGPLOT counterparts,
 e.g. pgsci(2) sets the colour index to number 2 (usually red), however some
 shortcuts are possible since Python arrays know their length so rather than
 cpgline(n,*x,*y), it is pgline(x,y). These differences are documented e.g.
-"pydoc trm.pgplot.pgline", etc.
+"pydoc trm.pgplot.pgline", etc. I have not implemented every single routine as
+yet but would hope to do so. If you are desperate for your favourite to appear
+then let me know; it does not take long.
 
+One extra is PGdevice, a class to help close plots and handle multiple
+plots. Its use is optional.
+
+Why another Python wrapper of PGPLOT?
+====================================
+
+There are other hand-crafted wrappers of PGPLOT out there. I thought a Cython
+version would be easier to maintain.
 
 Tom Marsh
