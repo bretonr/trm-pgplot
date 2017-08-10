@@ -40,8 +40,10 @@ cdef extern from "cpgplot.h":
    void cpgmove(float x, float y)
    int cpgopen(const char *device)
    void cpgpanl(int ix, int iy)
+   void cpgpage()
    void cpgpap(float width, float aspect)
    void cpgpt(int n, const float *xpts, const float *ypts, int symbol)
+   void cpgpt1(float xpt, float ypt, int symbol)
    void cpgscf(int font)
    void cpgsch(float size)
    void cpgsci(int ci)
@@ -68,7 +70,6 @@ cdef extern from "cpgplot.h":
    void cpgebuf()
    void cpgeras()
    void cpgerr1(int dir, float x, float y, float e, float t)
-   void cpgpage()
    void cpgpoly(int n, const float *xpts, const float *ypts)
    void cpgpt1(float xpt, float ypt, int symbol)
    void cpgptxt(float x, float y, float angle, float fjust, const char *text)
@@ -132,6 +133,10 @@ cdef extern from "cpgplot.h":
    #void cpgvsiz(float xleft, float xright, float ybot, float ytop);
    #void cpgwedg(const char *side, float disp, float width, float fg, float bg, con#st char *label);
 
+def pgask(flag):
+    """pgask(flag): sets prompt state for new pages"""
+    cpgask(flag)
+
 def pgbox(xopt, xtick, nxsub, yopt, ytick, nysub):
     """pgbox(xopt, xtick, nxsub, yopt, ytick, nysub): sets up axes"""
     cpgbox(xopt.encode(), xtick, nxsub, yopt.encode(), ytick, nysub)
@@ -145,6 +150,23 @@ def pgclos():
     """pgclos(): closes the current device
     """
     cpgclos()
+
+def pgcurs(x, y):
+    """pgcurs(x, y): puts up a cursor for interactive plots
+
+    Returns: (x, y, ch)
+
+    x, y position selected and the character pressed
+    """
+
+    cdef char c
+    cdef float xf = x, yf = y
+
+    status = cpgcurs(&xf, &yf, &c)
+    if status == 0:
+        raise RuntimeError('call to cgpcurs failed')
+
+    return (xf,yf,chr(c))
 
 def pgebuf():
     """pgebuf(): ends plot buffering
@@ -245,13 +267,17 @@ def pggray(np.ndarray img not None, float fg, float bg, tr=None, i1=None, i2=Non
     # finally call cpggray
     cpggray(&imgf[0,0], nx, ny, ix1, ix2, jy1, jy2, fg, bg, &trf[0])
 
+def pglab(xlabel, ylabel, toplabel):
+    """pglab(xlabel, ylabel, toplabel): labels axes and top of a plot"""
+    cpglab(xlabel.encode(), ylabel.encode(), toplabel.encode())
+
 @cython.boundscheck(False)
 @cython.wraparound(False)
 def pgline(x, y):
     """pgline(x,y): plots a line.
 
     The call for this differs from the cpgline equivalent since Python arrays
-    know their length. An Exception will be raised if the input arrays differ
+    know their length. A ValueError will be raised if the input arrays differ
     in length.
 
     Arguments::
@@ -264,7 +290,7 @@ def pgline(x, y):
     """
     cdef int n = len(x)
     if len(y) != n:
-        raise Exception('pgline: x and y have differing numbers of elements')
+        raise ValueError('pgline: x and y have differing numbers of elements')
 
     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)
     cdef np.ndarray[FTYPE_t, ndim=1] yf = np.asarray(y).astype(FTYPE, copy=False)
@@ -289,6 +315,45 @@ def pgpage():
 def pgpanl(ix, iy):
     """pgpanl(ix, iy): switch to a different panel"""
     cpgpanl(ix, iy)
+
+def pgpap(width, aspect):
+   """pgpap(width, aspect): set plot width and aspect"""
+   cpgpap(width, aspect)
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def pgpt(x, y, symbol):
+    """pgpt(x,y,symbol): plots points
+
+    The call for this differs from the cpgpt equivalent since Python arrays
+    know their length. A ValueError will be raised if the input arrays differ
+    in length.
+
+    Arguments::
+
+       x      : (array)
+          array of X values
+
+       y      : (array)
+          array of Y values
+
+       symbol : (array)
+          plot symbol, e.g. 17 for a filled circle
+    """
+    cdef int n = len(x)
+    if len(y) != n:
+        raise ValueError('pgpt: x and y have differing numbers of elements')
+
+    cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)
+    cdef np.ndarray[FTYPE_t, ndim=1] yf = np.asarray(y).astype(FTYPE, copy=False)
+    cpgpt(n, &xf[0], &yf[0], symbol)
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def pgpt1(x, y, symbol):
+    """pgpt1(x,y,symbol): plots one point
+    """
+    cpgpt1(x, y, symbol)
 
 def pgptxt(x, y, angle, fjust, text):
     """pgptxt(x, y, angle, fjust, text): draw text at arbitrary position"""
@@ -323,6 +388,10 @@ def pgsfs(fs):
     fs : 1 = solid, 2 = outline, 3 = hatched, 4 = cross-hatched
     """
     cpgsfs(fs)
+
+def pgsls(ls):
+    """pgsls(ls): sets line style"""
+    cpgsls(ls)
 
 def pgslw(lw):
     """pgslw(lw): sets line width"""
