@@ -9,147 +9,25 @@ ctypedef np.float32_t FTYPE_t
 ctypedef np.float64_t DTYPE_t
 ctypedef np.int_t ITYPE_t
 
-cdef extern from "cpgplot.h":
-
-   void cpgarro(float x1, float y1, float x2, float y2)
-   void cpgask(int flag)
-   void cpgaxis(const char *opt, float x1, float y1, float x2, float y2, float v1, float v2,
-                float step, int nsub, float dmajl, float dmajr, float fmin, float disp, float orient)
-   int cpgband(int mode, int posn, float xref, float yref, float *x, float *y, char *ch_scalar)
-   void cpgbbuf()
-   void cpgbin(int nbin, const float *x, const float *data, int center)
-   void cpgbox(const char *xopt, float xtick, int nxsub, const char *yopt,
-               float ytick, int nysub)
-   void cpgcirc(float xcent, float ycent, float radius)
-   void cpgclos()
-   void cpgcont(const float *a, int idim, int jdim, int i1, int i2, int j1, int j2,
-                const float *c, int nc, const float *tr)
-   void cpgdraw(float x, float y)
-   void cpgenv(float xmin, float xmax, float ymin, float ymax,
-               int just, int axis)
-   void cpgerrx(int n, const float *x1, const float *x2, const float *y, float t)
-   void cpgerry(int n, const float *x, const float *y1, const float *y2, float t)
-   void cpggray(const float *a, int idim, int jdim, int i1, int i2, int j1, int j2,
-                float fg, float bg, const float *tr)
-   void cpghist(int n, const float *data, float datmin, float datmax, int nbin,
-                int pgflag)
-   void cpgimag(const float *a, int idim, int jdim, int i1, int i2, int j1, int j2,
-                float a1, float a2, const float *tr)
-   void cpglab(const char *xlbl, const char *ylbl, const char *toplbl)
-   void cpgline(int n, const float *xpts, const float *ypts)
-   void cpgmove(float x, float y)
-   int cpgopen(const char *device)
-   void cpgpanl(int ix, int iy)
-   void cpgpage()
-   void cpgpap(float width, float aspect)
-   void cpgpt(int n, const float *xpts, const float *ypts, int symbol)
-   void cpgpt1(float xpt, float ypt, int symbol)
-   void cpgscf(int font)
-   void cpgsch(float size)
-   void cpgsci(int ci)
-   void cpgscir(int icilo, int icihi)
-   void cpgsclp(int state)
-   void cpgscr(int ci, float cr, float cg, float cb)
-   void cpgscrl(float dx, float dy)
-   void cpgscrn(int ci, const char *name, int *ier)
-   void cpgsfs(int fs)
-   void cpgshls(int ci, float ch, float cl, float cs)
-   void cpgshs(float angle, float sepn, float phase)
-   void cpgsitf(int itf)
-   void cpgslct(int id)
-   void cpgsls(int ls)
-   void cpgslw(int lw)
-   void cpgstbg(int tbci)
-   void cpgsubp(int nxsub, int nysub)
-   void cpgsvp(float xleft, float xright, float ybot, float ytop)
-   void cpgswin(float x1, float x2, float y1, float y2)
-   void cpgvstd()
-
-
-   int cpgcurs(float *x, float *y, char *ch_scalar)
-   void cpgebuf()
-   void cpgeras()
-   void cpgerr1(int dir, float x, float y, float e, float t)
-   void cpgpoly(int n, const float *xpts, const float *ypts)
-   void cpgpt1(float xpt, float ypt, int symbol)
-   void cpgptxt(float x, float y, float angle, float fjust, const char *text)
-   void cpgrect(float x1, float x2, float y1, float y2)
-   void cpgwnad(float x1, float x2, float y1, float y2)
-
-   #int cpgbeg(int unit, const char *file, int nxsub, int nysub);
-   #void cpgconb(const float *a, int idim, int jdim, int i1, int i2, int j1, int j2, const float *c, int nc, const float *tr, float blank);
-   #void cpgconf(const float *a, int idim, int jdim, int i1, int i2, int j1, int j2, float c1, float c2, const float *tr);
-   #void cpgconl(const float *a, int idim, int jdim, int i1, int i2, int j1, int j2, float c, const float *tr, const char *label, int intval, int minint);
-   #void cpgcons(const float *a, int idim, int jdim, int i1, int i2, int j1, int j2, const float *c, int nc, const float *tr);
-   #void cpgctab(const float *l, const float *r, const float *g, const float *b, int nc, float contra, float bright);
-   #void cpgend(void);
-   #void cpgerrb(int dir, int n, const float *x, const float *y, const float *e, float t);
-   #void cpgetxt(void);
-   #void cpghi2d(const float *data, int nxv, int nyv, int ix1, int ix2, int iy1, int iy2, const float *x, int ioff, float bias, Logical center, float *ylims);
-   #void cpgiden(void);
-   #void cpglcur(int maxpt, int *npt, float *x, float *y);
-   #void cpgldev(void);
-   #void cpglen(int units, const char *string, float *xl, float *yl);
-   #void cpgmtxt(const char *side, float disp, float coord, float fjust, const char *text);
-   #void cpgncur(int maxpt, int *npt, float *x, float *y, int symbol);
-   #void cpgnumb(int mm, int pp, int form, char *string, int *string_length);
-   #void cpgolin(int maxpt, int *npt, float *x, float *y, int symbol);
-   #void cpgpixl(const int *ia, int idim, int jdim, int i1, int i2, int j1, int j2, float x1, float x2, float y1, float y2);
-   #void cpgpnts(int n, const float *x, const float *y, const int *symbol, int ns);
-   #void cpgqah(int *fs, float *angle, float *barb);
-   #void cpgqcf(int *font);
-   #void cpgqch(float *size);
-   #void cpgqci(int *ci);
-   #void cpgqcir(int *icilo, int *icihi);
-   #void cpgqclp(int *state);
-   #void cpgqcol(int *ci1, int *ci2);
-   #void cpgqcr(int ci, float *cr, float *cg, float *cb);
-   #void cpgqcs(int units, float *xch, float *ych);
-   #void cpgqdt(int n, char *type, int *type_length, char *descr, int *descr_length, int *inter);
-   #void cpgqfs(int *fs);
-   #void cpgqhs(float *angle, float *sepn, float *phase);
-   #void cpgqid(int *id);
-   #void cpgqinf(const char *item, char *value, int *value_length);
-   #void cpgqitf(int *itf);
-   #void cpgqls(int *ls);
-   #void cpgqlw(int *lw);
-   #void cpgqndt(int *n);
-   #void cpgqpos(float *x, float *y);
-   #void cpgqtbg(int *tbci);
-   #void cpgqtxt(float x, float y, float angle, float fjust, const char *text, float *xbox, float *ybox);
-   #void cpgqvp(int units, float *x1, float *x2, float *y1, float *y2);
-   #void cpgqvsz(int units, float *x1, float *x2, float *y1, float *y2);
-   #void cpgqwin(float *x1, float *x2, float *y1, float *y2);
-   #float cpgrnd(float x, int *nsub);
-   #void cpgrnge(float x1, float x2, float *xlo, float *xhi);
-   #void cpgsah(int fs, float angle, float barb);
-   #void cpgsave(void);
-   #void cpgunsa(void);
-   #void cpgtbox(const char *xopt, float xtick, int nxsub, const char *yopt, float #ytick, int nysub);
-   #void cpgtext(float x, float y, const char *text);
-   #void cpgtick(float x1, float y1, float x2, float y2, float v, float tikl, float# tikr, float disp, float orient, const char *str);
-   #void cpgupdt(void);
-   #void cpgvect(const float *a, const float *b, int idim, int jdim, int i1, int i2#, int j1, int j2, float c, int nc, const float *tr, float blank);
-   #void cpgvsiz(float xleft, float xright, float ybot, float ytop);
-   #void cpgwedg(const char *side, float disp, float width, float fg, float bg, con#st char *label);
+cimport cpgplot
 
 def pgask(flag):
     """pgask(flag): sets prompt state for new pages"""
-    cpgask(flag)
+    cpgplot.cpgask(flag)
 
 def pgbox(xopt, xtick, nxsub, yopt, ytick, nysub):
     """pgbox(xopt, xtick, nxsub, yopt, ytick, nysub): sets up axes"""
-    cpgbox(xopt.encode(), xtick, nxsub, yopt.encode(), ytick, nysub)
+    cpgplot.cpgbox(xopt.encode(), xtick, nxsub, yopt.encode(), ytick, nysub)
 
 def pgbbuf():
     """pgbbuf(): begins plot buffering
     """
-    cpgbbuf()
+    cpgplot.cpgbbuf()
 
 def pgclos():
     """pgclos(): closes the current device
     """
-    cpgclos()
+    cpgplot.cpgclos()
 
 def pgcurs(x, y):
     """pgcurs(x, y): puts up a cursor for interactive plots
@@ -162,7 +40,7 @@ def pgcurs(x, y):
     cdef char c
     cdef float xf = x, yf = y
 
-    status = cpgcurs(&xf, &yf, &c)
+    status = cpgplot.cpgcurs(&xf, &yf, &c)
     if status == 0:
         raise RuntimeError('call to cgpcurs failed')
 
@@ -171,7 +49,7 @@ def pgcurs(x, y):
 def pgebuf():
     """pgebuf(): ends plot buffering
     """
-    cpgebuf()
+    cpgplot.cpgebuf()
 
 def pgenv(xmin, xmax, ymin, ymax, just, axis):
     """pgenv(xmin, xmax, ymin, ymax, just, axis): sets up a standard plot window
@@ -202,7 +80,7 @@ def pgenv(xmin, xmax, ymin, ymax, just, axis):
          logarithmically; 30 : draw box and label both axes logarithmically.
 
     """
-    cpgenv(xmin, xmax, ymin, ymax, just, axis)
+    cpgplot.cpgenv(xmin, xmax, ymin, ymax, just, axis)
 
 def pggray(np.ndarray img not None, float fg, float bg, tr=None, i1=None, i2=None, j1=None, j2=None):
     """pggray(img, fg, bg, tr=None, i1=None, i2=None, j1=None, j2=None): plots greyscale
@@ -265,11 +143,11 @@ def pggray(np.ndarray img not None, float fg, float bg, tr=None, i1=None, i2=Non
     trf[3] -= trf[4]+trf[5]
 
     # finally call cpggray
-    cpggray(&imgf[0,0], nx, ny, ix1, ix2, jy1, jy2, fg, bg, &trf[0])
+    cpgplot.cpggray(&imgf[0,0], nx, ny, ix1, ix2, jy1, jy2, fg, bg, &trf[0])
 
 def pglab(xlabel, ylabel, toplabel):
     """pglab(xlabel, ylabel, toplabel): labels axes and top of a plot"""
-    cpglab(xlabel.encode(), ylabel.encode(), toplabel.encode())
+    cpgplot.cpglab(xlabel.encode(), ylabel.encode(), toplabel.encode())
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
@@ -294,7 +172,7 @@ def pgline(x, y):
 
     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)
     cdef np.ndarray[FTYPE_t, ndim=1] yf = np.asarray(y).astype(FTYPE, copy=False)
-    cpgline(n, &xf[0], &yf[0])
+    cpgplot.cpgline(n, &xf[0], &yf[0])
 
 def pgopen(device):
     """pgopen(device): opens a plot device.
@@ -306,19 +184,19 @@ def pgopen(device):
 
     Return: the integer device identifier from cpgopen.
     """
-    return cpgopen(device.encode())
+    return cpgplot.cpgopen(device.encode())
 
 def pgpage():
     """pgpage(): advance to next page or panel"""
-    cpgpage()
+    cpgplot.cpgpage()
 
 def pgpanl(ix, iy):
     """pgpanl(ix, iy): switch to a different panel"""
-    cpgpanl(ix, iy)
+    cpgplot.cpgpanl(ix, iy)
 
 def pgpap(width, aspect):
    """pgpap(width, aspect): set plot width and aspect"""
-   cpgpap(width, aspect)
+   cpgplot.cpgpap(width, aspect)
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
@@ -346,77 +224,77 @@ def pgpt(x, y, symbol):
 
     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)
     cdef np.ndarray[FTYPE_t, ndim=1] yf = np.asarray(y).astype(FTYPE, copy=False)
-    cpgpt(n, &xf[0], &yf[0], symbol)
+    cpgplot.cpgpt(n, &xf[0], &yf[0], symbol)
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
 def pgpt1(x, y, symbol):
     """pgpt1(x,y,symbol): plots one point
     """
-    cpgpt1(x, y, symbol)
+    cpgplot.cpgpt1(x, y, symbol)
 
 def pgptxt(x, y, angle, fjust, text):
     """pgptxt(x, y, angle, fjust, text): draw text at arbitrary position"""
-    cpgptxt(x, y, angle, fjust, text.encode())
+    cpgplot.cpgptxt(x, y, angle, fjust, text.encode())
 
 def pgrect(x1, x2, y1, y2):
    """pgrect(x1, x2, y1, y2): plot a rectangle"""
-   cpgrect(x1, x2, y1, y2)
+   cpgplot.cpgrect(x1, x2, y1, y2)
 
 def pgsci(ci):
     """pgsci(ci): sets colour index"""
-    cpgsci(ci)
+    cpgplot.cpgsci(ci)
 
 def pgsch(ch):
     """pgsch(ch): sets character height"""
-    cpgsch(ch)
+    cpgplot.cpgsch(ch)
 
 def pgscf(font):
     """pgscf(font): sets font (1 to 4)"""
-    cpgscf(font)
+    cpgplot.cpgscf(font)
 
 def pgscr(ci, r, g, b):
     """pgscr(ci, r, g, b): sets rgb value of colour index ci
 
     r, g, b scaled 0 to 1
     """
-    cpgscr(ci, r, g, b)
+    cpgplot.cpgscr(ci, r, g, b)
 
 def pgsfs(fs):
     """pgsfs(fs): sets the fill area style
 
     fs : 1 = solid, 2 = outline, 3 = hatched, 4 = cross-hatched
     """
-    cpgsfs(fs)
+    cpgplot.cpgsfs(fs)
 
 def pgsls(ls):
     """pgsls(ls): sets line style"""
-    cpgsls(ls)
+    cpgplot.cpgsls(ls)
 
 def pgslw(lw):
     """pgslw(lw): sets line width"""
-    cpgslw(lw)
+    cpgplot.cpgslw(lw)
 
 def pgslct(devid):
     """pgslct(devid): selects device opened with identifier devid"""
-    cpgslct(devid)
+    cpgplot.cpgslct(devid)
 
 def pgsubp(nx, ny):
     """pgsubp(nx, ny): subdivides view surface into panels"""
-    cpgsubp(nx, ny)
+    cpgplot.cpgsubp(nx, ny)
 
 def pgsvp(xleft, xright, ybot, ytop):
    """pgsvp(xleft, xright, ybot, ytop): sets viewport"""
-   cpgsvp(xleft, xright, ybot, ytop)
+   cpgplot.cpgsvp(xleft, xright, ybot, ytop)
 
 def pgswin(x1, x2, y1, y2):
     """pgswin(x1, x2, y1, y2): defines physical scales"""
-    cpgswin(x1, x2, y1, y2)
+    cpgplot.cpgswin(x1, x2, y1, y2)
 
 def pgwnad(x1, x2, y1, y2):
     """pgwnad(x1, x2, y1, y2): defines physical scales"""
-    cpgwnad(x1, x2, y1, y2)
+    cpgplot.cpgwnad(x1, x2, y1, y2)
 
 def pgvstd():
     """pgvstd(): sets up standard viewport"""
-    cpgvstd()
+    cpgplot.cpgvstd()
