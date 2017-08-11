@@ -1,11 +1,24 @@
 #!/usr/bin/env python
 
 """
-a module to wrap pgplot using Cython. Most calls are the same as in cpgplot,
+a module to wrap PGPLOT using Cython. Most calls are the same as in cpgplot,
 but some are different, particularly if there are array length arguments. All
 such cases are fully documented. The module also introduces a class 'PGdevice'
 that keeps tabs on the device identifier making it easier to handle multiple
-plots.
+plots. Here is an example of plotting a parabola::
+
+   >>> import numpy as np
+   >>> from trm.pgplot import *
+   >>>
+   >>> x = np.linspace(0,1,100)
+   >>> y = x**2
+   >>>
+   >>> pgopen('/xs')
+   >>> pgenv(0,10,0,100,0,0)
+   >>> pglab('X','Y','Parabola')
+   >>> pgline(x,y)
+   >>> pgclos()
+
 """
 
 from __future__ import division, print_function

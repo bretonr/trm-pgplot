@@ -1,3 +1,5 @@
+# file: cypgplot.pxd
+
 cdef extern from "cpgplot.h":
 
    void cpgarro(float x1, float y1, float x2, float y2)

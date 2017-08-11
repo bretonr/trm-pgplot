@@ -2,6 +2,8 @@ import numpy as np
 cimport numpy as np
 cimport cython
 
+cimport cpgplot
+
 FTYPE = np.float32
 DTYPE = np.float64
 ITYPE = np.int
@@ -9,7 +11,10 @@ ctypedef np.float32_t FTYPE_t
 ctypedef np.float64_t DTYPE_t
 ctypedef np.int_t ITYPE_t
 
-cimport cpgplot
+
+def pgarro(x1, y1, x2, y2):
+    """cpgarro(x1, y1, x2, y2): draw arrow from x1,y1 to x2,y2"""
+    cpgplot.cpgarro(x1, y1, x2, y2)
 
 def pgask(flag):
     """pgask(flag): sets prompt state for new pages"""
@@ -42,7 +47,7 @@ def pgcurs(x, y):
 
     status = cpgplot.cpgcurs(&xf, &yf, &c)
     if status == 0:
-        raise RuntimeError('call to cgpcurs failed')
+        raise RuntimeError('call to cpgcurs failed')
 
     return (xf,yf,chr(c))
 
@@ -244,6 +249,10 @@ def pgrect(x1, x2, y1, y2):
 def pgsci(ci):
     """pgsci(ci): sets colour index"""
     cpgplot.cpgsci(ci)
+
+def pgscir(icilo, icihi):
+    """pgscir(icilo, icihi): sets range of colour indices"""
+    cpgplot.cpgscir(icilo, icihi)
 
 def pgsch(ch):
     """pgsch(ch): sets character height"""

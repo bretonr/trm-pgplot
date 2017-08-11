@@ -23,7 +23,7 @@ else:
     raise Exception('os = {:s} not supported'.format(os.name))
 
 pgplot = [Extension(
-        'pgplot._pgplot',
+        'trm.pgplot._pgplot',
         [os.path.join('trm','pgplot','_pgplot.pyx')],
         libraries=libraries,
         library_dirs=library_dirs,
