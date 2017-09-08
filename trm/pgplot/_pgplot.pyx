@@ -29,6 +29,10 @@ def pgbbuf():
     """
     cpgplot.cpgbbuf()
 
+def pgcirc(xcent, ycent, radius):
+    """cpgcirc(xcent, ycent, radius): draw a circle of radius radius centred on xcent,ycent"""
+    cpgplot.cpgcirc(xcent, ycent, radius)
+
 def pgclos():
     """pgclos(): closes the current device
     """
