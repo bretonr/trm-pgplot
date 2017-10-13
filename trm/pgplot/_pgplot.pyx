@@ -91,6 +91,11 @@ def pgenv(xmin, xmax, ymin, ymax, just, axis):
     """
     cpgplot.cpgenv(xmin, xmax, ymin, ymax, just, axis)
 
+def pgeras():
+    """pgeras(): erases all graphics
+    """
+    cpgplot.cpgeras()
+
 def pggray(np.ndarray img not None, float fg, float bg, tr=None, i1=None, i2=None, j1=None, j2=None):
     """pggray(img, fg, bg, tr=None, i1=None, i2=None, j1=None, j2=None): plots greyscale
     image.
@@ -249,6 +254,21 @@ def pgptxt(x, y, angle, fjust, text):
 def pgrect(x1, x2, y1, y2):
    """pgrect(x1, x2, y1, y2): plot a rectangle"""
    cpgplot.cpgrect(x1, x2, y1, y2)
+
+def pgqvp(units=0):
+   """pgqvp(units=0): returns (x1,x2,y1,y2) location of viewport
+
+   Argument::
+
+      units  : (int)
+           0 : normalized device coordinates (default)
+           1 : inches
+           2 : millimeters
+           3 : pixels
+   """
+   cdef float x1, x2, y1, y2
+   cpgplot.cpgqvp(units, &x1, &x2, &y1, &y2)
+   return (x1,x2,y1,y2)
 
 def pgsci(ci):
     """pgsci(ci): sets colour index"""

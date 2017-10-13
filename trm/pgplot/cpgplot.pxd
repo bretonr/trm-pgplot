@@ -2,39 +2,63 @@
 
 cdef extern from "cpgplot.h":
 
+   # arranged alphabetically
+
    void cpgarro(float x1, float y1, float x2, float y2)
    void cpgask(int flag)
    void cpgaxis(const char *opt, float x1, float y1, float x2, float y2, float v1, float v2,
                 float step, int nsub, float dmajl, float dmajr, float fmin, float disp, float orient)
+
+   void cpgebuf()
+   void cpgeras()
+   void cpgerr1(int dir, float x, float y, float e, float t)
+
    int cpgband(int mode, int posn, float xref, float yref, float *x, float *y, char *ch_scalar)
    void cpgbbuf()
    void cpgbin(int nbin, const float *x, const float *data, int center)
    void cpgbox(const char *xopt, float xtick, int nxsub, const char *yopt,
                float ytick, int nysub)
+
    void cpgcirc(float xcent, float ycent, float radius)
    void cpgclos()
    void cpgcont(const float *a, int idim, int jdim, int i1, int i2, int j1, int j2,
                 const float *c, int nc, const float *tr)
+   int cpgcurs(float *x, float *y, char *ch_scalar)
+
    void cpgdraw(float x, float y)
+
    void cpgenv(float xmin, float xmax, float ymin, float ymax,
                int just, int axis)
    void cpgerrx(int n, const float *x1, const float *x2, const float *y, float t)
    void cpgerry(int n, const float *x, const float *y1, const float *y2, float t)
+
    void cpggray(const float *a, int idim, int jdim, int i1, int i2, int j1, int j2,
                 float fg, float bg, const float *tr)
+
    void cpghist(int n, const float *data, float datmin, float datmax, int nbin,
                 int pgflag)
+
    void cpgimag(const float *a, int idim, int jdim, int i1, int i2, int j1, int j2,
                 float a1, float a2, const float *tr)
+
    void cpglab(const char *xlbl, const char *ylbl, const char *toplbl)
    void cpgline(int n, const float *xpts, const float *ypts)
+
    void cpgmove(float x, float y)
+
    int cpgopen(const char *device)
+
    void cpgpanl(int ix, int iy)
    void cpgpage()
    void cpgpap(float width, float aspect)
+   void cpgpoly(int n, const float *xpts, const float *ypts)
    void cpgpt(int n, const float *xpts, const float *ypts, int symbol)
    void cpgpt1(float xpt, float ypt, int symbol)
+   void cpgptxt(float x, float y, float angle, float fjust, const char *text)
+
+   void cpgqvp(int units, float *x1, float *x2, float *y1, float *y2)
+   void cpgrect(float x1, float x2, float y1, float y2)
+
    void cpgscf(int font)
    void cpgsch(float size)
    void cpgsci(int ci)
@@ -54,17 +78,9 @@ cdef extern from "cpgplot.h":
    void cpgsubp(int nxsub, int nysub)
    void cpgsvp(float xleft, float xright, float ybot, float ytop)
    void cpgswin(float x1, float x2, float y1, float y2)
+
    void cpgvstd()
 
-
-   int cpgcurs(float *x, float *y, char *ch_scalar)
-   void cpgebuf()
-   void cpgeras()
-   void cpgerr1(int dir, float x, float y, float e, float t)
-   void cpgpoly(int n, const float *xpts, const float *ypts)
-   void cpgpt1(float xpt, float ypt, int symbol)
-   void cpgptxt(float x, float y, float angle, float fjust, const char *text)
-   void cpgrect(float x1, float x2, float y1, float y2)
    void cpgwnad(float x1, float x2, float y1, float y2)
 
    #int cpgbeg(int unit, const char *file, int nxsub, int nysub);
@@ -108,7 +124,6 @@ cdef extern from "cpgplot.h":
    #void cpgqpos(float *x, float *y);
    #void cpgqtbg(int *tbci);
    #void cpgqtxt(float x, float y, float angle, float fjust, const char *text, float *xbox, float *ybox);
-   #void cpgqvp(int units, float *x1, float *x2, float *y1, float *y2);
    #void cpgqvsz(int units, float *x1, float *x2, float *y1, float *y2);
    #void cpgqwin(float *x1, float *x2, float *y1, float *y2);
    #float cpgrnd(float x, int *nsub);
