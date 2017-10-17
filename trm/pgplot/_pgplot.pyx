@@ -13,7 +13,7 @@ ctypedef np.int_t ITYPE_t
 
 
 def pgarro(x1, y1, x2, y2):
-    """cpgarro(x1, y1, x2, y2): draw arrow from x1,y1 to x2,y2"""
+    """pgarro(x1, y1, x2, y2): draw arrow from x1,y1 to x2,y2"""
     cpgplot.cpgarro(x1, y1, x2, y2)
 
 def pgask(flag):
@@ -30,7 +30,7 @@ def pgbbuf():
     cpgplot.cpgbbuf()
 
 def pgcirc(xcent, ycent, radius):
-    """cpgcirc(xcent, ycent, radius): draw a circle of radius radius centred on xcent,ycent"""
+    """pgcirc(xcent, ycent, radius): draw a circle of radius radius centred on xcent,ycent"""
     cpgplot.cpgcirc(xcent, ycent, radius)
 
 def pgclos():
@@ -54,6 +54,10 @@ def pgcurs(x, y):
         raise RuntimeError('call to cpgcurs failed')
 
     return (xf,yf,chr(c))
+
+def pgdraw(x, y):
+    """pgdraw(x, y): draws a line from the current pen position to x, y"""
+    cpgplot.cpgdraw(x, y)
 
 def pgebuf():
     """pgebuf(): ends plot buffering
@@ -95,6 +99,39 @@ def pgeras():
     """pgeras(): erases all graphics
     """
     cpgplot.cpgeras()
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def pgerry(x, y1, y2, t):
+    """pgerry(x,y1,y2,t): plots vertical error bars
+
+    The call for this differs from the cpgerry equivalent since Python arrays
+    know their length. A ValueError will be raised if the input arrays differ
+    in length.
+
+    Arguments::
+
+       x  : (array)
+          array of X values
+
+       y1 : (array)
+          array of lower Y values
+
+       y2 : (array)
+          array of upper Y values
+
+       t  : (float)
+          length of terminals
+    """
+    cdef int n = len(x)
+    if len(y1) != n or len(y2) != n:
+        raise ValueError('pgerry: x, y1 and y2 have differing numbers of elements')
+
+    cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)
+    cdef np.ndarray[FTYPE_t, ndim=1] yf1 = np.asarray(y1).astype(FTYPE, copy=False)
+    cdef np.ndarray[FTYPE_t, ndim=1] yf2 = np.asarray(y2).astype(FTYPE, copy=False)
+    cpgplot.cpgerry(n, &xf[0], &yf1[0], &yf2[0], t)
+
 
 def pggray(np.ndarray img not None, float fg, float bg, tr=None, i1=None, i2=None, j1=None, j2=None):
     """pggray(img, fg, bg, tr=None, i1=None, i2=None, j1=None, j2=None): plots greyscale
@@ -187,6 +224,10 @@ def pgline(x, y):
     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)
     cdef np.ndarray[FTYPE_t, ndim=1] yf = np.asarray(y).astype(FTYPE, copy=False)
     cpgplot.cpgline(n, &xf[0], &yf[0])
+
+def pgmove(x, y):
+    """pgmove(x, y): moves the pen position to x, y"""
+    cpgplot.cpgmove(x, y)
 
 def pgopen(device):
     """pgopen(device): opens a plot device.

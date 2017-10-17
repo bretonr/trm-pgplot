@@ -1172,10 +1172,6 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 /* RaiseException.proto */
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
 
-/* ArgTypeTest.proto */
-static CYTHON_INLINE int __Pyx_ArgTypeTest(PyObject *obj, PyTypeObject *type, int none_allowed,
-    const char *name, int exact);
-
 /* GetModuleGlobalName.proto */
 static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name);
 
@@ -1191,6 +1187,11 @@ static void __Pyx_BufFmt_Init(__Pyx_BufFmt_Context* ctx,
                               __Pyx_BufFmt_StackElem* stack,
                               __Pyx_TypeInfo* type); // PROTO
 
+#define __Pyx_BufPtrStrided1d(type, buf, i0, s0) (type)((char*)buf + i0 * s0)
+/* ArgTypeTest.proto */
+static CYTHON_INLINE int __Pyx_ArgTypeTest(PyObject *obj, PyTypeObject *type, int none_allowed,
+    const char *name, int exact);
+
 /* PyIntBinop.proto */
 #if !CYTHON_COMPILING_IN_PYPY
 static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, int inplace);
@@ -1202,7 +1203,6 @@ static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, 
 /* BufferIndexError.proto */
 static void __Pyx_RaiseBufferIndexError(int axis);
 
-#define __Pyx_BufPtrStrided1d(type, buf, i0, s0) (type)((char*)buf + i0 * s0)
 #define __Pyx_BufPtrStrided2d(type, buf, i0, s0, i1, s1) (type)((char*)buf + i0 * s0 + i1 * s1)
 /* DictGetItem.proto */
 #if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
@@ -1497,6 +1497,7 @@ static const char __pyx_k_c[] = "c";
 static const char __pyx_k_g[] = "g";
 static const char __pyx_k_n[] = "n";
 static const char __pyx_k_r[] = "r";
+static const char __pyx_k_t[] = "t";
 static const char __pyx_k_x[] = "x";
 static const char __pyx_k_y[] = "y";
 static const char __pyx_k_bg[] = "bg";
@@ -1530,6 +1531,8 @@ static const char __pyx_k_ix2[] = "ix2";
 static const char __pyx_k_jy1[] = "jy1";
 static const char __pyx_k_jy2[] = "jy2";
 static const char __pyx_k_trf[] = "trf";
+static const char __pyx_k_yf1[] = "yf1";
+static const char __pyx_k_yf2[] = "yf2";
 static const char __pyx_k_axis[] = "axis";
 static const char __pyx_k_copy[] = "copy";
 static const char __pyx_k_flag[] = "flag";
@@ -1594,10 +1597,13 @@ static const char __pyx_k_pgbbuf[] = "pgbbuf";
 static const char __pyx_k_pgcirc[] = "pgcirc";
 static const char __pyx_k_pgclos[] = "pgclos";
 static const char __pyx_k_pgcurs[] = "pgcurs";
+static const char __pyx_k_pgdraw[] = "pgdraw";
 static const char __pyx_k_pgebuf[] = "pgebuf";
 static const char __pyx_k_pgeras[] = "pgeras";
+static const char __pyx_k_pgerry[] = "pgerry";
 static const char __pyx_k_pggray[] = "pggray";
 static const char __pyx_k_pgline[] = "pgline";
+static const char __pyx_k_pgmove[] = "pgmove";
 static const char __pyx_k_pgopen[] = "pgopen";
 static const char __pyx_k_pgpage[] = "pgpage";
 static const char __pyx_k_pgpanl[] = "pgpanl";
@@ -1632,6 +1638,7 @@ static const char __pyx_k_Format_string_allocated_too_shor[] = "Format string al
 static const char __pyx_k_Non_native_byte_order_not_suppor[] = "Non-native byte order not supported";
 static const char __pyx_k_ndarray_is_not_Fortran_contiguou[] = "ndarray is not Fortran contiguous";
 static const char __pyx_k_numpy_core_umath_failed_to_impor[] = "numpy.core.umath failed to import";
+static const char __pyx_k_pgerry_x_y1_and_y2_have_differin[] = "pgerry: x, y1 and y2 have differing numbers of elements";
 static const char __pyx_k_pgline_x_and_y_have_differing_nu[] = "pgline: x and y have differing numbers of elements";
 static const char __pyx_k_pgpt_x_and_y_have_differing_numb[] = "pgpt: x and y have differing numbers of elements";
 static const char __pyx_k_Format_string_allocated_too_shor_2[] = "Format string allocated too short.";
@@ -1709,13 +1716,17 @@ static PyObject *__pyx_n_s_pgbox;
 static PyObject *__pyx_n_s_pgcirc;
 static PyObject *__pyx_n_s_pgclos;
 static PyObject *__pyx_n_s_pgcurs;
+static PyObject *__pyx_n_s_pgdraw;
 static PyObject *__pyx_n_s_pgebuf;
 static PyObject *__pyx_n_s_pgenv;
 static PyObject *__pyx_n_s_pgeras;
+static PyObject *__pyx_n_s_pgerry;
+static PyObject *__pyx_kp_s_pgerry_x_y1_and_y2_have_differin;
 static PyObject *__pyx_n_s_pggray;
 static PyObject *__pyx_n_s_pglab;
 static PyObject *__pyx_n_s_pgline;
 static PyObject *__pyx_kp_s_pgline_x_and_y_have_differing_nu;
+static PyObject *__pyx_n_s_pgmove;
 static PyObject *__pyx_n_s_pgopen;
 static PyObject *__pyx_n_s_pgpage;
 static PyObject *__pyx_n_s_pgpanl;
@@ -1746,6 +1757,7 @@ static PyObject *__pyx_n_s_radius;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_status;
 static PyObject *__pyx_n_s_symbol;
+static PyObject *__pyx_n_s_t;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_text;
 static PyObject *__pyx_n_s_toplabel;
@@ -1772,6 +1784,8 @@ static PyObject *__pyx_n_s_y2;
 static PyObject *__pyx_n_s_ybot;
 static PyObject *__pyx_n_s_ycent;
 static PyObject *__pyx_n_s_yf;
+static PyObject *__pyx_n_s_yf1;
+static PyObject *__pyx_n_s_yf2;
 static PyObject *__pyx_n_s_ylabel;
 static PyObject *__pyx_n_s_ymax;
 static PyObject *__pyx_n_s_ymin;
@@ -1785,35 +1799,38 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_6pgbbuf(CYTHON_UNUSED PyObject *__pyx
 static PyObject *__pyx_pf_6pgplot_7_pgplot_8pgcirc(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_xcent, PyObject *__pyx_v_ycent, PyObject *__pyx_v_radius); /* proto */
 static PyObject *__pyx_pf_6pgplot_7_pgplot_10pgclos(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 static PyObject *__pyx_pf_6pgplot_7_pgplot_12pgcurs(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_14pgebuf(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_16pgenv(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_xmin, PyObject *__pyx_v_xmax, PyObject *__pyx_v_ymin, PyObject *__pyx_v_ymax, PyObject *__pyx_v_just, PyObject *__pyx_v_axis); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_18pgeras(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_img, float __pyx_v_fg, float __pyx_v_bg, PyObject *__pyx_v_tr, PyObject *__pyx_v_i1, PyObject *__pyx_v_i2, PyObject *__pyx_v_j1, PyObject *__pyx_v_j2); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_22pglab(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_xlabel, PyObject *__pyx_v_ylabel, PyObject *__pyx_v_toplabel); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_24pgline(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_26pgopen(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_device); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_28pgpage(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_30pgpanl(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ix, PyObject *__pyx_v_iy); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_32pgpap(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_width, PyObject *__pyx_v_aspect); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_34pgpt(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y, PyObject *__pyx_v_symbol); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_36pgpt1(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y, PyObject *__pyx_v_symbol); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_38pgptxt(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y, PyObject *__pyx_v_angle, PyObject *__pyx_v_fjust, PyObject *__pyx_v_text); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_40pgrect(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x1, PyObject *__pyx_v_x2, PyObject *__pyx_v_y1, PyObject *__pyx_v_y2); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_42pgqvp(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_units); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_44pgsci(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ci); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_46pgscir(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_icilo, PyObject *__pyx_v_icihi); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_48pgsch(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ch); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_50pgscf(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_font); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_52pgscr(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ci, PyObject *__pyx_v_r, PyObject *__pyx_v_g, PyObject *__pyx_v_b); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_54pgsfs(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_fs); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_56pgsls(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ls); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_58pgslw(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lw); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_60pgslct(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_devid); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_62pgsubp(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_nx, PyObject *__pyx_v_ny); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_64pgsvp(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_xleft, PyObject *__pyx_v_xright, PyObject *__pyx_v_ybot, PyObject *__pyx_v_ytop); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_66pgswin(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x1, PyObject *__pyx_v_x2, PyObject *__pyx_v_y1, PyObject *__pyx_v_y2); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_68pgwnad(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x1, PyObject *__pyx_v_x2, PyObject *__pyx_v_y1, PyObject *__pyx_v_y2); /* proto */
-static PyObject *__pyx_pf_6pgplot_7_pgplot_70pgvstd(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_14pgdraw(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_16pgebuf(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_18pgenv(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_xmin, PyObject *__pyx_v_xmax, PyObject *__pyx_v_ymin, PyObject *__pyx_v_ymax, PyObject *__pyx_v_just, PyObject *__pyx_v_axis); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_20pgeras(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_22pgerry(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y1, PyObject *__pyx_v_y2, PyObject *__pyx_v_t); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_24pggray(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_img, float __pyx_v_fg, float __pyx_v_bg, PyObject *__pyx_v_tr, PyObject *__pyx_v_i1, PyObject *__pyx_v_i2, PyObject *__pyx_v_j1, PyObject *__pyx_v_j2); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_26pglab(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_xlabel, PyObject *__pyx_v_ylabel, PyObject *__pyx_v_toplabel); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_28pgline(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_30pgmove(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_32pgopen(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_device); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_34pgpage(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_36pgpanl(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ix, PyObject *__pyx_v_iy); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_38pgpap(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_width, PyObject *__pyx_v_aspect); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_40pgpt(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y, PyObject *__pyx_v_symbol); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_42pgpt1(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y, PyObject *__pyx_v_symbol); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_44pgptxt(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y, PyObject *__pyx_v_angle, PyObject *__pyx_v_fjust, PyObject *__pyx_v_text); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_46pgrect(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x1, PyObject *__pyx_v_x2, PyObject *__pyx_v_y1, PyObject *__pyx_v_y2); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_48pgqvp(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_units); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_50pgsci(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ci); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_52pgscir(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_icilo, PyObject *__pyx_v_icihi); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_54pgsch(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ch); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_56pgscf(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_font); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_58pgscr(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ci, PyObject *__pyx_v_r, PyObject *__pyx_v_g, PyObject *__pyx_v_b); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_60pgsfs(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_fs); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_62pgsls(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ls); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_64pgslw(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lw); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_66pgslct(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_devid); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_68pgsubp(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_nx, PyObject *__pyx_v_ny); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_70pgsvp(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_xleft, PyObject *__pyx_v_xright, PyObject *__pyx_v_ybot, PyObject *__pyx_v_ytop); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_72pgswin(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x1, PyObject *__pyx_v_x2, PyObject *__pyx_v_y1, PyObject *__pyx_v_y2); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_74pgwnad(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x1, PyObject *__pyx_v_x2, PyObject *__pyx_v_y1, PyObject *__pyx_v_y2); /* proto */
+static PyObject *__pyx_pf_6pgplot_7_pgplot_76pgvstd(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static PyObject *__pyx_int_0;
@@ -1831,83 +1848,90 @@ static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_tuple__11;
 static PyObject *__pyx_tuple__12;
 static PyObject *__pyx_tuple__13;
-static PyObject *__pyx_tuple__15;
-static PyObject *__pyx_tuple__17;
-static PyObject *__pyx_tuple__20;
-static PyObject *__pyx_tuple__23;
+static PyObject *__pyx_tuple__14;
+static PyObject *__pyx_tuple__16;
+static PyObject *__pyx_tuple__18;
+static PyObject *__pyx_tuple__21;
+static PyObject *__pyx_tuple__24;
 static PyObject *__pyx_tuple__26;
 static PyObject *__pyx_tuple__29;
-static PyObject *__pyx_tuple__31;
-static PyObject *__pyx_tuple__33;
-static PyObject *__pyx_tuple__35;
+static PyObject *__pyx_tuple__32;
+static PyObject *__pyx_tuple__34;
+static PyObject *__pyx_tuple__36;
 static PyObject *__pyx_tuple__38;
 static PyObject *__pyx_tuple__40;
 static PyObject *__pyx_tuple__42;
-static PyObject *__pyx_tuple__44;
-static PyObject *__pyx_tuple__46;
-static PyObject *__pyx_tuple__48;
-static PyObject *__pyx_tuple__50;
-static PyObject *__pyx_tuple__52;
-static PyObject *__pyx_tuple__54;
-static PyObject *__pyx_tuple__56;
-static PyObject *__pyx_tuple__58;
-static PyObject *__pyx_tuple__60;
-static PyObject *__pyx_tuple__62;
-static PyObject *__pyx_tuple__64;
-static PyObject *__pyx_tuple__66;
-static PyObject *__pyx_tuple__68;
-static PyObject *__pyx_tuple__70;
-static PyObject *__pyx_tuple__72;
-static PyObject *__pyx_tuple__74;
-static PyObject *__pyx_tuple__76;
-static PyObject *__pyx_codeobj__14;
-static PyObject *__pyx_codeobj__16;
-static PyObject *__pyx_codeobj__18;
+static PyObject *__pyx_tuple__45;
+static PyObject *__pyx_tuple__47;
+static PyObject *__pyx_tuple__49;
+static PyObject *__pyx_tuple__51;
+static PyObject *__pyx_tuple__53;
+static PyObject *__pyx_tuple__55;
+static PyObject *__pyx_tuple__57;
+static PyObject *__pyx_tuple__59;
+static PyObject *__pyx_tuple__61;
+static PyObject *__pyx_tuple__63;
+static PyObject *__pyx_tuple__65;
+static PyObject *__pyx_tuple__67;
+static PyObject *__pyx_tuple__69;
+static PyObject *__pyx_tuple__71;
+static PyObject *__pyx_tuple__73;
+static PyObject *__pyx_tuple__75;
+static PyObject *__pyx_tuple__77;
+static PyObject *__pyx_tuple__79;
+static PyObject *__pyx_tuple__81;
+static PyObject *__pyx_tuple__83;
+static PyObject *__pyx_codeobj__15;
+static PyObject *__pyx_codeobj__17;
 static PyObject *__pyx_codeobj__19;
-static PyObject *__pyx_codeobj__21;
+static PyObject *__pyx_codeobj__20;
 static PyObject *__pyx_codeobj__22;
-static PyObject *__pyx_codeobj__24;
+static PyObject *__pyx_codeobj__23;
 static PyObject *__pyx_codeobj__25;
 static PyObject *__pyx_codeobj__27;
 static PyObject *__pyx_codeobj__28;
 static PyObject *__pyx_codeobj__30;
-static PyObject *__pyx_codeobj__32;
-static PyObject *__pyx_codeobj__34;
-static PyObject *__pyx_codeobj__36;
+static PyObject *__pyx_codeobj__31;
+static PyObject *__pyx_codeobj__33;
+static PyObject *__pyx_codeobj__35;
 static PyObject *__pyx_codeobj__37;
 static PyObject *__pyx_codeobj__39;
 static PyObject *__pyx_codeobj__41;
 static PyObject *__pyx_codeobj__43;
-static PyObject *__pyx_codeobj__45;
-static PyObject *__pyx_codeobj__47;
-static PyObject *__pyx_codeobj__49;
-static PyObject *__pyx_codeobj__51;
-static PyObject *__pyx_codeobj__53;
-static PyObject *__pyx_codeobj__55;
-static PyObject *__pyx_codeobj__57;
-static PyObject *__pyx_codeobj__59;
-static PyObject *__pyx_codeobj__61;
-static PyObject *__pyx_codeobj__63;
-static PyObject *__pyx_codeobj__65;
-static PyObject *__pyx_codeobj__67;
-static PyObject *__pyx_codeobj__69;
-static PyObject *__pyx_codeobj__71;
-static PyObject *__pyx_codeobj__73;
-static PyObject *__pyx_codeobj__75;
-static PyObject *__pyx_codeobj__77;
+static PyObject *__pyx_codeobj__44;
+static PyObject *__pyx_codeobj__46;
+static PyObject *__pyx_codeobj__48;
+static PyObject *__pyx_codeobj__50;
+static PyObject *__pyx_codeobj__52;
+static PyObject *__pyx_codeobj__54;
+static PyObject *__pyx_codeobj__56;
+static PyObject *__pyx_codeobj__58;
+static PyObject *__pyx_codeobj__60;
+static PyObject *__pyx_codeobj__62;
+static PyObject *__pyx_codeobj__64;
+static PyObject *__pyx_codeobj__66;
+static PyObject *__pyx_codeobj__68;
+static PyObject *__pyx_codeobj__70;
+static PyObject *__pyx_codeobj__72;
+static PyObject *__pyx_codeobj__74;
+static PyObject *__pyx_codeobj__76;
 static PyObject *__pyx_codeobj__78;
+static PyObject *__pyx_codeobj__80;
+static PyObject *__pyx_codeobj__82;
+static PyObject *__pyx_codeobj__84;
+static PyObject *__pyx_codeobj__85;
 
 /* "pgplot/_pgplot.pyx":15
  * 
  * 
  * def pgarro(x1, y1, x2, y2):             # <<<<<<<<<<<<<<
- *     """cpgarro(x1, y1, x2, y2): draw arrow from x1,y1 to x2,y2"""
+ *     """pgarro(x1, y1, x2, y2): draw arrow from x1,y1 to x2,y2"""
  *     cpgplot.cpgarro(x1, y1, x2, y2)
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_6pgplot_7_pgplot_1pgarro(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_pgarro[] = "cpgarro(x1, y1, x2, y2): draw arrow from x1,y1 to x2,y2";
+static char __pyx_doc_6pgplot_7_pgplot_pgarro[] = "pgarro(x1, y1, x2, y2): draw arrow from x1,y1 to x2,y2";
 static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_1pgarro = {"pgarro", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_1pgarro, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_pgarro};
 static PyObject *__pyx_pw_6pgplot_7_pgplot_1pgarro(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_x1 = 0;
@@ -1994,7 +2018,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_pgarro(CYTHON_UNUSED PyObject *__pyx_
 
   /* "pgplot/_pgplot.pyx":17
  * def pgarro(x1, y1, x2, y2):
- *     """cpgarro(x1, y1, x2, y2): draw arrow from x1,y1 to x2,y2"""
+ *     """pgarro(x1, y1, x2, y2): draw arrow from x1,y1 to x2,y2"""
  *     cpgplot.cpgarro(x1, y1, x2, y2)             # <<<<<<<<<<<<<<
  * 
  * def pgask(flag):
@@ -2009,7 +2033,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_pgarro(CYTHON_UNUSED PyObject *__pyx_
  * 
  * 
  * def pgarro(x1, y1, x2, y2):             # <<<<<<<<<<<<<<
- *     """cpgarro(x1, y1, x2, y2): draw arrow from x1,y1 to x2,y2"""
+ *     """pgarro(x1, y1, x2, y2): draw arrow from x1,y1 to x2,y2"""
  *     cpgplot.cpgarro(x1, y1, x2, y2)
  */
 
@@ -2340,13 +2364,13 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_6pgbbuf(CYTHON_UNUSED PyObject *__pyx
  *     cpgplot.cpgbbuf()
  * 
  * def pgcirc(xcent, ycent, radius):             # <<<<<<<<<<<<<<
- *     """cpgcirc(xcent, ycent, radius): draw a circle of radius radius centred on xcent,ycent"""
+ *     """pgcirc(xcent, ycent, radius): draw a circle of radius radius centred on xcent,ycent"""
  *     cpgplot.cpgcirc(xcent, ycent, radius)
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_6pgplot_7_pgplot_9pgcirc(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_8pgcirc[] = "cpgcirc(xcent, ycent, radius): draw a circle of radius radius centred on xcent,ycent";
+static char __pyx_doc_6pgplot_7_pgplot_8pgcirc[] = "pgcirc(xcent, ycent, radius): draw a circle of radius radius centred on xcent,ycent";
 static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_9pgcirc = {"pgcirc", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_9pgcirc, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_8pgcirc};
 static PyObject *__pyx_pw_6pgplot_7_pgplot_9pgcirc(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_xcent = 0;
@@ -2423,7 +2447,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_8pgcirc(CYTHON_UNUSED PyObject *__pyx
 
   /* "pgplot/_pgplot.pyx":34
  * def pgcirc(xcent, ycent, radius):
- *     """cpgcirc(xcent, ycent, radius): draw a circle of radius radius centred on xcent,ycent"""
+ *     """pgcirc(xcent, ycent, radius): draw a circle of radius radius centred on xcent,ycent"""
  *     cpgplot.cpgcirc(xcent, ycent, radius)             # <<<<<<<<<<<<<<
  * 
  * def pgclos():
@@ -2437,7 +2461,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_8pgcirc(CYTHON_UNUSED PyObject *__pyx
  *     cpgplot.cpgbbuf()
  * 
  * def pgcirc(xcent, ycent, radius):             # <<<<<<<<<<<<<<
- *     """cpgcirc(xcent, ycent, radius): draw a circle of radius radius centred on xcent,ycent"""
+ *     """pgcirc(xcent, ycent, radius): draw a circle of radius radius centred on xcent,ycent"""
  *     cpgplot.cpgcirc(xcent, ycent, radius)
  */
 
@@ -2646,7 +2670,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_12pgcurs(CYTHON_UNUSED PyObject *__py
  * 
  *     return (xf,yf,chr(c))             # <<<<<<<<<<<<<<
  * 
- * def pgebuf():
+ * def pgdraw(x, y):
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_3 = PyFloat_FromDouble(__pyx_v_xf); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 56, __pyx_L1_error)
@@ -2703,32 +2727,138 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_12pgcurs(CYTHON_UNUSED PyObject *__py
 /* "pgplot/_pgplot.pyx":58
  *     return (xf,yf,chr(c))
  * 
- * def pgebuf():             # <<<<<<<<<<<<<<
- *     """pgebuf(): ends plot buffering
- *     """
+ * def pgdraw(x, y):             # <<<<<<<<<<<<<<
+ *     """pgdraw(x, y): draws a line from the current pen position to x, y"""
+ *     cpgplot.cpgdraw(x, y)
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_15pgebuf(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_14pgebuf[] = "pgebuf(): ends plot buffering\n    ";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_15pgebuf = {"pgebuf", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_15pgebuf, METH_NOARGS, __pyx_doc_6pgplot_7_pgplot_14pgebuf};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_15pgebuf(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_15pgdraw(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_14pgdraw[] = "pgdraw(x, y): draws a line from the current pen position to x, y";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_15pgdraw = {"pgdraw", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_15pgdraw, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_14pgdraw};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_15pgdraw(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_x = 0;
+  PyObject *__pyx_v_y = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("pgebuf (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_14pgebuf(__pyx_self);
+  __Pyx_RefNannySetupContext("pgdraw (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_x,&__pyx_n_s_y,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_x)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pgdraw", 1, 2, 2, 1); __PYX_ERR(0, 58, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgdraw") < 0)) __PYX_ERR(0, 58, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_x = values[0];
+    __pyx_v_y = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("pgdraw", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 58, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("pgplot._pgplot.pgdraw", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_14pgdraw(__pyx_self, __pyx_v_x, __pyx_v_y);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_14pgebuf(CYTHON_UNUSED PyObject *__pyx_self) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_14pgdraw(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  float __pyx_t_1;
+  float __pyx_t_2;
+  __Pyx_RefNannySetupContext("pgdraw", 0);
+
+  /* "pgplot/_pgplot.pyx":60
+ * def pgdraw(x, y):
+ *     """pgdraw(x, y): draws a line from the current pen position to x, y"""
+ *     cpgplot.cpgdraw(x, y)             # <<<<<<<<<<<<<<
+ * 
+ * def pgebuf():
+ */
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_x); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_y); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 60, __pyx_L1_error)
+  cpgdraw(__pyx_t_1, __pyx_t_2);
+
+  /* "pgplot/_pgplot.pyx":58
+ *     return (xf,yf,chr(c))
+ * 
+ * def pgdraw(x, y):             # <<<<<<<<<<<<<<
+ *     """pgdraw(x, y): draws a line from the current pen position to x, y"""
+ *     cpgplot.cpgdraw(x, y)
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("pgplot._pgplot.pgdraw", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pgplot/_pgplot.pyx":62
+ *     cpgplot.cpgdraw(x, y)
+ * 
+ * def pgebuf():             # <<<<<<<<<<<<<<
+ *     """pgebuf(): ends plot buffering
+ *     """
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6pgplot_7_pgplot_17pgebuf(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_16pgebuf[] = "pgebuf(): ends plot buffering\n    ";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_17pgebuf = {"pgebuf", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_17pgebuf, METH_NOARGS, __pyx_doc_6pgplot_7_pgplot_16pgebuf};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_17pgebuf(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("pgebuf (wrapper)", 0);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_16pgebuf(__pyx_self);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6pgplot_7_pgplot_16pgebuf(CYTHON_UNUSED PyObject *__pyx_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("pgebuf", 0);
 
-  /* "pgplot/_pgplot.pyx":61
+  /* "pgplot/_pgplot.pyx":65
  *     """pgebuf(): ends plot buffering
  *     """
  *     cpgplot.cpgebuf()             # <<<<<<<<<<<<<<
@@ -2737,8 +2867,8 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_14pgebuf(CYTHON_UNUSED PyObject *__py
  */
   cpgebuf();
 
-  /* "pgplot/_pgplot.pyx":58
- *     return (xf,yf,chr(c))
+  /* "pgplot/_pgplot.pyx":62
+ *     cpgplot.cpgdraw(x, y)
  * 
  * def pgebuf():             # <<<<<<<<<<<<<<
  *     """pgebuf(): ends plot buffering
@@ -2752,7 +2882,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_14pgebuf(CYTHON_UNUSED PyObject *__py
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":63
+/* "pgplot/_pgplot.pyx":67
  *     cpgplot.cpgebuf()
  * 
  * def pgenv(xmin, xmax, ymin, ymax, just, axis):             # <<<<<<<<<<<<<<
@@ -2761,10 +2891,10 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_14pgebuf(CYTHON_UNUSED PyObject *__py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_17pgenv(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_16pgenv[] = "pgenv(xmin, xmax, ymin, ymax, just, axis): sets up a standard plot window\n\n    Arguments::\n\n      xmin  : (float)\n         left-hand X value\n\n      xmax  : (float)\n         right-hand X value\n\n      ymin  : (float)\n         bottom Y value\n\n      ymax  : (float)\n         top Y value\n\n      just  : (int)\n         1 or 0 for making the physical scales the same or not\n\n      axis  : (int)\n         Controls the axes. -2 : draw no box, axes or labels; -1 : draw box\n         only; 0 : draw box and label it with coordinates; 1 : same as 0, but\n         also draw the coordinate axes (X=0, Y=0); 2 : same as 1, but also\n         draw grid lines at major increments of the coordinates; 10 : draw box\n         and label X-axis logarithmically; 20 : draw box and label Y-axis\n         logarithmically; 30 : draw box and label both axes logarithmically.\n\n    ";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_17pgenv = {"pgenv", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_17pgenv, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_16pgenv};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_17pgenv(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_19pgenv(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_18pgenv[] = "pgenv(xmin, xmax, ymin, ymax, just, axis): sets up a standard plot window\n\n    Arguments::\n\n      xmin  : (float)\n         left-hand X value\n\n      xmax  : (float)\n         right-hand X value\n\n      ymin  : (float)\n         bottom Y value\n\n      ymax  : (float)\n         top Y value\n\n      just  : (int)\n         1 or 0 for making the physical scales the same or not\n\n      axis  : (int)\n         Controls the axes. -2 : draw no box, axes or labels; -1 : draw box\n         only; 0 : draw box and label it with coordinates; 1 : same as 0, but\n         also draw the coordinate axes (X=0, Y=0); 2 : same as 1, but also\n         draw grid lines at major increments of the coordinates; 10 : draw box\n         and label X-axis logarithmically; 20 : draw box and label Y-axis\n         logarithmically; 30 : draw box and label both axes logarithmically.\n\n    ";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_19pgenv = {"pgenv", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_19pgenv, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_18pgenv};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_19pgenv(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_xmin = 0;
   PyObject *__pyx_v_xmax = 0;
   PyObject *__pyx_v_ymin = 0;
@@ -2798,31 +2928,31 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_17pgenv(PyObject *__pyx_self, PyObjec
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_xmax)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgenv", 1, 6, 6, 1); __PYX_ERR(0, 63, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgenv", 1, 6, 6, 1); __PYX_ERR(0, 67, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ymin)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgenv", 1, 6, 6, 2); __PYX_ERR(0, 63, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgenv", 1, 6, 6, 2); __PYX_ERR(0, 67, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ymax)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgenv", 1, 6, 6, 3); __PYX_ERR(0, 63, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgenv", 1, 6, 6, 3); __PYX_ERR(0, 67, __pyx_L3_error)
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_just)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgenv", 1, 6, 6, 4); __PYX_ERR(0, 63, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgenv", 1, 6, 6, 4); __PYX_ERR(0, 67, __pyx_L3_error)
         }
         case  5:
         if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_axis)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgenv", 1, 6, 6, 5); __PYX_ERR(0, 63, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgenv", 1, 6, 6, 5); __PYX_ERR(0, 67, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgenv") < 0)) __PYX_ERR(0, 63, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgenv") < 0)) __PYX_ERR(0, 67, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 6) {
       goto __pyx_L5_argtuple_error;
@@ -2843,20 +2973,20 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_17pgenv(PyObject *__pyx_self, PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("pgenv", 1, 6, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 63, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("pgenv", 1, 6, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 67, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgplot._pgplot.pgenv", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_16pgenv(__pyx_self, __pyx_v_xmin, __pyx_v_xmax, __pyx_v_ymin, __pyx_v_ymax, __pyx_v_just, __pyx_v_axis);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_18pgenv(__pyx_self, __pyx_v_xmin, __pyx_v_xmax, __pyx_v_ymin, __pyx_v_ymax, __pyx_v_just, __pyx_v_axis);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_16pgenv(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_xmin, PyObject *__pyx_v_xmax, PyObject *__pyx_v_ymin, PyObject *__pyx_v_ymax, PyObject *__pyx_v_just, PyObject *__pyx_v_axis) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_18pgenv(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_xmin, PyObject *__pyx_v_xmax, PyObject *__pyx_v_ymin, PyObject *__pyx_v_ymax, PyObject *__pyx_v_just, PyObject *__pyx_v_axis) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   float __pyx_t_1;
@@ -2867,22 +2997,22 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_16pgenv(CYTHON_UNUSED PyObject *__pyx
   int __pyx_t_6;
   __Pyx_RefNannySetupContext("pgenv", 0);
 
-  /* "pgplot/_pgplot.pyx":92
+  /* "pgplot/_pgplot.pyx":96
  * 
  *     """
  *     cpgplot.cpgenv(xmin, xmax, ymin, ymax, just, axis)             # <<<<<<<<<<<<<<
  * 
  * def pgeras():
  */
-  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_xmin); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 92, __pyx_L1_error)
-  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_xmax); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 92, __pyx_L1_error)
-  __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_v_ymin); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 92, __pyx_L1_error)
-  __pyx_t_4 = __pyx_PyFloat_AsFloat(__pyx_v_ymax); if (unlikely((__pyx_t_4 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 92, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_v_just); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 92, __pyx_L1_error)
-  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_axis); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_xmin); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_xmax); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_v_ymin); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsFloat(__pyx_v_ymax); if (unlikely((__pyx_t_4 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_v_just); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_axis); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L1_error)
   cpgenv(__pyx_t_1, __pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6);
 
-  /* "pgplot/_pgplot.pyx":63
+  /* "pgplot/_pgplot.pyx":67
  *     cpgplot.cpgebuf()
  * 
  * def pgenv(xmin, xmax, ymin, ymax, just, axis):             # <<<<<<<<<<<<<<
@@ -2902,7 +3032,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_16pgenv(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":94
+/* "pgplot/_pgplot.pyx":98
  *     cpgplot.cpgenv(xmin, xmax, ymin, ymax, just, axis)
  * 
  * def pgeras():             # <<<<<<<<<<<<<<
@@ -2911,35 +3041,35 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_16pgenv(CYTHON_UNUSED PyObject *__pyx
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_19pgeras(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_18pgeras[] = "pgeras(): erases all graphics\n    ";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_19pgeras = {"pgeras", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_19pgeras, METH_NOARGS, __pyx_doc_6pgplot_7_pgplot_18pgeras};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_19pgeras(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_21pgeras(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_20pgeras[] = "pgeras(): erases all graphics\n    ";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_21pgeras = {"pgeras", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_21pgeras, METH_NOARGS, __pyx_doc_6pgplot_7_pgplot_20pgeras};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_21pgeras(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("pgeras (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_18pgeras(__pyx_self);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_20pgeras(__pyx_self);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_18pgeras(CYTHON_UNUSED PyObject *__pyx_self) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_20pgeras(CYTHON_UNUSED PyObject *__pyx_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("pgeras", 0);
 
-  /* "pgplot/_pgplot.pyx":97
+  /* "pgplot/_pgplot.pyx":101
  *     """pgeras(): erases all graphics
  *     """
  *     cpgplot.cpgeras()             # <<<<<<<<<<<<<<
  * 
- * def pggray(np.ndarray img not None, float fg, float bg, tr=None, i1=None, i2=None, j1=None, j2=None):
+ * @cython.boundscheck(False)
  */
   cpgeras();
 
-  /* "pgplot/_pgplot.pyx":94
+  /* "pgplot/_pgplot.pyx":98
  *     cpgplot.cpgenv(xmin, xmax, ymin, ymax, just, axis)
  * 
  * def pgeras():             # <<<<<<<<<<<<<<
@@ -2954,8 +3084,501 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_18pgeras(CYTHON_UNUSED PyObject *__py
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":99
- *     cpgplot.cpgeras()
+/* "pgplot/_pgplot.pyx":105
+ * @cython.boundscheck(False)
+ * @cython.wraparound(False)
+ * def pgerry(x, y1, y2, t):             # <<<<<<<<<<<<<<
+ *     """pgerry(x,y1,y2,t): plots vertical error bars
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6pgplot_7_pgplot_23pgerry(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_22pgerry[] = "pgerry(x,y1,y2,t): plots vertical error bars\n\n    The call for this differs from the cpgerry equivalent since Python arrays\n    know their length. A ValueError will be raised if the input arrays differ\n    in length.\n\n    Arguments::\n\n       x  : (array)\n          array of X values\n\n       y1 : (array)\n          array of lower Y values\n\n       y2 : (array)\n          array of upper Y values\n\n       t  : (float)\n          length of terminals\n    ";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_23pgerry = {"pgerry", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_23pgerry, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_22pgerry};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_23pgerry(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_x = 0;
+  PyObject *__pyx_v_y1 = 0;
+  PyObject *__pyx_v_y2 = 0;
+  PyObject *__pyx_v_t = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("pgerry (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_x,&__pyx_n_s_y1,&__pyx_n_s_y2,&__pyx_n_s_t,0};
+    PyObject* values[4] = {0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_x)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y1)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pgerry", 1, 4, 4, 1); __PYX_ERR(0, 105, __pyx_L3_error)
+        }
+        case  2:
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y2)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pgerry", 1, 4, 4, 2); __PYX_ERR(0, 105, __pyx_L3_error)
+        }
+        case  3:
+        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_t)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pgerry", 1, 4, 4, 3); __PYX_ERR(0, 105, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgerry") < 0)) __PYX_ERR(0, 105, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+    }
+    __pyx_v_x = values[0];
+    __pyx_v_y1 = values[1];
+    __pyx_v_y2 = values[2];
+    __pyx_v_t = values[3];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("pgerry", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 105, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("pgplot._pgplot.pgerry", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_22pgerry(__pyx_self, __pyx_v_x, __pyx_v_y1, __pyx_v_y2, __pyx_v_t);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6pgplot_7_pgplot_22pgerry(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y1, PyObject *__pyx_v_y2, PyObject *__pyx_v_t) {
+  int __pyx_v_n;
+  PyArrayObject *__pyx_v_xf = 0;
+  PyArrayObject *__pyx_v_yf1 = 0;
+  PyArrayObject *__pyx_v_yf2 = 0;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_xf;
+  __Pyx_Buffer __pyx_pybuffer_xf;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_yf1;
+  __Pyx_Buffer __pyx_pybuffer_yf1;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_yf2;
+  __Pyx_Buffer __pyx_pybuffer_yf2;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  Py_ssize_t __pyx_t_1;
+  int __pyx_t_2;
+  int __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  PyArrayObject *__pyx_t_8 = NULL;
+  PyArrayObject *__pyx_t_9 = NULL;
+  PyArrayObject *__pyx_t_10 = NULL;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  float __pyx_t_14;
+  __Pyx_RefNannySetupContext("pgerry", 0);
+  __pyx_pybuffer_xf.pybuffer.buf = NULL;
+  __pyx_pybuffer_xf.refcount = 0;
+  __pyx_pybuffernd_xf.data = NULL;
+  __pyx_pybuffernd_xf.rcbuffer = &__pyx_pybuffer_xf;
+  __pyx_pybuffer_yf1.pybuffer.buf = NULL;
+  __pyx_pybuffer_yf1.refcount = 0;
+  __pyx_pybuffernd_yf1.data = NULL;
+  __pyx_pybuffernd_yf1.rcbuffer = &__pyx_pybuffer_yf1;
+  __pyx_pybuffer_yf2.pybuffer.buf = NULL;
+  __pyx_pybuffer_yf2.refcount = 0;
+  __pyx_pybuffernd_yf2.data = NULL;
+  __pyx_pybuffernd_yf2.rcbuffer = &__pyx_pybuffer_yf2;
+
+  /* "pgplot/_pgplot.pyx":126
+ *           length of terminals
+ *     """
+ *     cdef int n = len(x)             # <<<<<<<<<<<<<<
+ *     if len(y1) != n or len(y2) != n:
+ *         raise ValueError('pgerry: x, y1 and y2 have differing numbers of elements')
+ */
+  __pyx_t_1 = PyObject_Length(__pyx_v_x); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 126, __pyx_L1_error)
+  __pyx_v_n = __pyx_t_1;
+
+  /* "pgplot/_pgplot.pyx":127
+ *     """
+ *     cdef int n = len(x)
+ *     if len(y1) != n or len(y2) != n:             # <<<<<<<<<<<<<<
+ *         raise ValueError('pgerry: x, y1 and y2 have differing numbers of elements')
+ * 
+ */
+  __pyx_t_1 = PyObject_Length(__pyx_v_y1); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 127, __pyx_L1_error)
+  __pyx_t_3 = ((__pyx_t_1 != __pyx_v_n) != 0);
+  if (!__pyx_t_3) {
+  } else {
+    __pyx_t_2 = __pyx_t_3;
+    goto __pyx_L4_bool_binop_done;
+  }
+  __pyx_t_1 = PyObject_Length(__pyx_v_y2); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 127, __pyx_L1_error)
+  __pyx_t_3 = ((__pyx_t_1 != __pyx_v_n) != 0);
+  __pyx_t_2 = __pyx_t_3;
+  __pyx_L4_bool_binop_done:;
+  if (__pyx_t_2) {
+
+    /* "pgplot/_pgplot.pyx":128
+ *     cdef int n = len(x)
+ *     if len(y1) != n or len(y2) != n:
+ *         raise ValueError('pgerry: x, y1 and y2 have differing numbers of elements')             # <<<<<<<<<<<<<<
+ * 
+ *     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)
+ */
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 128, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_Raise(__pyx_t_4, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __PYX_ERR(0, 128, __pyx_L1_error)
+
+    /* "pgplot/_pgplot.pyx":127
+ *     """
+ *     cdef int n = len(x)
+ *     if len(y1) != n or len(y2) != n:             # <<<<<<<<<<<<<<
+ *         raise ValueError('pgerry: x, y1 and y2 have differing numbers of elements')
+ * 
+ */
+  }
+
+  /* "pgplot/_pgplot.pyx":130
+ *         raise ValueError('pgerry: x, y1 and y2 have differing numbers of elements')
+ * 
+ *     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)             # <<<<<<<<<<<<<<
+ *     cdef np.ndarray[FTYPE_t, ndim=1] yf1 = np.asarray(y1).astype(FTYPE, copy=False)
+ *     cdef np.ndarray[FTYPE_t, ndim=1] yf2 = np.asarray(y2).astype(FTYPE, copy=False)
+ */
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_asarray); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_5);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  if (!__pyx_t_5) {
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_x); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 130, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_v_x};
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 130, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_v_x};
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 130, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+    } else
+    #endif
+    {
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 130, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
+      __Pyx_INCREF(__pyx_v_x);
+      __Pyx_GIVEREF(__pyx_v_x);
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_v_x);
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 130, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_astype); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_FTYPE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_GIVEREF(__pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4);
+  __pyx_t_4 = 0;
+  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_copy, Py_False) < 0) __PYX_ERR(0, 130, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 130, __pyx_L1_error)
+  __pyx_t_8 = ((PyArrayObject *)__pyx_t_5);
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_xf.rcbuffer->pybuffer, (PyObject*)__pyx_t_8, &__Pyx_TypeInfo_nn___pyx_t_6pgplot_7_pgplot_FTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
+      __pyx_v_xf = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_xf.rcbuffer->pybuffer.buf = NULL;
+      __PYX_ERR(0, 130, __pyx_L1_error)
+    } else {__pyx_pybuffernd_xf.diminfo[0].strides = __pyx_pybuffernd_xf.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_xf.diminfo[0].shape = __pyx_pybuffernd_xf.rcbuffer->pybuffer.shape[0];
+    }
+  }
+  __pyx_t_8 = 0;
+  __pyx_v_xf = ((PyArrayObject *)__pyx_t_5);
+  __pyx_t_5 = 0;
+
+  /* "pgplot/_pgplot.pyx":131
+ * 
+ *     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)
+ *     cdef np.ndarray[FTYPE_t, ndim=1] yf1 = np.asarray(y1).astype(FTYPE, copy=False)             # <<<<<<<<<<<<<<
+ *     cdef np.ndarray[FTYPE_t, ndim=1] yf2 = np.asarray(y2).astype(FTYPE, copy=False)
+ *     cpgplot.cpgerry(n, &xf[0], &yf1[0], &yf2[0], t)
+ */
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_asarray); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_7))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_7);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_7, function);
+    }
+  }
+  if (!__pyx_t_4) {
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_v_y1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 131, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_7)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_y1};
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 131, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_y1};
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 131, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+    } else
+    #endif
+    {
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 131, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
+      __Pyx_INCREF(__pyx_v_y1);
+      __Pyx_GIVEREF(__pyx_v_y1);
+      PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_v_y1);
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 131, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_astype); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_FTYPE); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_GIVEREF(__pyx_t_5);
+  PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5);
+  __pyx_t_5 = 0;
+  __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_copy, Py_False) < 0) __PYX_ERR(0, 131, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 131, __pyx_L1_error)
+  __pyx_t_9 = ((PyArrayObject *)__pyx_t_4);
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_yf1.rcbuffer->pybuffer, (PyObject*)__pyx_t_9, &__Pyx_TypeInfo_nn___pyx_t_6pgplot_7_pgplot_FTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
+      __pyx_v_yf1 = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_yf1.rcbuffer->pybuffer.buf = NULL;
+      __PYX_ERR(0, 131, __pyx_L1_error)
+    } else {__pyx_pybuffernd_yf1.diminfo[0].strides = __pyx_pybuffernd_yf1.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_yf1.diminfo[0].shape = __pyx_pybuffernd_yf1.rcbuffer->pybuffer.shape[0];
+    }
+  }
+  __pyx_t_9 = 0;
+  __pyx_v_yf1 = ((PyArrayObject *)__pyx_t_4);
+  __pyx_t_4 = 0;
+
+  /* "pgplot/_pgplot.pyx":132
+ *     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)
+ *     cdef np.ndarray[FTYPE_t, ndim=1] yf1 = np.asarray(y1).astype(FTYPE, copy=False)
+ *     cdef np.ndarray[FTYPE_t, ndim=1] yf2 = np.asarray(y2).astype(FTYPE, copy=False)             # <<<<<<<<<<<<<<
+ *     cpgplot.cpgerry(n, &xf[0], &yf1[0], &yf2[0], t)
+ * 
+ */
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_asarray); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_5);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  if (!__pyx_t_5) {
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_y2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 132, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_v_y2};
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 132, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_v_y2};
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 132, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+    } else
+    #endif
+    {
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 132, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
+      __Pyx_INCREF(__pyx_v_y2);
+      __Pyx_GIVEREF(__pyx_v_y2);
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_v_y2);
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 132, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_astype); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_FTYPE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_GIVEREF(__pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4);
+  __pyx_t_4 = 0;
+  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_copy, Py_False) < 0) __PYX_ERR(0, 132, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 132, __pyx_L1_error)
+  __pyx_t_10 = ((PyArrayObject *)__pyx_t_5);
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_yf2.rcbuffer->pybuffer, (PyObject*)__pyx_t_10, &__Pyx_TypeInfo_nn___pyx_t_6pgplot_7_pgplot_FTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
+      __pyx_v_yf2 = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_yf2.rcbuffer->pybuffer.buf = NULL;
+      __PYX_ERR(0, 132, __pyx_L1_error)
+    } else {__pyx_pybuffernd_yf2.diminfo[0].strides = __pyx_pybuffernd_yf2.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_yf2.diminfo[0].shape = __pyx_pybuffernd_yf2.rcbuffer->pybuffer.shape[0];
+    }
+  }
+  __pyx_t_10 = 0;
+  __pyx_v_yf2 = ((PyArrayObject *)__pyx_t_5);
+  __pyx_t_5 = 0;
+
+  /* "pgplot/_pgplot.pyx":133
+ *     cdef np.ndarray[FTYPE_t, ndim=1] yf1 = np.asarray(y1).astype(FTYPE, copy=False)
+ *     cdef np.ndarray[FTYPE_t, ndim=1] yf2 = np.asarray(y2).astype(FTYPE, copy=False)
+ *     cpgplot.cpgerry(n, &xf[0], &yf1[0], &yf2[0], t)             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_11 = 0;
+  __pyx_t_12 = 0;
+  __pyx_t_13 = 0;
+  __pyx_t_14 = __pyx_PyFloat_AsFloat(__pyx_v_t); if (unlikely((__pyx_t_14 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 133, __pyx_L1_error)
+  cpgerry(__pyx_v_n, (&(*__Pyx_BufPtrStrided1d(__pyx_t_6pgplot_7_pgplot_FTYPE_t *, __pyx_pybuffernd_xf.rcbuffer->pybuffer.buf, __pyx_t_11, __pyx_pybuffernd_xf.diminfo[0].strides))), (&(*__Pyx_BufPtrStrided1d(__pyx_t_6pgplot_7_pgplot_FTYPE_t *, __pyx_pybuffernd_yf1.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_yf1.diminfo[0].strides))), (&(*__Pyx_BufPtrStrided1d(__pyx_t_6pgplot_7_pgplot_FTYPE_t *, __pyx_pybuffernd_yf2.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_yf2.diminfo[0].strides))), __pyx_t_14);
+
+  /* "pgplot/_pgplot.pyx":105
+ * @cython.boundscheck(False)
+ * @cython.wraparound(False)
+ * def pgerry(x, y1, y2, t):             # <<<<<<<<<<<<<<
+ *     """pgerry(x,y1,y2,t): plots vertical error bars
+ * 
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
+    __Pyx_PyThreadState_declare
+    __Pyx_PyThreadState_assign
+    __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_xf.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_yf1.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_yf2.rcbuffer->pybuffer);
+  __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
+  __Pyx_AddTraceback("pgplot._pgplot.pgerry", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  goto __pyx_L2;
+  __pyx_L0:;
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_xf.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_yf1.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_yf2.rcbuffer->pybuffer);
+  __pyx_L2:;
+  __Pyx_XDECREF((PyObject *)__pyx_v_xf);
+  __Pyx_XDECREF((PyObject *)__pyx_v_yf1);
+  __Pyx_XDECREF((PyObject *)__pyx_v_yf2);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pgplot/_pgplot.pyx":136
+ * 
  * 
  * def pggray(np.ndarray img not None, float fg, float bg, tr=None, i1=None, i2=None, j1=None, j2=None):             # <<<<<<<<<<<<<<
  *     """pggray(img, fg, bg, tr=None, i1=None, i2=None, j1=None, j2=None): plots greyscale
@@ -2963,10 +3586,10 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_18pgeras(CYTHON_UNUSED PyObject *__py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_21pggray(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_20pggray[] = "pggray(img, fg, bg, tr=None, i1=None, i2=None, j1=None, j2=None): plots greyscale\n    image.\n\n    The call for this differs from the cpggray equivalent. The i1, i2, j1, j2\n    arguments have been moved since in Python it would be easy to send in a\n    sub-section and a C-style 0-offset is assumed for the arrays which affects \n    these arguments and the \"tr\" transform argument.\n\n    Arguments::\n\n       img  : (2D array)\n          image to display. \n\n       fg   : (float)\n          value to map to foreground colour\n\n       bg   : (float)\n          value to map to background colour\n\n       tr   : (array)\n          6 element array to map pixel values into X,Y values.  X =\n          tr[0]+tr[1]*i+tr[2]*j, Y = tr[3]+tr[4]*i+tr[5]*j, where i, and j are\n          the X & Y pixel values (0 offset). If None on input a default giving\n          a simple pixel scale will be used.\n\n       i1, i2, j1, j2 : (ints)\n          indices specifying region of image to show. Will display i1 to i2-1\n          in X, j1 to j2-1 in Y, 0 offset.\n\n    Notes\n    -----\n\n    img will be copied into a 32-bit float array internally if need be. If\n    it is already in this form, the copy is not needed and some time\n    will be saved.\n\n    ";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_21pggray = {"pggray", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_21pggray, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_20pggray};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_21pggray(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_25pggray(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_24pggray[] = "pggray(img, fg, bg, tr=None, i1=None, i2=None, j1=None, j2=None): plots greyscale\n    image.\n\n    The call for this differs from the cpggray equivalent. The i1, i2, j1, j2\n    arguments have been moved since in Python it would be easy to send in a\n    sub-section and a C-style 0-offset is assumed for the arrays which affects \n    these arguments and the \"tr\" transform argument.\n\n    Arguments::\n\n       img  : (2D array)\n          image to display. \n\n       fg   : (float)\n          value to map to foreground colour\n\n       bg   : (float)\n          value to map to background colour\n\n       tr   : (array)\n          6 element array to map pixel values into X,Y values.  X =\n          tr[0]+tr[1]*i+tr[2]*j, Y = tr[3]+tr[4]*i+tr[5]*j, where i, and j are\n          the X & Y pixel values (0 offset). If None on input a default giving\n          a simple pixel scale will be used.\n\n       i1, i2, j1, j2 : (ints)\n          indices specifying region of image to show. Will display i1 to i2-1\n          in X, j1 to j2-1 in Y, 0 offset.\n\n    Notes\n    -----\n\n    img will be copied into a 32-bit float array internally if need be. If\n    it is already in this form, the copy is not needed and some time\n    will be saved.\n\n    ";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_25pggray = {"pggray", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_25pggray, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_24pggray};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_25pggray(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyArrayObject *__pyx_v_img = 0;
   float __pyx_v_fg;
   float __pyx_v_bg;
@@ -3009,12 +3632,12 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_21pggray(PyObject *__pyx_self, PyObje
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_fg)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pggray", 0, 3, 8, 1); __PYX_ERR(0, 99, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pggray", 0, 3, 8, 1); __PYX_ERR(0, 136, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_bg)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pggray", 0, 3, 8, 2); __PYX_ERR(0, 99, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pggray", 0, 3, 8, 2); __PYX_ERR(0, 136, __pyx_L3_error)
         }
         case  3:
         if (kw_args > 0) {
@@ -3043,7 +3666,7 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_21pggray(PyObject *__pyx_self, PyObje
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pggray") < 0)) __PYX_ERR(0, 99, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pggray") < 0)) __PYX_ERR(0, 136, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -3060,8 +3683,8 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_21pggray(PyObject *__pyx_self, PyObje
       }
     }
     __pyx_v_img = ((PyArrayObject *)values[0]);
-    __pyx_v_fg = __pyx_PyFloat_AsFloat(values[1]); if (unlikely((__pyx_v_fg == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 99, __pyx_L3_error)
-    __pyx_v_bg = __pyx_PyFloat_AsFloat(values[2]); if (unlikely((__pyx_v_bg == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 99, __pyx_L3_error)
+    __pyx_v_fg = __pyx_PyFloat_AsFloat(values[1]); if (unlikely((__pyx_v_fg == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 136, __pyx_L3_error)
+    __pyx_v_bg = __pyx_PyFloat_AsFloat(values[2]); if (unlikely((__pyx_v_bg == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 136, __pyx_L3_error)
     __pyx_v_tr = values[3];
     __pyx_v_i1 = values[4];
     __pyx_v_i2 = values[5];
@@ -3070,14 +3693,14 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_21pggray(PyObject *__pyx_self, PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("pggray", 0, 3, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 99, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("pggray", 0, 3, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 136, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgplot._pgplot.pggray", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_img), __pyx_ptype_5numpy_ndarray, 0, "img", 0))) __PYX_ERR(0, 99, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_20pggray(__pyx_self, __pyx_v_img, __pyx_v_fg, __pyx_v_bg, __pyx_v_tr, __pyx_v_i1, __pyx_v_i2, __pyx_v_j1, __pyx_v_j2);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_img), __pyx_ptype_5numpy_ndarray, 0, "img", 0))) __PYX_ERR(0, 136, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_24pggray(__pyx_self, __pyx_v_img, __pyx_v_fg, __pyx_v_bg, __pyx_v_tr, __pyx_v_i1, __pyx_v_i2, __pyx_v_j1, __pyx_v_j2);
 
   /* function exit code */
   goto __pyx_L0;
@@ -3088,7 +3711,7 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_21pggray(PyObject *__pyx_self, PyObje
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_img, float __pyx_v_fg, float __pyx_v_bg, PyObject *__pyx_v_tr, PyObject *__pyx_v_i1, PyObject *__pyx_v_i2, PyObject *__pyx_v_j1, PyObject *__pyx_v_j2) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_24pggray(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_img, float __pyx_v_fg, float __pyx_v_bg, PyObject *__pyx_v_tr, PyObject *__pyx_v_i1, PyObject *__pyx_v_i2, PyObject *__pyx_v_j1, PyObject *__pyx_v_j2) {
   PyArrayObject *__pyx_v_imgf = 0;
   PyArrayObject *__pyx_v_trf = 0;
   int __pyx_v_nx;
@@ -3133,37 +3756,37 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
   __pyx_pybuffernd_trf.data = NULL;
   __pyx_pybuffernd_trf.rcbuffer = &__pyx_pybuffer_trf;
 
-  /* "pgplot/_pgplot.pyx":140
+  /* "pgplot/_pgplot.pyx":177
  *     # we need the array to have float32 type. If it does already, we do so
  *     # without copying to save time.
  *     cdef np.ndarray[FTYPE_t, ndim=2] imgf = img.astype(FTYPE, copy=False)             # <<<<<<<<<<<<<<
  * 
  *     # similarly for the transform array which we initialise if it is None on input
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_img), __pyx_n_s_astype); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_img), __pyx_n_s_astype); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_FTYPE); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_FTYPE); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_copy, Py_False) < 0) __PYX_ERR(0, 140, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 140, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_copy, Py_False) < 0) __PYX_ERR(0, 177, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 140, __pyx_L1_error)
+  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 177, __pyx_L1_error)
   __pyx_t_5 = ((PyArrayObject *)__pyx_t_4);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_imgf.rcbuffer->pybuffer, (PyObject*)__pyx_t_5, &__Pyx_TypeInfo_nn___pyx_t_6pgplot_7_pgplot_FTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) {
       __pyx_v_imgf = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_imgf.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 140, __pyx_L1_error)
+      __PYX_ERR(0, 177, __pyx_L1_error)
     } else {__pyx_pybuffernd_imgf.diminfo[0].strides = __pyx_pybuffernd_imgf.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_imgf.diminfo[0].shape = __pyx_pybuffernd_imgf.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_imgf.diminfo[1].strides = __pyx_pybuffernd_imgf.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_imgf.diminfo[1].shape = __pyx_pybuffernd_imgf.rcbuffer->pybuffer.shape[1];
     }
   }
@@ -3171,7 +3794,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
   __pyx_v_imgf = ((PyArrayObject *)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "pgplot/_pgplot.pyx":144
+  /* "pgplot/_pgplot.pyx":181
  *     # similarly for the transform array which we initialise if it is None on input
  *     # except we do copy since it is modified below
  *     tr = np.array([1,1,0,1,0,1],dtype=FTYPE) if tr is None else tr             # <<<<<<<<<<<<<<
@@ -3180,12 +3803,12 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
  */
   __pyx_t_6 = (__pyx_v_tr == Py_None);
   if ((__pyx_t_6 != 0)) {
-    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 144, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 144, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyList_New(6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 144, __pyx_L1_error)
+    __pyx_t_2 = PyList_New(6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_int_1);
     __Pyx_GIVEREF(__pyx_int_1);
@@ -3205,18 +3828,18 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
     __Pyx_INCREF(__pyx_int_1);
     __Pyx_GIVEREF(__pyx_int_1);
     PyList_SET_ITEM(__pyx_t_2, 5, __pyx_int_1);
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 144, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 144, __pyx_L1_error)
+    __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_FTYPE); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 144, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_FTYPE); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_7) < 0) __PYX_ERR(0, 144, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_7) < 0) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 144, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3230,16 +3853,16 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
   __Pyx_DECREF_SET(__pyx_v_tr, __pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "pgplot/_pgplot.pyx":145
+  /* "pgplot/_pgplot.pyx":182
  *     # except we do copy since it is modified below
  *     tr = np.array([1,1,0,1,0,1],dtype=FTYPE) if tr is None else tr
  *     cdef np.ndarray[FTYPE_t, ndim=1] trf = np.asarray(tr).astype(FTYPE)             # <<<<<<<<<<<<<<
  * 
  *     # get image dimensions
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 182, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -3253,13 +3876,13 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
     }
   }
   if (!__pyx_t_2) {
-    __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_tr); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 145, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_tr); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_1)) {
       PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_v_tr};
-      __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 145, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 182, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_7);
     } else
@@ -3267,28 +3890,28 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
       PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_v_tr};
-      __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 145, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 182, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_7);
     } else
     #endif
     {
-      __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 145, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 182, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2); __pyx_t_2 = NULL;
       __Pyx_INCREF(__pyx_v_tr);
       __Pyx_GIVEREF(__pyx_v_tr);
       PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_v_tr);
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 145, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 182, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_astype); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_astype); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_FTYPE); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_FTYPE); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 182, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -3301,14 +3924,14 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 145, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_1)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_t_7};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 145, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 182, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -3317,32 +3940,32 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_t_7};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 145, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 182, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 145, __pyx_L1_error)
+      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 182, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_GIVEREF(__pyx_t_7);
       PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_t_7);
       __pyx_t_7 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 145, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 182, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 145, __pyx_L1_error)
+  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 182, __pyx_L1_error)
   __pyx_t_8 = ((PyArrayObject *)__pyx_t_4);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_trf.rcbuffer->pybuffer, (PyObject*)__pyx_t_8, &__Pyx_TypeInfo_nn___pyx_t_6pgplot_7_pgplot_FTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_trf = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_trf.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 145, __pyx_L1_error)
+      __PYX_ERR(0, 182, __pyx_L1_error)
     } else {__pyx_pybuffernd_trf.diminfo[0].strides = __pyx_pybuffernd_trf.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_trf.diminfo[0].shape = __pyx_pybuffernd_trf.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -3350,7 +3973,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
   __pyx_v_trf = ((PyArrayObject *)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "pgplot/_pgplot.pyx":148
+  /* "pgplot/_pgplot.pyx":185
  * 
  *     # get image dimensions
  *     cdef int nx = img.shape[1]             # <<<<<<<<<<<<<<
@@ -3359,7 +3982,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
  */
   __pyx_v_nx = (__pyx_v_img->dimensions[1]);
 
-  /* "pgplot/_pgplot.pyx":149
+  /* "pgplot/_pgplot.pyx":186
  *     # get image dimensions
  *     cdef int nx = img.shape[1]
  *     cdef int ny = img.shape[0]             # <<<<<<<<<<<<<<
@@ -3368,7 +3991,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
  */
   __pyx_v_ny = (__pyx_v_img->dimensions[0]);
 
-  /* "pgplot/_pgplot.pyx":152
+  /* "pgplot/_pgplot.pyx":189
  * 
  *     # correct from 0 to 1 offsets
  *     cdef int ix1 = 1 if i1 is None else i1+1             # <<<<<<<<<<<<<<
@@ -3379,15 +4002,15 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
   if ((__pyx_t_6 != 0)) {
     __pyx_t_9 = 1;
   } else {
-    __pyx_t_4 = __Pyx_PyInt_AddObjC(__pyx_v_i1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 152, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_AddObjC(__pyx_v_i1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 189, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 152, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 189, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_9 = __pyx_t_10;
   }
   __pyx_v_ix1 = __pyx_t_9;
 
-  /* "pgplot/_pgplot.pyx":153
+  /* "pgplot/_pgplot.pyx":190
  *     # correct from 0 to 1 offsets
  *     cdef int ix1 = 1 if i1 is None else i1+1
  *     cdef int ix2 = nx if i2 is None else i2             # <<<<<<<<<<<<<<
@@ -3398,12 +4021,12 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
   if ((__pyx_t_6 != 0)) {
     __pyx_t_9 = __pyx_v_nx;
   } else {
-    __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_v_i2); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_v_i2); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 190, __pyx_L1_error)
     __pyx_t_9 = __pyx_t_10;
   }
   __pyx_v_ix2 = __pyx_t_9;
 
-  /* "pgplot/_pgplot.pyx":154
+  /* "pgplot/_pgplot.pyx":191
  *     cdef int ix1 = 1 if i1 is None else i1+1
  *     cdef int ix2 = nx if i2 is None else i2
  *     cdef int jy1 = 1 if j1 is None else j1+1             # <<<<<<<<<<<<<<
@@ -3414,15 +4037,15 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
   if ((__pyx_t_6 != 0)) {
     __pyx_t_9 = 1;
   } else {
-    __pyx_t_4 = __Pyx_PyInt_AddObjC(__pyx_v_j1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 154, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_AddObjC(__pyx_v_j1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 191, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 154, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 191, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_9 = __pyx_t_10;
   }
   __pyx_v_jy1 = __pyx_t_9;
 
-  /* "pgplot/_pgplot.pyx":155
+  /* "pgplot/_pgplot.pyx":192
  *     cdef int ix2 = nx if i2 is None else i2
  *     cdef int jy1 = 1 if j1 is None else j1+1
  *     cdef int jy2 = ny if j2 is None else j2             # <<<<<<<<<<<<<<
@@ -3433,12 +4056,12 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
   if ((__pyx_t_6 != 0)) {
     __pyx_t_9 = __pyx_v_ny;
   } else {
-    __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_v_j2); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 155, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_v_j2); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 192, __pyx_L1_error)
     __pyx_t_9 = __pyx_t_10;
   }
   __pyx_v_jy2 = __pyx_t_9;
 
-  /* "pgplot/_pgplot.pyx":156
+  /* "pgplot/_pgplot.pyx":193
  *     cdef int jy1 = 1 if j1 is None else j1+1
  *     cdef int jy2 = ny if j2 is None else j2
  *     trf[0] -= trf[1]+trf[2]             # <<<<<<<<<<<<<<
@@ -3453,7 +4076,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
   } else if (unlikely(__pyx_t_11 >= __pyx_pybuffernd_trf.diminfo[0].shape)) __pyx_t_9 = 0;
   if (unlikely(__pyx_t_9 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_9);
-    __PYX_ERR(0, 156, __pyx_L1_error)
+    __PYX_ERR(0, 193, __pyx_L1_error)
   }
   __pyx_t_12 = 2;
   __pyx_t_9 = -1;
@@ -3463,7 +4086,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
   } else if (unlikely(__pyx_t_12 >= __pyx_pybuffernd_trf.diminfo[0].shape)) __pyx_t_9 = 0;
   if (unlikely(__pyx_t_9 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_9);
-    __PYX_ERR(0, 156, __pyx_L1_error)
+    __PYX_ERR(0, 193, __pyx_L1_error)
   }
   __pyx_t_13 = 0;
   __pyx_t_9 = -1;
@@ -3473,11 +4096,11 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
   } else if (unlikely(__pyx_t_13 >= __pyx_pybuffernd_trf.diminfo[0].shape)) __pyx_t_9 = 0;
   if (unlikely(__pyx_t_9 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_9);
-    __PYX_ERR(0, 156, __pyx_L1_error)
+    __PYX_ERR(0, 193, __pyx_L1_error)
   }
   *__Pyx_BufPtrStrided1d(__pyx_t_6pgplot_7_pgplot_FTYPE_t *, __pyx_pybuffernd_trf.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_trf.diminfo[0].strides) -= ((*__Pyx_BufPtrStrided1d(__pyx_t_6pgplot_7_pgplot_FTYPE_t *, __pyx_pybuffernd_trf.rcbuffer->pybuffer.buf, __pyx_t_11, __pyx_pybuffernd_trf.diminfo[0].strides)) + (*__Pyx_BufPtrStrided1d(__pyx_t_6pgplot_7_pgplot_FTYPE_t *, __pyx_pybuffernd_trf.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_trf.diminfo[0].strides)));
 
-  /* "pgplot/_pgplot.pyx":157
+  /* "pgplot/_pgplot.pyx":194
  *     cdef int jy2 = ny if j2 is None else j2
  *     trf[0] -= trf[1]+trf[2]
  *     trf[3] -= trf[4]+trf[5]             # <<<<<<<<<<<<<<
@@ -3492,7 +4115,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
   } else if (unlikely(__pyx_t_14 >= __pyx_pybuffernd_trf.diminfo[0].shape)) __pyx_t_9 = 0;
   if (unlikely(__pyx_t_9 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_9);
-    __PYX_ERR(0, 157, __pyx_L1_error)
+    __PYX_ERR(0, 194, __pyx_L1_error)
   }
   __pyx_t_15 = 5;
   __pyx_t_9 = -1;
@@ -3502,7 +4125,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
   } else if (unlikely(__pyx_t_15 >= __pyx_pybuffernd_trf.diminfo[0].shape)) __pyx_t_9 = 0;
   if (unlikely(__pyx_t_9 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_9);
-    __PYX_ERR(0, 157, __pyx_L1_error)
+    __PYX_ERR(0, 194, __pyx_L1_error)
   }
   __pyx_t_16 = 3;
   __pyx_t_9 = -1;
@@ -3512,11 +4135,11 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
   } else if (unlikely(__pyx_t_16 >= __pyx_pybuffernd_trf.diminfo[0].shape)) __pyx_t_9 = 0;
   if (unlikely(__pyx_t_9 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_9);
-    __PYX_ERR(0, 157, __pyx_L1_error)
+    __PYX_ERR(0, 194, __pyx_L1_error)
   }
   *__Pyx_BufPtrStrided1d(__pyx_t_6pgplot_7_pgplot_FTYPE_t *, __pyx_pybuffernd_trf.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_trf.diminfo[0].strides) -= ((*__Pyx_BufPtrStrided1d(__pyx_t_6pgplot_7_pgplot_FTYPE_t *, __pyx_pybuffernd_trf.rcbuffer->pybuffer.buf, __pyx_t_14, __pyx_pybuffernd_trf.diminfo[0].strides)) + (*__Pyx_BufPtrStrided1d(__pyx_t_6pgplot_7_pgplot_FTYPE_t *, __pyx_pybuffernd_trf.rcbuffer->pybuffer.buf, __pyx_t_15, __pyx_pybuffernd_trf.diminfo[0].strides)));
 
-  /* "pgplot/_pgplot.pyx":160
+  /* "pgplot/_pgplot.pyx":197
  * 
  *     # finally call cpggray
  *     cpgplot.cpggray(&imgf[0,0], nx, ny, ix1, ix2, jy1, jy2, fg, bg, &trf[0])             # <<<<<<<<<<<<<<
@@ -3536,7 +4159,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
   } else if (unlikely(__pyx_t_18 >= __pyx_pybuffernd_imgf.diminfo[1].shape)) __pyx_t_9 = 1;
   if (unlikely(__pyx_t_9 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_9);
-    __PYX_ERR(0, 160, __pyx_L1_error)
+    __PYX_ERR(0, 197, __pyx_L1_error)
   }
   __pyx_t_19 = 0;
   __pyx_t_9 = -1;
@@ -3546,12 +4169,12 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
   } else if (unlikely(__pyx_t_19 >= __pyx_pybuffernd_trf.diminfo[0].shape)) __pyx_t_9 = 0;
   if (unlikely(__pyx_t_9 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_9);
-    __PYX_ERR(0, 160, __pyx_L1_error)
+    __PYX_ERR(0, 197, __pyx_L1_error)
   }
   cpggray((&(*__Pyx_BufPtrStrided2d(__pyx_t_6pgplot_7_pgplot_FTYPE_t *, __pyx_pybuffernd_imgf.rcbuffer->pybuffer.buf, __pyx_t_17, __pyx_pybuffernd_imgf.diminfo[0].strides, __pyx_t_18, __pyx_pybuffernd_imgf.diminfo[1].strides))), __pyx_v_nx, __pyx_v_ny, __pyx_v_ix1, __pyx_v_ix2, __pyx_v_jy1, __pyx_v_jy2, __pyx_v_fg, __pyx_v_bg, (&(*__Pyx_BufPtrStrided1d(__pyx_t_6pgplot_7_pgplot_FTYPE_t *, __pyx_pybuffernd_trf.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_trf.diminfo[0].strides))));
 
-  /* "pgplot/_pgplot.pyx":99
- *     cpgplot.cpgeras()
+  /* "pgplot/_pgplot.pyx":136
+ * 
  * 
  * def pggray(np.ndarray img not None, float fg, float bg, tr=None, i1=None, i2=None, j1=None, j2=None):             # <<<<<<<<<<<<<<
  *     """pggray(img, fg, bg, tr=None, i1=None, i2=None, j1=None, j2=None): plots greyscale
@@ -3589,7 +4212,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":162
+/* "pgplot/_pgplot.pyx":199
  *     cpgplot.cpggray(&imgf[0,0], nx, ny, ix1, ix2, jy1, jy2, fg, bg, &trf[0])
  * 
  * def pglab(xlabel, ylabel, toplabel):             # <<<<<<<<<<<<<<
@@ -3598,10 +4221,10 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_20pggray(CYTHON_UNUSED PyObject *__py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_23pglab(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_22pglab[] = "pglab(xlabel, ylabel, toplabel): labels axes and top of a plot";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_23pglab = {"pglab", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_23pglab, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_22pglab};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_23pglab(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_27pglab(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_26pglab[] = "pglab(xlabel, ylabel, toplabel): labels axes and top of a plot";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_27pglab = {"pglab", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_27pglab, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_26pglab};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_27pglab(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_xlabel = 0;
   PyObject *__pyx_v_ylabel = 0;
   PyObject *__pyx_v_toplabel = 0;
@@ -3629,16 +4252,16 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_23pglab(PyObject *__pyx_self, PyObjec
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ylabel)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pglab", 1, 3, 3, 1); __PYX_ERR(0, 162, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pglab", 1, 3, 3, 1); __PYX_ERR(0, 199, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_toplabel)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pglab", 1, 3, 3, 2); __PYX_ERR(0, 162, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pglab", 1, 3, 3, 2); __PYX_ERR(0, 199, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pglab") < 0)) __PYX_ERR(0, 162, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pglab") < 0)) __PYX_ERR(0, 199, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -3653,20 +4276,20 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_23pglab(PyObject *__pyx_self, PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("pglab", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 162, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("pglab", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 199, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgplot._pgplot.pglab", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_22pglab(__pyx_self, __pyx_v_xlabel, __pyx_v_ylabel, __pyx_v_toplabel);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_26pglab(__pyx_self, __pyx_v_xlabel, __pyx_v_ylabel, __pyx_v_toplabel);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_22pglab(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_xlabel, PyObject *__pyx_v_ylabel, PyObject *__pyx_v_toplabel) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_26pglab(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_xlabel, PyObject *__pyx_v_ylabel, PyObject *__pyx_v_toplabel) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3679,14 +4302,14 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_22pglab(CYTHON_UNUSED PyObject *__pyx
   char const *__pyx_t_8;
   __Pyx_RefNannySetupContext("pglab", 0);
 
-  /* "pgplot/_pgplot.pyx":164
+  /* "pgplot/_pgplot.pyx":201
  * def pglab(xlabel, ylabel, toplabel):
  *     """pglab(xlabel, ylabel, toplabel): labels axes and top of a plot"""
  *     cpgplot.cpglab(xlabel.encode(), ylabel.encode(), toplabel.encode())             # <<<<<<<<<<<<<<
  * 
  * @cython.boundscheck(False)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_xlabel, __pyx_n_s_encode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 164, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_xlabel, __pyx_n_s_encode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -3699,15 +4322,15 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_22pglab(CYTHON_UNUSED PyObject *__pyx
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 201, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 201, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_AsString(__pyx_t_1); if (unlikely((!__pyx_t_4) && PyErr_Occurred())) __PYX_ERR(0, 164, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_ylabel, __pyx_n_s_encode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 164, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_AsString(__pyx_t_1); if (unlikely((!__pyx_t_4) && PyErr_Occurred())) __PYX_ERR(0, 201, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_ylabel, __pyx_n_s_encode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -3720,15 +4343,15 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_22pglab(CYTHON_UNUSED PyObject *__pyx
     }
   }
   if (__pyx_t_5) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 164, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 201, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   } else {
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 164, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 201, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_6 = __Pyx_PyObject_AsString(__pyx_t_2); if (unlikely((!__pyx_t_6) && PyErr_Occurred())) __PYX_ERR(0, 164, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_toplabel, __pyx_n_s_encode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 164, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_AsString(__pyx_t_2); if (unlikely((!__pyx_t_6) && PyErr_Occurred())) __PYX_ERR(0, 201, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_toplabel, __pyx_n_s_encode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -3741,20 +4364,20 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_22pglab(CYTHON_UNUSED PyObject *__pyx
     }
   }
   if (__pyx_t_7) {
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 164, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 201, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   } else {
-    __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 164, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 201, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_8 = __Pyx_PyObject_AsString(__pyx_t_3); if (unlikely((!__pyx_t_8) && PyErr_Occurred())) __PYX_ERR(0, 164, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_AsString(__pyx_t_3); if (unlikely((!__pyx_t_8) && PyErr_Occurred())) __PYX_ERR(0, 201, __pyx_L1_error)
   cpglab(__pyx_t_4, __pyx_t_6, __pyx_t_8);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "pgplot/_pgplot.pyx":162
+  /* "pgplot/_pgplot.pyx":199
  *     cpgplot.cpggray(&imgf[0,0], nx, ny, ix1, ix2, jy1, jy2, fg, bg, &trf[0])
  * 
  * def pglab(xlabel, ylabel, toplabel):             # <<<<<<<<<<<<<<
@@ -3779,7 +4402,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_22pglab(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":168
+/* "pgplot/_pgplot.pyx":205
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * def pgline(x, y):             # <<<<<<<<<<<<<<
@@ -3788,10 +4411,10 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_22pglab(CYTHON_UNUSED PyObject *__pyx
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_25pgline(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_24pgline[] = "pgline(x,y): plots a line.\n\n    The call for this differs from the cpgline equivalent since Python arrays\n    know their length. A ValueError will be raised if the input arrays differ\n    in length.\n\n    Arguments::\n\n       x  : (array)\n          array of X values\n\n       y  : (array)\n          array of Y values\n    ";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_25pgline = {"pgline", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_25pgline, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_24pgline};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_25pgline(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_29pgline(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_28pgline[] = "pgline(x,y): plots a line.\n\n    The call for this differs from the cpgline equivalent since Python arrays\n    know their length. A ValueError will be raised if the input arrays differ\n    in length.\n\n    Arguments::\n\n       x  : (array)\n          array of X values\n\n       y  : (array)\n          array of Y values\n    ";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_29pgline = {"pgline", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_29pgline, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_28pgline};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_29pgline(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_x = 0;
   PyObject *__pyx_v_y = 0;
   PyObject *__pyx_r = 0;
@@ -3817,11 +4440,11 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_25pgline(PyObject *__pyx_self, PyObje
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgline", 1, 2, 2, 1); __PYX_ERR(0, 168, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgline", 1, 2, 2, 1); __PYX_ERR(0, 205, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgline") < 0)) __PYX_ERR(0, 168, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgline") < 0)) __PYX_ERR(0, 205, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3834,20 +4457,20 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_25pgline(PyObject *__pyx_self, PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("pgline", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 168, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("pgline", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 205, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgplot._pgplot.pgline", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_24pgline(__pyx_self, __pyx_v_x, __pyx_v_y);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_28pgline(__pyx_self, __pyx_v_x, __pyx_v_y);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_24pgline(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_28pgline(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y) {
   int __pyx_v_n;
   PyArrayObject *__pyx_v_xf = 0;
   PyArrayObject *__pyx_v_yf = 0;
@@ -3877,41 +4500,41 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_24pgline(CYTHON_UNUSED PyObject *__py
   __pyx_pybuffernd_yf.data = NULL;
   __pyx_pybuffernd_yf.rcbuffer = &__pyx_pybuffer_yf;
 
-  /* "pgplot/_pgplot.pyx":183
+  /* "pgplot/_pgplot.pyx":220
  *           array of Y values
  *     """
  *     cdef int n = len(x)             # <<<<<<<<<<<<<<
  *     if len(y) != n:
  *         raise ValueError('pgline: x and y have differing numbers of elements')
  */
-  __pyx_t_1 = PyObject_Length(__pyx_v_x); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_1 = PyObject_Length(__pyx_v_x); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 220, __pyx_L1_error)
   __pyx_v_n = __pyx_t_1;
 
-  /* "pgplot/_pgplot.pyx":184
+  /* "pgplot/_pgplot.pyx":221
  *     """
  *     cdef int n = len(x)
  *     if len(y) != n:             # <<<<<<<<<<<<<<
  *         raise ValueError('pgline: x and y have differing numbers of elements')
  * 
  */
-  __pyx_t_1 = PyObject_Length(__pyx_v_y); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_1 = PyObject_Length(__pyx_v_y); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 221, __pyx_L1_error)
   __pyx_t_2 = ((__pyx_t_1 != __pyx_v_n) != 0);
   if (__pyx_t_2) {
 
-    /* "pgplot/_pgplot.pyx":185
+    /* "pgplot/_pgplot.pyx":222
  *     cdef int n = len(x)
  *     if len(y) != n:
  *         raise ValueError('pgline: x and y have differing numbers of elements')             # <<<<<<<<<<<<<<
  * 
  *     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 185, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 222, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 185, __pyx_L1_error)
+    __PYX_ERR(0, 222, __pyx_L1_error)
 
-    /* "pgplot/_pgplot.pyx":184
+    /* "pgplot/_pgplot.pyx":221
  *     """
  *     cdef int n = len(x)
  *     if len(y) != n:             # <<<<<<<<<<<<<<
@@ -3920,16 +4543,16 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_24pgline(CYTHON_UNUSED PyObject *__py
  */
   }
 
-  /* "pgplot/_pgplot.pyx":187
+  /* "pgplot/_pgplot.pyx":224
  *         raise ValueError('pgline: x and y have differing numbers of elements')
  * 
  *     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[FTYPE_t, ndim=1] yf = np.asarray(y).astype(FTYPE, copy=False)
  *     cpgplot.cpgline(n, &xf[0], &yf[0])
  */
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 224, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_asarray); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_asarray); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 224, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -3943,13 +4566,13 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_24pgline(CYTHON_UNUSED PyObject *__py
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_x); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 187, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_x); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 224, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_x};
-      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 187, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 224, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_3);
     } else
@@ -3957,49 +4580,49 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_24pgline(CYTHON_UNUSED PyObject *__py
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_x};
-      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 187, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 224, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_3);
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 187, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 224, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
       __Pyx_INCREF(__pyx_v_x);
       __Pyx_GIVEREF(__pyx_v_x);
       PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_v_x);
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 187, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 224, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_astype); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_astype); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 224, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_FTYPE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_FTYPE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 224, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 224, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 224, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_copy, Py_False) < 0) __PYX_ERR(0, 187, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 187, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_copy, Py_False) < 0) __PYX_ERR(0, 224, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 224, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 187, __pyx_L1_error)
+  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 224, __pyx_L1_error)
   __pyx_t_7 = ((PyArrayObject *)__pyx_t_4);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_xf.rcbuffer->pybuffer, (PyObject*)__pyx_t_7, &__Pyx_TypeInfo_nn___pyx_t_6pgplot_7_pgplot_FTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_xf = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_xf.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 187, __pyx_L1_error)
+      __PYX_ERR(0, 224, __pyx_L1_error)
     } else {__pyx_pybuffernd_xf.diminfo[0].strides = __pyx_pybuffernd_xf.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_xf.diminfo[0].shape = __pyx_pybuffernd_xf.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -4007,16 +4630,16 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_24pgline(CYTHON_UNUSED PyObject *__py
   __pyx_v_xf = ((PyArrayObject *)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "pgplot/_pgplot.pyx":188
+  /* "pgplot/_pgplot.pyx":225
  * 
  *     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)
  *     cdef np.ndarray[FTYPE_t, ndim=1] yf = np.asarray(y).astype(FTYPE, copy=False)             # <<<<<<<<<<<<<<
  *     cpgplot.cpgline(n, &xf[0], &yf[0])
  * 
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_asarray); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_asarray); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -4030,13 +4653,13 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_24pgline(CYTHON_UNUSED PyObject *__py
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_y); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 188, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_y); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 225, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_y};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 188, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 225, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_4);
     } else
@@ -4044,49 +4667,49 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_24pgline(CYTHON_UNUSED PyObject *__py
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_y};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 188, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 225, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_4);
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 188, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 225, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_INCREF(__pyx_v_y);
       __Pyx_GIVEREF(__pyx_v_y);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_v_y);
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 188, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 225, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_astype); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_astype); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_FTYPE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_FTYPE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_copy, Py_False) < 0) __PYX_ERR(0, 188, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 188, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_copy, Py_False) < 0) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 188, __pyx_L1_error)
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 225, __pyx_L1_error)
   __pyx_t_8 = ((PyArrayObject *)__pyx_t_3);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_yf.rcbuffer->pybuffer, (PyObject*)__pyx_t_8, &__Pyx_TypeInfo_nn___pyx_t_6pgplot_7_pgplot_FTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_yf = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_yf.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 188, __pyx_L1_error)
+      __PYX_ERR(0, 225, __pyx_L1_error)
     } else {__pyx_pybuffernd_yf.diminfo[0].strides = __pyx_pybuffernd_yf.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_yf.diminfo[0].shape = __pyx_pybuffernd_yf.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -4094,18 +4717,18 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_24pgline(CYTHON_UNUSED PyObject *__py
   __pyx_v_yf = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "pgplot/_pgplot.pyx":189
+  /* "pgplot/_pgplot.pyx":226
  *     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)
  *     cdef np.ndarray[FTYPE_t, ndim=1] yf = np.asarray(y).astype(FTYPE, copy=False)
  *     cpgplot.cpgline(n, &xf[0], &yf[0])             # <<<<<<<<<<<<<<
  * 
- * def pgopen(device):
+ * def pgmove(x, y):
  */
   __pyx_t_9 = 0;
   __pyx_t_10 = 0;
   cpgline(__pyx_v_n, (&(*__Pyx_BufPtrStrided1d(__pyx_t_6pgplot_7_pgplot_FTYPE_t *, __pyx_pybuffernd_xf.rcbuffer->pybuffer.buf, __pyx_t_9, __pyx_pybuffernd_xf.diminfo[0].strides))), (&(*__Pyx_BufPtrStrided1d(__pyx_t_6pgplot_7_pgplot_FTYPE_t *, __pyx_pybuffernd_yf.rcbuffer->pybuffer.buf, __pyx_t_10, __pyx_pybuffernd_yf.diminfo[0].strides))));
 
-  /* "pgplot/_pgplot.pyx":168
+  /* "pgplot/_pgplot.pyx":205
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * def pgline(x, y):             # <<<<<<<<<<<<<<
@@ -4142,8 +4765,114 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_24pgline(CYTHON_UNUSED PyObject *__py
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":191
+/* "pgplot/_pgplot.pyx":228
  *     cpgplot.cpgline(n, &xf[0], &yf[0])
+ * 
+ * def pgmove(x, y):             # <<<<<<<<<<<<<<
+ *     """pgmove(x, y): moves the pen position to x, y"""
+ *     cpgplot.cpgmove(x, y)
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6pgplot_7_pgplot_31pgmove(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_30pgmove[] = "pgmove(x, y): moves the pen position to x, y";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_31pgmove = {"pgmove", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_31pgmove, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_30pgmove};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_31pgmove(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_x = 0;
+  PyObject *__pyx_v_y = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("pgmove (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_x,&__pyx_n_s_y,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_x)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pgmove", 1, 2, 2, 1); __PYX_ERR(0, 228, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgmove") < 0)) __PYX_ERR(0, 228, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_x = values[0];
+    __pyx_v_y = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("pgmove", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 228, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("pgplot._pgplot.pgmove", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_30pgmove(__pyx_self, __pyx_v_x, __pyx_v_y);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6pgplot_7_pgplot_30pgmove(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  float __pyx_t_1;
+  float __pyx_t_2;
+  __Pyx_RefNannySetupContext("pgmove", 0);
+
+  /* "pgplot/_pgplot.pyx":230
+ * def pgmove(x, y):
+ *     """pgmove(x, y): moves the pen position to x, y"""
+ *     cpgplot.cpgmove(x, y)             # <<<<<<<<<<<<<<
+ * 
+ * def pgopen(device):
+ */
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_x); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_y); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 230, __pyx_L1_error)
+  cpgmove(__pyx_t_1, __pyx_t_2);
+
+  /* "pgplot/_pgplot.pyx":228
+ *     cpgplot.cpgline(n, &xf[0], &yf[0])
+ * 
+ * def pgmove(x, y):             # <<<<<<<<<<<<<<
+ *     """pgmove(x, y): moves the pen position to x, y"""
+ *     cpgplot.cpgmove(x, y)
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("pgplot._pgplot.pgmove", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pgplot/_pgplot.pyx":232
+ *     cpgplot.cpgmove(x, y)
  * 
  * def pgopen(device):             # <<<<<<<<<<<<<<
  *     """pgopen(device): opens a plot device.
@@ -4151,21 +4880,21 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_24pgline(CYTHON_UNUSED PyObject *__py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_27pgopen(PyObject *__pyx_self, PyObject *__pyx_v_device); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_26pgopen[] = "pgopen(device): opens a plot device.\n\n    Arguments::\n\n      device : (strong)\n         device name, PGPLOT style, e.g. '/xs', '/xs1', 'plot.ps/cps'\n\n    Return: the integer device identifier from cpgopen.\n    ";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_27pgopen = {"pgopen", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_27pgopen, METH_O, __pyx_doc_6pgplot_7_pgplot_26pgopen};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_27pgopen(PyObject *__pyx_self, PyObject *__pyx_v_device) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_33pgopen(PyObject *__pyx_self, PyObject *__pyx_v_device); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_32pgopen[] = "pgopen(device): opens a plot device.\n\n    Arguments::\n\n      device : (strong)\n         device name, PGPLOT style, e.g. '/xs', '/xs1', 'plot.ps/cps'\n\n    Return: the integer device identifier from cpgopen.\n    ";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_33pgopen = {"pgopen", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_33pgopen, METH_O, __pyx_doc_6pgplot_7_pgplot_32pgopen};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_33pgopen(PyObject *__pyx_self, PyObject *__pyx_v_device) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("pgopen (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_26pgopen(__pyx_self, ((PyObject *)__pyx_v_device));
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_32pgopen(__pyx_self, ((PyObject *)__pyx_v_device));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_26pgopen(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_device) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_32pgopen(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_device) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -4174,7 +4903,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_26pgopen(CYTHON_UNUSED PyObject *__py
   char const *__pyx_t_4;
   __Pyx_RefNannySetupContext("pgopen", 0);
 
-  /* "pgplot/_pgplot.pyx":201
+  /* "pgplot/_pgplot.pyx":242
  *     Return: the integer device identifier from cpgopen.
  *     """
  *     return cpgplot.cpgopen(device.encode())             # <<<<<<<<<<<<<<
@@ -4182,7 +4911,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_26pgopen(CYTHON_UNUSED PyObject *__py
  * def pgpage():
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_device, __pyx_n_s_encode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 201, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_device, __pyx_n_s_encode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 242, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -4195,23 +4924,23 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_26pgopen(CYTHON_UNUSED PyObject *__py
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 201, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 242, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 201, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 242, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_AsString(__pyx_t_1); if (unlikely((!__pyx_t_4) && PyErr_Occurred())) __PYX_ERR(0, 201, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyInt_From_int(cpgopen(__pyx_t_4)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 201, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_AsString(__pyx_t_1); if (unlikely((!__pyx_t_4) && PyErr_Occurred())) __PYX_ERR(0, 242, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(cpgopen(__pyx_t_4)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 242, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "pgplot/_pgplot.pyx":191
- *     cpgplot.cpgline(n, &xf[0], &yf[0])
+  /* "pgplot/_pgplot.pyx":232
+ *     cpgplot.cpgmove(x, y)
  * 
  * def pgopen(device):             # <<<<<<<<<<<<<<
  *     """pgopen(device): opens a plot device.
@@ -4231,7 +4960,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_26pgopen(CYTHON_UNUSED PyObject *__py
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":203
+/* "pgplot/_pgplot.pyx":244
  *     return cpgplot.cpgopen(device.encode())
  * 
  * def pgpage():             # <<<<<<<<<<<<<<
@@ -4240,26 +4969,26 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_26pgopen(CYTHON_UNUSED PyObject *__py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_29pgpage(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_28pgpage[] = "pgpage(): advance to next page or panel";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_29pgpage = {"pgpage", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_29pgpage, METH_NOARGS, __pyx_doc_6pgplot_7_pgplot_28pgpage};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_29pgpage(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_35pgpage(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_34pgpage[] = "pgpage(): advance to next page or panel";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_35pgpage = {"pgpage", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_35pgpage, METH_NOARGS, __pyx_doc_6pgplot_7_pgplot_34pgpage};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_35pgpage(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("pgpage (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_28pgpage(__pyx_self);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_34pgpage(__pyx_self);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_28pgpage(CYTHON_UNUSED PyObject *__pyx_self) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_34pgpage(CYTHON_UNUSED PyObject *__pyx_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("pgpage", 0);
 
-  /* "pgplot/_pgplot.pyx":205
+  /* "pgplot/_pgplot.pyx":246
  * def pgpage():
  *     """pgpage(): advance to next page or panel"""
  *     cpgplot.cpgpage()             # <<<<<<<<<<<<<<
@@ -4268,7 +4997,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_28pgpage(CYTHON_UNUSED PyObject *__py
  */
   cpgpage();
 
-  /* "pgplot/_pgplot.pyx":203
+  /* "pgplot/_pgplot.pyx":244
  *     return cpgplot.cpgopen(device.encode())
  * 
  * def pgpage():             # <<<<<<<<<<<<<<
@@ -4283,7 +5012,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_28pgpage(CYTHON_UNUSED PyObject *__py
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":207
+/* "pgplot/_pgplot.pyx":248
  *     cpgplot.cpgpage()
  * 
  * def pgpanl(ix, iy):             # <<<<<<<<<<<<<<
@@ -4292,10 +5021,10 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_28pgpage(CYTHON_UNUSED PyObject *__py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_31pgpanl(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_30pgpanl[] = "pgpanl(ix, iy): switch to a different panel";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_31pgpanl = {"pgpanl", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_31pgpanl, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_30pgpanl};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_31pgpanl(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_37pgpanl(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_36pgpanl[] = "pgpanl(ix, iy): switch to a different panel";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_37pgpanl = {"pgpanl", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_37pgpanl, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_36pgpanl};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_37pgpanl(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_ix = 0;
   PyObject *__pyx_v_iy = 0;
   PyObject *__pyx_r = 0;
@@ -4321,11 +5050,11 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_31pgpanl(PyObject *__pyx_self, PyObje
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_iy)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgpanl", 1, 2, 2, 1); __PYX_ERR(0, 207, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgpanl", 1, 2, 2, 1); __PYX_ERR(0, 248, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgpanl") < 0)) __PYX_ERR(0, 207, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgpanl") < 0)) __PYX_ERR(0, 248, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -4338,38 +5067,38 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_31pgpanl(PyObject *__pyx_self, PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("pgpanl", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 207, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("pgpanl", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 248, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgplot._pgplot.pgpanl", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_30pgpanl(__pyx_self, __pyx_v_ix, __pyx_v_iy);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_36pgpanl(__pyx_self, __pyx_v_ix, __pyx_v_iy);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_30pgpanl(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ix, PyObject *__pyx_v_iy) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_36pgpanl(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ix, PyObject *__pyx_v_iy) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
   __Pyx_RefNannySetupContext("pgpanl", 0);
 
-  /* "pgplot/_pgplot.pyx":209
+  /* "pgplot/_pgplot.pyx":250
  * def pgpanl(ix, iy):
  *     """pgpanl(ix, iy): switch to a different panel"""
  *     cpgplot.cpgpanl(ix, iy)             # <<<<<<<<<<<<<<
  * 
  * def pgpap(width, aspect):
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_ix); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 209, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_iy); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 209, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_ix); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 250, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_iy); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 250, __pyx_L1_error)
   cpgpanl(__pyx_t_1, __pyx_t_2);
 
-  /* "pgplot/_pgplot.pyx":207
+  /* "pgplot/_pgplot.pyx":248
  *     cpgplot.cpgpage()
  * 
  * def pgpanl(ix, iy):             # <<<<<<<<<<<<<<
@@ -4389,7 +5118,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_30pgpanl(CYTHON_UNUSED PyObject *__py
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":211
+/* "pgplot/_pgplot.pyx":252
  *     cpgplot.cpgpanl(ix, iy)
  * 
  * def pgpap(width, aspect):             # <<<<<<<<<<<<<<
@@ -4398,10 +5127,10 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_30pgpanl(CYTHON_UNUSED PyObject *__py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_33pgpap(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_32pgpap[] = "pgpap(width, aspect): set plot width and aspect";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_33pgpap = {"pgpap", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_33pgpap, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_32pgpap};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_33pgpap(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_39pgpap(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_38pgpap[] = "pgpap(width, aspect): set plot width and aspect";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_39pgpap = {"pgpap", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_39pgpap, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_38pgpap};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_39pgpap(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_width = 0;
   PyObject *__pyx_v_aspect = 0;
   PyObject *__pyx_r = 0;
@@ -4427,11 +5156,11 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_33pgpap(PyObject *__pyx_self, PyObjec
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_aspect)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgpap", 1, 2, 2, 1); __PYX_ERR(0, 211, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgpap", 1, 2, 2, 1); __PYX_ERR(0, 252, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgpap") < 0)) __PYX_ERR(0, 211, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgpap") < 0)) __PYX_ERR(0, 252, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -4444,38 +5173,38 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_33pgpap(PyObject *__pyx_self, PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("pgpap", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 211, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("pgpap", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 252, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgplot._pgplot.pgpap", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_32pgpap(__pyx_self, __pyx_v_width, __pyx_v_aspect);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_38pgpap(__pyx_self, __pyx_v_width, __pyx_v_aspect);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_32pgpap(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_width, PyObject *__pyx_v_aspect) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_38pgpap(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_width, PyObject *__pyx_v_aspect) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   float __pyx_t_1;
   float __pyx_t_2;
   __Pyx_RefNannySetupContext("pgpap", 0);
 
-  /* "pgplot/_pgplot.pyx":213
+  /* "pgplot/_pgplot.pyx":254
  * def pgpap(width, aspect):
  *    """pgpap(width, aspect): set plot width and aspect"""
  *    cpgplot.cpgpap(width, aspect)             # <<<<<<<<<<<<<<
  * 
  * @cython.boundscheck(False)
  */
-  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_width); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 213, __pyx_L1_error)
-  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_aspect); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 213, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_width); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 254, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_aspect); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 254, __pyx_L1_error)
   cpgpap(__pyx_t_1, __pyx_t_2);
 
-  /* "pgplot/_pgplot.pyx":211
+  /* "pgplot/_pgplot.pyx":252
  *     cpgplot.cpgpanl(ix, iy)
  * 
  * def pgpap(width, aspect):             # <<<<<<<<<<<<<<
@@ -4495,7 +5224,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_32pgpap(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":217
+/* "pgplot/_pgplot.pyx":258
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * def pgpt(x, y, symbol):             # <<<<<<<<<<<<<<
@@ -4504,10 +5233,10 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_32pgpap(CYTHON_UNUSED PyObject *__pyx
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_35pgpt(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_34pgpt[] = "pgpt(x,y,symbol): plots points\n\n    The call for this differs from the cpgpt equivalent since Python arrays\n    know their length. A ValueError will be raised if the input arrays differ\n    in length.\n\n    Arguments::\n\n       x      : (array)\n          array of X values\n\n       y      : (array)\n          array of Y values\n\n       symbol : (array)\n          plot symbol, e.g. 17 for a filled circle\n    ";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_35pgpt = {"pgpt", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_35pgpt, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_34pgpt};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_35pgpt(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_41pgpt(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_40pgpt[] = "pgpt(x,y,symbol): plots points\n\n    The call for this differs from the cpgpt equivalent since Python arrays\n    know their length. A ValueError will be raised if the input arrays differ\n    in length.\n\n    Arguments::\n\n       x      : (array)\n          array of X values\n\n       y      : (array)\n          array of Y values\n\n       symbol : (array)\n          plot symbol, e.g. 17 for a filled circle\n    ";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_41pgpt = {"pgpt", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_41pgpt, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_40pgpt};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_41pgpt(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_x = 0;
   PyObject *__pyx_v_y = 0;
   PyObject *__pyx_v_symbol = 0;
@@ -4535,16 +5264,16 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_35pgpt(PyObject *__pyx_self, PyObject
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgpt", 1, 3, 3, 1); __PYX_ERR(0, 217, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgpt", 1, 3, 3, 1); __PYX_ERR(0, 258, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_symbol)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgpt", 1, 3, 3, 2); __PYX_ERR(0, 217, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgpt", 1, 3, 3, 2); __PYX_ERR(0, 258, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgpt") < 0)) __PYX_ERR(0, 217, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgpt") < 0)) __PYX_ERR(0, 258, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -4559,20 +5288,20 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_35pgpt(PyObject *__pyx_self, PyObject
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("pgpt", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 217, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("pgpt", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 258, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgplot._pgplot.pgpt", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_34pgpt(__pyx_self, __pyx_v_x, __pyx_v_y, __pyx_v_symbol);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_40pgpt(__pyx_self, __pyx_v_x, __pyx_v_y, __pyx_v_symbol);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_34pgpt(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y, PyObject *__pyx_v_symbol) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_40pgpt(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y, PyObject *__pyx_v_symbol) {
   int __pyx_v_n;
   PyArrayObject *__pyx_v_xf = 0;
   PyArrayObject *__pyx_v_yf = 0;
@@ -4603,41 +5332,41 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_34pgpt(CYTHON_UNUSED PyObject *__pyx_
   __pyx_pybuffernd_yf.data = NULL;
   __pyx_pybuffernd_yf.rcbuffer = &__pyx_pybuffer_yf;
 
-  /* "pgplot/_pgplot.pyx":235
+  /* "pgplot/_pgplot.pyx":276
  *           plot symbol, e.g. 17 for a filled circle
  *     """
  *     cdef int n = len(x)             # <<<<<<<<<<<<<<
  *     if len(y) != n:
  *         raise ValueError('pgpt: x and y have differing numbers of elements')
  */
-  __pyx_t_1 = PyObject_Length(__pyx_v_x); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 235, __pyx_L1_error)
+  __pyx_t_1 = PyObject_Length(__pyx_v_x); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 276, __pyx_L1_error)
   __pyx_v_n = __pyx_t_1;
 
-  /* "pgplot/_pgplot.pyx":236
+  /* "pgplot/_pgplot.pyx":277
  *     """
  *     cdef int n = len(x)
  *     if len(y) != n:             # <<<<<<<<<<<<<<
  *         raise ValueError('pgpt: x and y have differing numbers of elements')
  * 
  */
-  __pyx_t_1 = PyObject_Length(__pyx_v_y); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 236, __pyx_L1_error)
+  __pyx_t_1 = PyObject_Length(__pyx_v_y); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 277, __pyx_L1_error)
   __pyx_t_2 = ((__pyx_t_1 != __pyx_v_n) != 0);
   if (__pyx_t_2) {
 
-    /* "pgplot/_pgplot.pyx":237
+    /* "pgplot/_pgplot.pyx":278
  *     cdef int n = len(x)
  *     if len(y) != n:
  *         raise ValueError('pgpt: x and y have differing numbers of elements')             # <<<<<<<<<<<<<<
  * 
  *     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 237, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 278, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 237, __pyx_L1_error)
+    __PYX_ERR(0, 278, __pyx_L1_error)
 
-    /* "pgplot/_pgplot.pyx":236
+    /* "pgplot/_pgplot.pyx":277
  *     """
  *     cdef int n = len(x)
  *     if len(y) != n:             # <<<<<<<<<<<<<<
@@ -4646,16 +5375,16 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_34pgpt(CYTHON_UNUSED PyObject *__pyx_
  */
   }
 
-  /* "pgplot/_pgplot.pyx":239
+  /* "pgplot/_pgplot.pyx":280
  *         raise ValueError('pgpt: x and y have differing numbers of elements')
  * 
  *     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[FTYPE_t, ndim=1] yf = np.asarray(y).astype(FTYPE, copy=False)
  *     cpgplot.cpgpt(n, &xf[0], &yf[0], symbol)
  */
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_asarray); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_asarray); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -4669,13 +5398,13 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_34pgpt(CYTHON_UNUSED PyObject *__pyx_
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_x); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 239, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_x); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 280, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_x};
-      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 239, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 280, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_3);
     } else
@@ -4683,49 +5412,49 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_34pgpt(CYTHON_UNUSED PyObject *__pyx_
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_x};
-      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 239, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 280, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_3);
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 239, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 280, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
       __Pyx_INCREF(__pyx_v_x);
       __Pyx_GIVEREF(__pyx_v_x);
       PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_v_x);
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 239, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 280, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_astype); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_astype); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_FTYPE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_FTYPE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_copy, Py_False) < 0) __PYX_ERR(0, 239, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 239, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_copy, Py_False) < 0) __PYX_ERR(0, 280, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 239, __pyx_L1_error)
+  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 280, __pyx_L1_error)
   __pyx_t_7 = ((PyArrayObject *)__pyx_t_4);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_xf.rcbuffer->pybuffer, (PyObject*)__pyx_t_7, &__Pyx_TypeInfo_nn___pyx_t_6pgplot_7_pgplot_FTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_xf = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_xf.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 239, __pyx_L1_error)
+      __PYX_ERR(0, 280, __pyx_L1_error)
     } else {__pyx_pybuffernd_xf.diminfo[0].strides = __pyx_pybuffernd_xf.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_xf.diminfo[0].shape = __pyx_pybuffernd_xf.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -4733,16 +5462,16 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_34pgpt(CYTHON_UNUSED PyObject *__pyx_
   __pyx_v_xf = ((PyArrayObject *)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "pgplot/_pgplot.pyx":240
+  /* "pgplot/_pgplot.pyx":281
  * 
  *     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)
  *     cdef np.ndarray[FTYPE_t, ndim=1] yf = np.asarray(y).astype(FTYPE, copy=False)             # <<<<<<<<<<<<<<
  *     cpgplot.cpgpt(n, &xf[0], &yf[0], symbol)
  * 
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 240, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_asarray); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 240, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_asarray); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -4756,13 +5485,13 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_34pgpt(CYTHON_UNUSED PyObject *__pyx_
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_y); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 240, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_y); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 281, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_y};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 240, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 281, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_4);
     } else
@@ -4770,49 +5499,49 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_34pgpt(CYTHON_UNUSED PyObject *__pyx_
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_y};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 240, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 281, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_4);
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 240, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 281, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_INCREF(__pyx_v_y);
       __Pyx_GIVEREF(__pyx_v_y);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_v_y);
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 240, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 281, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_astype); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 240, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_astype); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_FTYPE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 240, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_FTYPE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 240, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 240, __pyx_L1_error)
+  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_copy, Py_False) < 0) __PYX_ERR(0, 240, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 240, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_copy, Py_False) < 0) __PYX_ERR(0, 281, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 240, __pyx_L1_error)
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 281, __pyx_L1_error)
   __pyx_t_8 = ((PyArrayObject *)__pyx_t_3);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_yf.rcbuffer->pybuffer, (PyObject*)__pyx_t_8, &__Pyx_TypeInfo_nn___pyx_t_6pgplot_7_pgplot_FTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_yf = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_yf.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 240, __pyx_L1_error)
+      __PYX_ERR(0, 281, __pyx_L1_error)
     } else {__pyx_pybuffernd_yf.diminfo[0].strides = __pyx_pybuffernd_yf.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_yf.diminfo[0].shape = __pyx_pybuffernd_yf.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -4820,7 +5549,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_34pgpt(CYTHON_UNUSED PyObject *__pyx_
   __pyx_v_yf = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "pgplot/_pgplot.pyx":241
+  /* "pgplot/_pgplot.pyx":282
  *     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)
  *     cdef np.ndarray[FTYPE_t, ndim=1] yf = np.asarray(y).astype(FTYPE, copy=False)
  *     cpgplot.cpgpt(n, &xf[0], &yf[0], symbol)             # <<<<<<<<<<<<<<
@@ -4829,10 +5558,10 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_34pgpt(CYTHON_UNUSED PyObject *__pyx_
  */
   __pyx_t_9 = 0;
   __pyx_t_10 = 0;
-  __pyx_t_11 = __Pyx_PyInt_As_int(__pyx_v_symbol); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 241, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyInt_As_int(__pyx_v_symbol); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 282, __pyx_L1_error)
   cpgpt(__pyx_v_n, (&(*__Pyx_BufPtrStrided1d(__pyx_t_6pgplot_7_pgplot_FTYPE_t *, __pyx_pybuffernd_xf.rcbuffer->pybuffer.buf, __pyx_t_9, __pyx_pybuffernd_xf.diminfo[0].strides))), (&(*__Pyx_BufPtrStrided1d(__pyx_t_6pgplot_7_pgplot_FTYPE_t *, __pyx_pybuffernd_yf.rcbuffer->pybuffer.buf, __pyx_t_10, __pyx_pybuffernd_yf.diminfo[0].strides))), __pyx_t_11);
 
-  /* "pgplot/_pgplot.pyx":217
+  /* "pgplot/_pgplot.pyx":258
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * def pgpt(x, y, symbol):             # <<<<<<<<<<<<<<
@@ -4869,7 +5598,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_34pgpt(CYTHON_UNUSED PyObject *__pyx_
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":245
+/* "pgplot/_pgplot.pyx":286
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * def pgpt1(x, y, symbol):             # <<<<<<<<<<<<<<
@@ -4878,10 +5607,10 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_34pgpt(CYTHON_UNUSED PyObject *__pyx_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_37pgpt1(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_36pgpt1[] = "pgpt1(x,y,symbol): plots one point\n    ";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_37pgpt1 = {"pgpt1", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_37pgpt1, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_36pgpt1};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_37pgpt1(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_43pgpt1(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_42pgpt1[] = "pgpt1(x,y,symbol): plots one point\n    ";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_43pgpt1 = {"pgpt1", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_43pgpt1, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_42pgpt1};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_43pgpt1(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_x = 0;
   PyObject *__pyx_v_y = 0;
   PyObject *__pyx_v_symbol = 0;
@@ -4909,16 +5638,16 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_37pgpt1(PyObject *__pyx_self, PyObjec
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgpt1", 1, 3, 3, 1); __PYX_ERR(0, 245, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgpt1", 1, 3, 3, 1); __PYX_ERR(0, 286, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_symbol)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgpt1", 1, 3, 3, 2); __PYX_ERR(0, 245, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgpt1", 1, 3, 3, 2); __PYX_ERR(0, 286, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgpt1") < 0)) __PYX_ERR(0, 245, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgpt1") < 0)) __PYX_ERR(0, 286, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -4933,20 +5662,20 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_37pgpt1(PyObject *__pyx_self, PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("pgpt1", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 245, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("pgpt1", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 286, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgplot._pgplot.pgpt1", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_36pgpt1(__pyx_self, __pyx_v_x, __pyx_v_y, __pyx_v_symbol);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_42pgpt1(__pyx_self, __pyx_v_x, __pyx_v_y, __pyx_v_symbol);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_36pgpt1(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y, PyObject *__pyx_v_symbol) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_42pgpt1(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y, PyObject *__pyx_v_symbol) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   float __pyx_t_1;
@@ -4954,19 +5683,19 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_36pgpt1(CYTHON_UNUSED PyObject *__pyx
   int __pyx_t_3;
   __Pyx_RefNannySetupContext("pgpt1", 0);
 
-  /* "pgplot/_pgplot.pyx":248
+  /* "pgplot/_pgplot.pyx":289
  *     """pgpt1(x,y,symbol): plots one point
  *     """
  *     cpgplot.cpgpt1(x, y, symbol)             # <<<<<<<<<<<<<<
  * 
  * def pgptxt(x, y, angle, fjust, text):
  */
-  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_x); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 248, __pyx_L1_error)
-  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_y); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 248, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_symbol); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 248, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_x); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 289, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_y); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 289, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_symbol); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 289, __pyx_L1_error)
   cpgpt1(__pyx_t_1, __pyx_t_2, __pyx_t_3);
 
-  /* "pgplot/_pgplot.pyx":245
+  /* "pgplot/_pgplot.pyx":286
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * def pgpt1(x, y, symbol):             # <<<<<<<<<<<<<<
@@ -4986,7 +5715,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_36pgpt1(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":250
+/* "pgplot/_pgplot.pyx":291
  *     cpgplot.cpgpt1(x, y, symbol)
  * 
  * def pgptxt(x, y, angle, fjust, text):             # <<<<<<<<<<<<<<
@@ -4995,10 +5724,10 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_36pgpt1(CYTHON_UNUSED PyObject *__pyx
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_39pgptxt(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_38pgptxt[] = "pgptxt(x, y, angle, fjust, text): draw text at arbitrary position";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_39pgptxt = {"pgptxt", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_39pgptxt, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_38pgptxt};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_39pgptxt(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_45pgptxt(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_44pgptxt[] = "pgptxt(x, y, angle, fjust, text): draw text at arbitrary position";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_45pgptxt = {"pgptxt", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_45pgptxt, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_44pgptxt};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_45pgptxt(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_x = 0;
   PyObject *__pyx_v_y = 0;
   PyObject *__pyx_v_angle = 0;
@@ -5030,26 +5759,26 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_39pgptxt(PyObject *__pyx_self, PyObje
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgptxt", 1, 5, 5, 1); __PYX_ERR(0, 250, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgptxt", 1, 5, 5, 1); __PYX_ERR(0, 291, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_angle)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgptxt", 1, 5, 5, 2); __PYX_ERR(0, 250, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgptxt", 1, 5, 5, 2); __PYX_ERR(0, 291, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_fjust)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgptxt", 1, 5, 5, 3); __PYX_ERR(0, 250, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgptxt", 1, 5, 5, 3); __PYX_ERR(0, 291, __pyx_L3_error)
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_text)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgptxt", 1, 5, 5, 4); __PYX_ERR(0, 250, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgptxt", 1, 5, 5, 4); __PYX_ERR(0, 291, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgptxt") < 0)) __PYX_ERR(0, 250, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgptxt") < 0)) __PYX_ERR(0, 291, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
       goto __pyx_L5_argtuple_error;
@@ -5068,20 +5797,20 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_39pgptxt(PyObject *__pyx_self, PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("pgptxt", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 250, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("pgptxt", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 291, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgplot._pgplot.pgptxt", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_38pgptxt(__pyx_self, __pyx_v_x, __pyx_v_y, __pyx_v_angle, __pyx_v_fjust, __pyx_v_text);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_44pgptxt(__pyx_self, __pyx_v_x, __pyx_v_y, __pyx_v_angle, __pyx_v_fjust, __pyx_v_text);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_38pgptxt(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y, PyObject *__pyx_v_angle, PyObject *__pyx_v_fjust, PyObject *__pyx_v_text) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_44pgptxt(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y, PyObject *__pyx_v_angle, PyObject *__pyx_v_fjust, PyObject *__pyx_v_text) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   float __pyx_t_1;
@@ -5094,18 +5823,18 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_38pgptxt(CYTHON_UNUSED PyObject *__py
   char const *__pyx_t_8;
   __Pyx_RefNannySetupContext("pgptxt", 0);
 
-  /* "pgplot/_pgplot.pyx":252
+  /* "pgplot/_pgplot.pyx":293
  * def pgptxt(x, y, angle, fjust, text):
  *     """pgptxt(x, y, angle, fjust, text): draw text at arbitrary position"""
  *     cpgplot.cpgptxt(x, y, angle, fjust, text.encode())             # <<<<<<<<<<<<<<
  * 
  * def pgrect(x1, x2, y1, y2):
  */
-  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_x); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 252, __pyx_L1_error)
-  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_y); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 252, __pyx_L1_error)
-  __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_v_angle); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 252, __pyx_L1_error)
-  __pyx_t_4 = __pyx_PyFloat_AsFloat(__pyx_v_fjust); if (unlikely((__pyx_t_4 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 252, __pyx_L1_error)
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_text, __pyx_n_s_encode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_x); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 293, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_y); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 293, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_v_angle); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 293, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsFloat(__pyx_v_fjust); if (unlikely((__pyx_t_4 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 293, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_text, __pyx_n_s_encode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 293, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -5118,18 +5847,18 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_38pgptxt(CYTHON_UNUSED PyObject *__py
     }
   }
   if (__pyx_t_7) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 252, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 293, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   } else {
-    __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 252, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 293, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_8 = __Pyx_PyObject_AsString(__pyx_t_5); if (unlikely((!__pyx_t_8) && PyErr_Occurred())) __PYX_ERR(0, 252, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_AsString(__pyx_t_5); if (unlikely((!__pyx_t_8) && PyErr_Occurred())) __PYX_ERR(0, 293, __pyx_L1_error)
   cpgptxt(__pyx_t_1, __pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_8);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "pgplot/_pgplot.pyx":250
+  /* "pgplot/_pgplot.pyx":291
  *     cpgplot.cpgpt1(x, y, symbol)
  * 
  * def pgptxt(x, y, angle, fjust, text):             # <<<<<<<<<<<<<<
@@ -5152,7 +5881,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_38pgptxt(CYTHON_UNUSED PyObject *__py
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":254
+/* "pgplot/_pgplot.pyx":295
  *     cpgplot.cpgptxt(x, y, angle, fjust, text.encode())
  * 
  * def pgrect(x1, x2, y1, y2):             # <<<<<<<<<<<<<<
@@ -5161,10 +5890,10 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_38pgptxt(CYTHON_UNUSED PyObject *__py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_41pgrect(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_40pgrect[] = "pgrect(x1, x2, y1, y2): plot a rectangle";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_41pgrect = {"pgrect", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_41pgrect, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_40pgrect};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_41pgrect(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_47pgrect(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_46pgrect[] = "pgrect(x1, x2, y1, y2): plot a rectangle";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_47pgrect = {"pgrect", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_47pgrect, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_46pgrect};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_47pgrect(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_x1 = 0;
   PyObject *__pyx_v_x2 = 0;
   PyObject *__pyx_v_y1 = 0;
@@ -5194,21 +5923,21 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_41pgrect(PyObject *__pyx_self, PyObje
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_x2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgrect", 1, 4, 4, 1); __PYX_ERR(0, 254, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgrect", 1, 4, 4, 1); __PYX_ERR(0, 295, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y1)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgrect", 1, 4, 4, 2); __PYX_ERR(0, 254, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgrect", 1, 4, 4, 2); __PYX_ERR(0, 295, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgrect", 1, 4, 4, 3); __PYX_ERR(0, 254, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgrect", 1, 4, 4, 3); __PYX_ERR(0, 295, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgrect") < 0)) __PYX_ERR(0, 254, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgrect") < 0)) __PYX_ERR(0, 295, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -5225,20 +5954,20 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_41pgrect(PyObject *__pyx_self, PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("pgrect", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 254, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("pgrect", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 295, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgplot._pgplot.pgrect", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_40pgrect(__pyx_self, __pyx_v_x1, __pyx_v_x2, __pyx_v_y1, __pyx_v_y2);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_46pgrect(__pyx_self, __pyx_v_x1, __pyx_v_x2, __pyx_v_y1, __pyx_v_y2);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_40pgrect(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x1, PyObject *__pyx_v_x2, PyObject *__pyx_v_y1, PyObject *__pyx_v_y2) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_46pgrect(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x1, PyObject *__pyx_v_x2, PyObject *__pyx_v_y1, PyObject *__pyx_v_y2) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   float __pyx_t_1;
@@ -5247,20 +5976,20 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_40pgrect(CYTHON_UNUSED PyObject *__py
   float __pyx_t_4;
   __Pyx_RefNannySetupContext("pgrect", 0);
 
-  /* "pgplot/_pgplot.pyx":256
+  /* "pgplot/_pgplot.pyx":297
  * def pgrect(x1, x2, y1, y2):
  *    """pgrect(x1, x2, y1, y2): plot a rectangle"""
  *    cpgplot.cpgrect(x1, x2, y1, y2)             # <<<<<<<<<<<<<<
  * 
  * def pgqvp(units=0):
  */
-  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_x1); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 256, __pyx_L1_error)
-  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_x2); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 256, __pyx_L1_error)
-  __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_v_y1); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 256, __pyx_L1_error)
-  __pyx_t_4 = __pyx_PyFloat_AsFloat(__pyx_v_y2); if (unlikely((__pyx_t_4 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 256, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_x1); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 297, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_x2); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 297, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_v_y1); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 297, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsFloat(__pyx_v_y2); if (unlikely((__pyx_t_4 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 297, __pyx_L1_error)
   cpgrect(__pyx_t_1, __pyx_t_2, __pyx_t_3, __pyx_t_4);
 
-  /* "pgplot/_pgplot.pyx":254
+  /* "pgplot/_pgplot.pyx":295
  *     cpgplot.cpgptxt(x, y, angle, fjust, text.encode())
  * 
  * def pgrect(x1, x2, y1, y2):             # <<<<<<<<<<<<<<
@@ -5280,7 +6009,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_40pgrect(CYTHON_UNUSED PyObject *__py
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":258
+/* "pgplot/_pgplot.pyx":299
  *    cpgplot.cpgrect(x1, x2, y1, y2)
  * 
  * def pgqvp(units=0):             # <<<<<<<<<<<<<<
@@ -5289,10 +6018,10 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_40pgrect(CYTHON_UNUSED PyObject *__py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_43pgqvp(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_42pgqvp[] = "pgqvp(units=0): returns (x1,x2,y1,y2) location of viewport\n\n   Argument::\n\n      units  : (int)\n           0 : normalized device coordinates (default)\n           1 : inches\n           2 : millimeters\n           3 : pixels\n   ";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_43pgqvp = {"pgqvp", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_43pgqvp, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_42pgqvp};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_43pgqvp(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_49pgqvp(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_48pgqvp[] = "pgqvp(units=0): returns (x1,x2,y1,y2) location of viewport\n\n   Argument::\n\n      units  : (int)\n           0 : normalized device coordinates (default)\n           1 : inches\n           2 : millimeters\n           3 : pixels\n   ";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_49pgqvp = {"pgqvp", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_49pgqvp, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_48pgqvp};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_49pgqvp(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_units = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -5318,7 +6047,7 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_43pgqvp(PyObject *__pyx_self, PyObjec
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgqvp") < 0)) __PYX_ERR(0, 258, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgqvp") < 0)) __PYX_ERR(0, 299, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -5331,20 +6060,20 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_43pgqvp(PyObject *__pyx_self, PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("pgqvp", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 258, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("pgqvp", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 299, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgplot._pgplot.pgqvp", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_42pgqvp(__pyx_self, __pyx_v_units);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_48pgqvp(__pyx_self, __pyx_v_units);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_42pgqvp(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_units) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_48pgqvp(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_units) {
   float __pyx_v_x1;
   float __pyx_v_x2;
   float __pyx_v_y1;
@@ -5359,17 +6088,17 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_42pgqvp(CYTHON_UNUSED PyObject *__pyx
   PyObject *__pyx_t_6 = NULL;
   __Pyx_RefNannySetupContext("pgqvp", 0);
 
-  /* "pgplot/_pgplot.pyx":270
+  /* "pgplot/_pgplot.pyx":311
  *    """
  *    cdef float x1, x2, y1, y2
  *    cpgplot.cpgqvp(units, &x1, &x2, &y1, &y2)             # <<<<<<<<<<<<<<
  *    return (x1,x2,y1,y2)
  * 
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_units); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 270, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_units); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 311, __pyx_L1_error)
   cpgqvp(__pyx_t_1, (&__pyx_v_x1), (&__pyx_v_x2), (&__pyx_v_y1), (&__pyx_v_y2));
 
-  /* "pgplot/_pgplot.pyx":271
+  /* "pgplot/_pgplot.pyx":312
  *    cdef float x1, x2, y1, y2
  *    cpgplot.cpgqvp(units, &x1, &x2, &y1, &y2)
  *    return (x1,x2,y1,y2)             # <<<<<<<<<<<<<<
@@ -5377,15 +6106,15 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_42pgqvp(CYTHON_UNUSED PyObject *__pyx
  * def pgsci(ci):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_x1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 271, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_x1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 312, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_x2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 271, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_x2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 312, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_y1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 271, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_y1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 312, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_y2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 271, __pyx_L1_error)
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_y2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 312, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = PyTuple_New(4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 271, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 312, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2);
@@ -5403,7 +6132,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_42pgqvp(CYTHON_UNUSED PyObject *__pyx
   __pyx_t_6 = 0;
   goto __pyx_L0;
 
-  /* "pgplot/_pgplot.pyx":258
+  /* "pgplot/_pgplot.pyx":299
  *    cpgplot.cpgrect(x1, x2, y1, y2)
  * 
  * def pgqvp(units=0):             # <<<<<<<<<<<<<<
@@ -5426,7 +6155,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_42pgqvp(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":273
+/* "pgplot/_pgplot.pyx":314
  *    return (x1,x2,y1,y2)
  * 
  * def pgsci(ci):             # <<<<<<<<<<<<<<
@@ -5435,37 +6164,37 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_42pgqvp(CYTHON_UNUSED PyObject *__pyx
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_45pgsci(PyObject *__pyx_self, PyObject *__pyx_v_ci); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_44pgsci[] = "pgsci(ci): sets colour index";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_45pgsci = {"pgsci", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_45pgsci, METH_O, __pyx_doc_6pgplot_7_pgplot_44pgsci};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_45pgsci(PyObject *__pyx_self, PyObject *__pyx_v_ci) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_51pgsci(PyObject *__pyx_self, PyObject *__pyx_v_ci); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_50pgsci[] = "pgsci(ci): sets colour index";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_51pgsci = {"pgsci", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_51pgsci, METH_O, __pyx_doc_6pgplot_7_pgplot_50pgsci};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_51pgsci(PyObject *__pyx_self, PyObject *__pyx_v_ci) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("pgsci (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_44pgsci(__pyx_self, ((PyObject *)__pyx_v_ci));
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_50pgsci(__pyx_self, ((PyObject *)__pyx_v_ci));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_44pgsci(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ci) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_50pgsci(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ci) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("pgsci", 0);
 
-  /* "pgplot/_pgplot.pyx":275
+  /* "pgplot/_pgplot.pyx":316
  * def pgsci(ci):
  *     """pgsci(ci): sets colour index"""
  *     cpgplot.cpgsci(ci)             # <<<<<<<<<<<<<<
  * 
  * def pgscir(icilo, icihi):
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_ci); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 275, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_ci); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 316, __pyx_L1_error)
   cpgsci(__pyx_t_1);
 
-  /* "pgplot/_pgplot.pyx":273
+  /* "pgplot/_pgplot.pyx":314
  *    return (x1,x2,y1,y2)
  * 
  * def pgsci(ci):             # <<<<<<<<<<<<<<
@@ -5485,7 +6214,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_44pgsci(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":277
+/* "pgplot/_pgplot.pyx":318
  *     cpgplot.cpgsci(ci)
  * 
  * def pgscir(icilo, icihi):             # <<<<<<<<<<<<<<
@@ -5494,10 +6223,10 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_44pgsci(CYTHON_UNUSED PyObject *__pyx
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_47pgscir(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_46pgscir[] = "pgscir(icilo, icihi): sets range of colour indices";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_47pgscir = {"pgscir", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_47pgscir, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_46pgscir};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_47pgscir(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_53pgscir(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_52pgscir[] = "pgscir(icilo, icihi): sets range of colour indices";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_53pgscir = {"pgscir", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_53pgscir, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_52pgscir};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_53pgscir(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_icilo = 0;
   PyObject *__pyx_v_icihi = 0;
   PyObject *__pyx_r = 0;
@@ -5523,11 +6252,11 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_47pgscir(PyObject *__pyx_self, PyObje
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_icihi)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgscir", 1, 2, 2, 1); __PYX_ERR(0, 277, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgscir", 1, 2, 2, 1); __PYX_ERR(0, 318, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgscir") < 0)) __PYX_ERR(0, 277, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgscir") < 0)) __PYX_ERR(0, 318, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -5540,38 +6269,38 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_47pgscir(PyObject *__pyx_self, PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("pgscir", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 277, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("pgscir", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 318, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgplot._pgplot.pgscir", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_46pgscir(__pyx_self, __pyx_v_icilo, __pyx_v_icihi);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_52pgscir(__pyx_self, __pyx_v_icilo, __pyx_v_icihi);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_46pgscir(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_icilo, PyObject *__pyx_v_icihi) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_52pgscir(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_icilo, PyObject *__pyx_v_icihi) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
   __Pyx_RefNannySetupContext("pgscir", 0);
 
-  /* "pgplot/_pgplot.pyx":279
+  /* "pgplot/_pgplot.pyx":320
  * def pgscir(icilo, icihi):
  *     """pgscir(icilo, icihi): sets range of colour indices"""
  *     cpgplot.cpgscir(icilo, icihi)             # <<<<<<<<<<<<<<
  * 
  * def pgsch(ch):
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_icilo); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 279, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_icihi); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_icilo); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 320, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_icihi); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 320, __pyx_L1_error)
   cpgscir(__pyx_t_1, __pyx_t_2);
 
-  /* "pgplot/_pgplot.pyx":277
+  /* "pgplot/_pgplot.pyx":318
  *     cpgplot.cpgsci(ci)
  * 
  * def pgscir(icilo, icihi):             # <<<<<<<<<<<<<<
@@ -5591,7 +6320,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_46pgscir(CYTHON_UNUSED PyObject *__py
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":281
+/* "pgplot/_pgplot.pyx":322
  *     cpgplot.cpgscir(icilo, icihi)
  * 
  * def pgsch(ch):             # <<<<<<<<<<<<<<
@@ -5600,37 +6329,37 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_46pgscir(CYTHON_UNUSED PyObject *__py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_49pgsch(PyObject *__pyx_self, PyObject *__pyx_v_ch); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_48pgsch[] = "pgsch(ch): sets character height";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_49pgsch = {"pgsch", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_49pgsch, METH_O, __pyx_doc_6pgplot_7_pgplot_48pgsch};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_49pgsch(PyObject *__pyx_self, PyObject *__pyx_v_ch) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_55pgsch(PyObject *__pyx_self, PyObject *__pyx_v_ch); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_54pgsch[] = "pgsch(ch): sets character height";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_55pgsch = {"pgsch", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_55pgsch, METH_O, __pyx_doc_6pgplot_7_pgplot_54pgsch};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_55pgsch(PyObject *__pyx_self, PyObject *__pyx_v_ch) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("pgsch (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_48pgsch(__pyx_self, ((PyObject *)__pyx_v_ch));
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_54pgsch(__pyx_self, ((PyObject *)__pyx_v_ch));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_48pgsch(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ch) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_54pgsch(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ch) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   float __pyx_t_1;
   __Pyx_RefNannySetupContext("pgsch", 0);
 
-  /* "pgplot/_pgplot.pyx":283
+  /* "pgplot/_pgplot.pyx":324
  * def pgsch(ch):
  *     """pgsch(ch): sets character height"""
  *     cpgplot.cpgsch(ch)             # <<<<<<<<<<<<<<
  * 
  * def pgscf(font):
  */
-  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_ch); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 283, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_ch); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 324, __pyx_L1_error)
   cpgsch(__pyx_t_1);
 
-  /* "pgplot/_pgplot.pyx":281
+  /* "pgplot/_pgplot.pyx":322
  *     cpgplot.cpgscir(icilo, icihi)
  * 
  * def pgsch(ch):             # <<<<<<<<<<<<<<
@@ -5650,7 +6379,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_48pgsch(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":285
+/* "pgplot/_pgplot.pyx":326
  *     cpgplot.cpgsch(ch)
  * 
  * def pgscf(font):             # <<<<<<<<<<<<<<
@@ -5659,37 +6388,37 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_48pgsch(CYTHON_UNUSED PyObject *__pyx
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_51pgscf(PyObject *__pyx_self, PyObject *__pyx_v_font); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_50pgscf[] = "pgscf(font): sets font (1 to 4)";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_51pgscf = {"pgscf", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_51pgscf, METH_O, __pyx_doc_6pgplot_7_pgplot_50pgscf};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_51pgscf(PyObject *__pyx_self, PyObject *__pyx_v_font) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_57pgscf(PyObject *__pyx_self, PyObject *__pyx_v_font); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_56pgscf[] = "pgscf(font): sets font (1 to 4)";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_57pgscf = {"pgscf", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_57pgscf, METH_O, __pyx_doc_6pgplot_7_pgplot_56pgscf};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_57pgscf(PyObject *__pyx_self, PyObject *__pyx_v_font) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("pgscf (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_50pgscf(__pyx_self, ((PyObject *)__pyx_v_font));
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_56pgscf(__pyx_self, ((PyObject *)__pyx_v_font));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_50pgscf(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_font) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_56pgscf(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_font) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("pgscf", 0);
 
-  /* "pgplot/_pgplot.pyx":287
+  /* "pgplot/_pgplot.pyx":328
  * def pgscf(font):
  *     """pgscf(font): sets font (1 to 4)"""
  *     cpgplot.cpgscf(font)             # <<<<<<<<<<<<<<
  * 
  * def pgscr(ci, r, g, b):
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_font); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 287, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_font); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 328, __pyx_L1_error)
   cpgscf(__pyx_t_1);
 
-  /* "pgplot/_pgplot.pyx":285
+  /* "pgplot/_pgplot.pyx":326
  *     cpgplot.cpgsch(ch)
  * 
  * def pgscf(font):             # <<<<<<<<<<<<<<
@@ -5709,7 +6438,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_50pgscf(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":289
+/* "pgplot/_pgplot.pyx":330
  *     cpgplot.cpgscf(font)
  * 
  * def pgscr(ci, r, g, b):             # <<<<<<<<<<<<<<
@@ -5718,10 +6447,10 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_50pgscf(CYTHON_UNUSED PyObject *__pyx
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_53pgscr(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_52pgscr[] = "pgscr(ci, r, g, b): sets rgb value of colour index ci\n\n    r, g, b scaled 0 to 1\n    ";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_53pgscr = {"pgscr", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_53pgscr, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_52pgscr};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_53pgscr(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_59pgscr(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_58pgscr[] = "pgscr(ci, r, g, b): sets rgb value of colour index ci\n\n    r, g, b scaled 0 to 1\n    ";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_59pgscr = {"pgscr", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_59pgscr, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_58pgscr};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_59pgscr(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_ci = 0;
   PyObject *__pyx_v_r = 0;
   PyObject *__pyx_v_g = 0;
@@ -5751,21 +6480,21 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_53pgscr(PyObject *__pyx_self, PyObjec
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_r)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgscr", 1, 4, 4, 1); __PYX_ERR(0, 289, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgscr", 1, 4, 4, 1); __PYX_ERR(0, 330, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_g)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgscr", 1, 4, 4, 2); __PYX_ERR(0, 289, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgscr", 1, 4, 4, 2); __PYX_ERR(0, 330, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_b)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgscr", 1, 4, 4, 3); __PYX_ERR(0, 289, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgscr", 1, 4, 4, 3); __PYX_ERR(0, 330, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgscr") < 0)) __PYX_ERR(0, 289, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgscr") < 0)) __PYX_ERR(0, 330, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -5782,20 +6511,20 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_53pgscr(PyObject *__pyx_self, PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("pgscr", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 289, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("pgscr", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 330, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgplot._pgplot.pgscr", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_52pgscr(__pyx_self, __pyx_v_ci, __pyx_v_r, __pyx_v_g, __pyx_v_b);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_58pgscr(__pyx_self, __pyx_v_ci, __pyx_v_r, __pyx_v_g, __pyx_v_b);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_52pgscr(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ci, PyObject *__pyx_v_r, PyObject *__pyx_v_g, PyObject *__pyx_v_b) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_58pgscr(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ci, PyObject *__pyx_v_r, PyObject *__pyx_v_g, PyObject *__pyx_v_b) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -5804,20 +6533,20 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_52pgscr(CYTHON_UNUSED PyObject *__pyx
   float __pyx_t_4;
   __Pyx_RefNannySetupContext("pgscr", 0);
 
-  /* "pgplot/_pgplot.pyx":294
+  /* "pgplot/_pgplot.pyx":335
  *     r, g, b scaled 0 to 1
  *     """
  *     cpgplot.cpgscr(ci, r, g, b)             # <<<<<<<<<<<<<<
  * 
  * def pgsfs(fs):
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_ci); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 294, __pyx_L1_error)
-  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_r); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 294, __pyx_L1_error)
-  __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_v_g); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 294, __pyx_L1_error)
-  __pyx_t_4 = __pyx_PyFloat_AsFloat(__pyx_v_b); if (unlikely((__pyx_t_4 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 294, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_ci); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 335, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_r); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 335, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_v_g); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 335, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsFloat(__pyx_v_b); if (unlikely((__pyx_t_4 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 335, __pyx_L1_error)
   cpgscr(__pyx_t_1, __pyx_t_2, __pyx_t_3, __pyx_t_4);
 
-  /* "pgplot/_pgplot.pyx":289
+  /* "pgplot/_pgplot.pyx":330
  *     cpgplot.cpgscf(font)
  * 
  * def pgscr(ci, r, g, b):             # <<<<<<<<<<<<<<
@@ -5837,7 +6566,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_52pgscr(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":296
+/* "pgplot/_pgplot.pyx":337
  *     cpgplot.cpgscr(ci, r, g, b)
  * 
  * def pgsfs(fs):             # <<<<<<<<<<<<<<
@@ -5846,37 +6575,37 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_52pgscr(CYTHON_UNUSED PyObject *__pyx
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_55pgsfs(PyObject *__pyx_self, PyObject *__pyx_v_fs); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_54pgsfs[] = "pgsfs(fs): sets the fill area style\n\n    fs : 1 = solid, 2 = outline, 3 = hatched, 4 = cross-hatched\n    ";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_55pgsfs = {"pgsfs", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_55pgsfs, METH_O, __pyx_doc_6pgplot_7_pgplot_54pgsfs};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_55pgsfs(PyObject *__pyx_self, PyObject *__pyx_v_fs) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_61pgsfs(PyObject *__pyx_self, PyObject *__pyx_v_fs); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_60pgsfs[] = "pgsfs(fs): sets the fill area style\n\n    fs : 1 = solid, 2 = outline, 3 = hatched, 4 = cross-hatched\n    ";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_61pgsfs = {"pgsfs", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_61pgsfs, METH_O, __pyx_doc_6pgplot_7_pgplot_60pgsfs};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_61pgsfs(PyObject *__pyx_self, PyObject *__pyx_v_fs) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("pgsfs (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_54pgsfs(__pyx_self, ((PyObject *)__pyx_v_fs));
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_60pgsfs(__pyx_self, ((PyObject *)__pyx_v_fs));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_54pgsfs(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_fs) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_60pgsfs(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_fs) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("pgsfs", 0);
 
-  /* "pgplot/_pgplot.pyx":301
+  /* "pgplot/_pgplot.pyx":342
  *     fs : 1 = solid, 2 = outline, 3 = hatched, 4 = cross-hatched
  *     """
  *     cpgplot.cpgsfs(fs)             # <<<<<<<<<<<<<<
  * 
  * def pgsls(ls):
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_fs); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 301, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_fs); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 342, __pyx_L1_error)
   cpgsfs(__pyx_t_1);
 
-  /* "pgplot/_pgplot.pyx":296
+  /* "pgplot/_pgplot.pyx":337
  *     cpgplot.cpgscr(ci, r, g, b)
  * 
  * def pgsfs(fs):             # <<<<<<<<<<<<<<
@@ -5896,7 +6625,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_54pgsfs(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":303
+/* "pgplot/_pgplot.pyx":344
  *     cpgplot.cpgsfs(fs)
  * 
  * def pgsls(ls):             # <<<<<<<<<<<<<<
@@ -5905,37 +6634,37 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_54pgsfs(CYTHON_UNUSED PyObject *__pyx
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_57pgsls(PyObject *__pyx_self, PyObject *__pyx_v_ls); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_56pgsls[] = "pgsls(ls): sets line style";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_57pgsls = {"pgsls", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_57pgsls, METH_O, __pyx_doc_6pgplot_7_pgplot_56pgsls};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_57pgsls(PyObject *__pyx_self, PyObject *__pyx_v_ls) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_63pgsls(PyObject *__pyx_self, PyObject *__pyx_v_ls); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_62pgsls[] = "pgsls(ls): sets line style";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_63pgsls = {"pgsls", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_63pgsls, METH_O, __pyx_doc_6pgplot_7_pgplot_62pgsls};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_63pgsls(PyObject *__pyx_self, PyObject *__pyx_v_ls) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("pgsls (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_56pgsls(__pyx_self, ((PyObject *)__pyx_v_ls));
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_62pgsls(__pyx_self, ((PyObject *)__pyx_v_ls));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_56pgsls(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ls) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_62pgsls(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ls) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("pgsls", 0);
 
-  /* "pgplot/_pgplot.pyx":305
+  /* "pgplot/_pgplot.pyx":346
  * def pgsls(ls):
  *     """pgsls(ls): sets line style"""
  *     cpgplot.cpgsls(ls)             # <<<<<<<<<<<<<<
  * 
  * def pgslw(lw):
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_ls); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 305, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_ls); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 346, __pyx_L1_error)
   cpgsls(__pyx_t_1);
 
-  /* "pgplot/_pgplot.pyx":303
+  /* "pgplot/_pgplot.pyx":344
  *     cpgplot.cpgsfs(fs)
  * 
  * def pgsls(ls):             # <<<<<<<<<<<<<<
@@ -5955,7 +6684,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_56pgsls(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":307
+/* "pgplot/_pgplot.pyx":348
  *     cpgplot.cpgsls(ls)
  * 
  * def pgslw(lw):             # <<<<<<<<<<<<<<
@@ -5964,37 +6693,37 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_56pgsls(CYTHON_UNUSED PyObject *__pyx
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_59pgslw(PyObject *__pyx_self, PyObject *__pyx_v_lw); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_58pgslw[] = "pgslw(lw): sets line width";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_59pgslw = {"pgslw", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_59pgslw, METH_O, __pyx_doc_6pgplot_7_pgplot_58pgslw};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_59pgslw(PyObject *__pyx_self, PyObject *__pyx_v_lw) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_65pgslw(PyObject *__pyx_self, PyObject *__pyx_v_lw); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_64pgslw[] = "pgslw(lw): sets line width";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_65pgslw = {"pgslw", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_65pgslw, METH_O, __pyx_doc_6pgplot_7_pgplot_64pgslw};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_65pgslw(PyObject *__pyx_self, PyObject *__pyx_v_lw) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("pgslw (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_58pgslw(__pyx_self, ((PyObject *)__pyx_v_lw));
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_64pgslw(__pyx_self, ((PyObject *)__pyx_v_lw));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_58pgslw(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lw) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_64pgslw(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lw) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("pgslw", 0);
 
-  /* "pgplot/_pgplot.pyx":309
+  /* "pgplot/_pgplot.pyx":350
  * def pgslw(lw):
  *     """pgslw(lw): sets line width"""
  *     cpgplot.cpgslw(lw)             # <<<<<<<<<<<<<<
  * 
  * def pgslct(devid):
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_lw); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 309, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_lw); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 350, __pyx_L1_error)
   cpgslw(__pyx_t_1);
 
-  /* "pgplot/_pgplot.pyx":307
+  /* "pgplot/_pgplot.pyx":348
  *     cpgplot.cpgsls(ls)
  * 
  * def pgslw(lw):             # <<<<<<<<<<<<<<
@@ -6014,7 +6743,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_58pgslw(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":311
+/* "pgplot/_pgplot.pyx":352
  *     cpgplot.cpgslw(lw)
  * 
  * def pgslct(devid):             # <<<<<<<<<<<<<<
@@ -6023,37 +6752,37 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_58pgslw(CYTHON_UNUSED PyObject *__pyx
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_61pgslct(PyObject *__pyx_self, PyObject *__pyx_v_devid); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_60pgslct[] = "pgslct(devid): selects device opened with identifier devid";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_61pgslct = {"pgslct", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_61pgslct, METH_O, __pyx_doc_6pgplot_7_pgplot_60pgslct};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_61pgslct(PyObject *__pyx_self, PyObject *__pyx_v_devid) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_67pgslct(PyObject *__pyx_self, PyObject *__pyx_v_devid); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_66pgslct[] = "pgslct(devid): selects device opened with identifier devid";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_67pgslct = {"pgslct", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_67pgslct, METH_O, __pyx_doc_6pgplot_7_pgplot_66pgslct};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_67pgslct(PyObject *__pyx_self, PyObject *__pyx_v_devid) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("pgslct (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_60pgslct(__pyx_self, ((PyObject *)__pyx_v_devid));
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_66pgslct(__pyx_self, ((PyObject *)__pyx_v_devid));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_60pgslct(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_devid) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_66pgslct(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_devid) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("pgslct", 0);
 
-  /* "pgplot/_pgplot.pyx":313
+  /* "pgplot/_pgplot.pyx":354
  * def pgslct(devid):
  *     """pgslct(devid): selects device opened with identifier devid"""
  *     cpgplot.cpgslct(devid)             # <<<<<<<<<<<<<<
  * 
  * def pgsubp(nx, ny):
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_devid); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 313, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_devid); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 354, __pyx_L1_error)
   cpgslct(__pyx_t_1);
 
-  /* "pgplot/_pgplot.pyx":311
+  /* "pgplot/_pgplot.pyx":352
  *     cpgplot.cpgslw(lw)
  * 
  * def pgslct(devid):             # <<<<<<<<<<<<<<
@@ -6073,7 +6802,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_60pgslct(CYTHON_UNUSED PyObject *__py
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":315
+/* "pgplot/_pgplot.pyx":356
  *     cpgplot.cpgslct(devid)
  * 
  * def pgsubp(nx, ny):             # <<<<<<<<<<<<<<
@@ -6082,10 +6811,10 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_60pgslct(CYTHON_UNUSED PyObject *__py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_63pgsubp(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_62pgsubp[] = "pgsubp(nx, ny): subdivides view surface into panels";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_63pgsubp = {"pgsubp", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_63pgsubp, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_62pgsubp};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_63pgsubp(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_69pgsubp(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_68pgsubp[] = "pgsubp(nx, ny): subdivides view surface into panels";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_69pgsubp = {"pgsubp", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_69pgsubp, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_68pgsubp};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_69pgsubp(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_nx = 0;
   PyObject *__pyx_v_ny = 0;
   PyObject *__pyx_r = 0;
@@ -6111,11 +6840,11 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_63pgsubp(PyObject *__pyx_self, PyObje
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ny)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgsubp", 1, 2, 2, 1); __PYX_ERR(0, 315, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgsubp", 1, 2, 2, 1); __PYX_ERR(0, 356, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgsubp") < 0)) __PYX_ERR(0, 315, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgsubp") < 0)) __PYX_ERR(0, 356, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -6128,38 +6857,38 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_63pgsubp(PyObject *__pyx_self, PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("pgsubp", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 315, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("pgsubp", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 356, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgplot._pgplot.pgsubp", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_62pgsubp(__pyx_self, __pyx_v_nx, __pyx_v_ny);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_68pgsubp(__pyx_self, __pyx_v_nx, __pyx_v_ny);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_62pgsubp(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_nx, PyObject *__pyx_v_ny) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_68pgsubp(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_nx, PyObject *__pyx_v_ny) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
   __Pyx_RefNannySetupContext("pgsubp", 0);
 
-  /* "pgplot/_pgplot.pyx":317
+  /* "pgplot/_pgplot.pyx":358
  * def pgsubp(nx, ny):
  *     """pgsubp(nx, ny): subdivides view surface into panels"""
  *     cpgplot.cpgsubp(nx, ny)             # <<<<<<<<<<<<<<
  * 
  * def pgsvp(xleft, xright, ybot, ytop):
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_nx); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 317, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_ny); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 317, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_nx); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 358, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_ny); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 358, __pyx_L1_error)
   cpgsubp(__pyx_t_1, __pyx_t_2);
 
-  /* "pgplot/_pgplot.pyx":315
+  /* "pgplot/_pgplot.pyx":356
  *     cpgplot.cpgslct(devid)
  * 
  * def pgsubp(nx, ny):             # <<<<<<<<<<<<<<
@@ -6179,7 +6908,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_62pgsubp(CYTHON_UNUSED PyObject *__py
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":319
+/* "pgplot/_pgplot.pyx":360
  *     cpgplot.cpgsubp(nx, ny)
  * 
  * def pgsvp(xleft, xright, ybot, ytop):             # <<<<<<<<<<<<<<
@@ -6188,10 +6917,10 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_62pgsubp(CYTHON_UNUSED PyObject *__py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_65pgsvp(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_64pgsvp[] = "pgsvp(xleft, xright, ybot, ytop): sets viewport";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_65pgsvp = {"pgsvp", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_65pgsvp, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_64pgsvp};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_65pgsvp(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_71pgsvp(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_70pgsvp[] = "pgsvp(xleft, xright, ybot, ytop): sets viewport";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_71pgsvp = {"pgsvp", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_71pgsvp, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_70pgsvp};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_71pgsvp(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_xleft = 0;
   PyObject *__pyx_v_xright = 0;
   PyObject *__pyx_v_ybot = 0;
@@ -6221,21 +6950,21 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_65pgsvp(PyObject *__pyx_self, PyObjec
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_xright)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgsvp", 1, 4, 4, 1); __PYX_ERR(0, 319, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgsvp", 1, 4, 4, 1); __PYX_ERR(0, 360, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ybot)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgsvp", 1, 4, 4, 2); __PYX_ERR(0, 319, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgsvp", 1, 4, 4, 2); __PYX_ERR(0, 360, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ytop)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgsvp", 1, 4, 4, 3); __PYX_ERR(0, 319, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgsvp", 1, 4, 4, 3); __PYX_ERR(0, 360, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgsvp") < 0)) __PYX_ERR(0, 319, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgsvp") < 0)) __PYX_ERR(0, 360, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -6252,20 +6981,20 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_65pgsvp(PyObject *__pyx_self, PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("pgsvp", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 319, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("pgsvp", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 360, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgplot._pgplot.pgsvp", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_64pgsvp(__pyx_self, __pyx_v_xleft, __pyx_v_xright, __pyx_v_ybot, __pyx_v_ytop);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_70pgsvp(__pyx_self, __pyx_v_xleft, __pyx_v_xright, __pyx_v_ybot, __pyx_v_ytop);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_64pgsvp(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_xleft, PyObject *__pyx_v_xright, PyObject *__pyx_v_ybot, PyObject *__pyx_v_ytop) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_70pgsvp(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_xleft, PyObject *__pyx_v_xright, PyObject *__pyx_v_ybot, PyObject *__pyx_v_ytop) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   float __pyx_t_1;
@@ -6274,20 +7003,20 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_64pgsvp(CYTHON_UNUSED PyObject *__pyx
   float __pyx_t_4;
   __Pyx_RefNannySetupContext("pgsvp", 0);
 
-  /* "pgplot/_pgplot.pyx":321
+  /* "pgplot/_pgplot.pyx":362
  * def pgsvp(xleft, xright, ybot, ytop):
  *    """pgsvp(xleft, xright, ybot, ytop): sets viewport"""
  *    cpgplot.cpgsvp(xleft, xright, ybot, ytop)             # <<<<<<<<<<<<<<
  * 
  * def pgswin(x1, x2, y1, y2):
  */
-  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_xleft); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 321, __pyx_L1_error)
-  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_xright); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 321, __pyx_L1_error)
-  __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_v_ybot); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 321, __pyx_L1_error)
-  __pyx_t_4 = __pyx_PyFloat_AsFloat(__pyx_v_ytop); if (unlikely((__pyx_t_4 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 321, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_xleft); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 362, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_xright); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 362, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_v_ybot); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 362, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsFloat(__pyx_v_ytop); if (unlikely((__pyx_t_4 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 362, __pyx_L1_error)
   cpgsvp(__pyx_t_1, __pyx_t_2, __pyx_t_3, __pyx_t_4);
 
-  /* "pgplot/_pgplot.pyx":319
+  /* "pgplot/_pgplot.pyx":360
  *     cpgplot.cpgsubp(nx, ny)
  * 
  * def pgsvp(xleft, xright, ybot, ytop):             # <<<<<<<<<<<<<<
@@ -6307,7 +7036,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_64pgsvp(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":323
+/* "pgplot/_pgplot.pyx":364
  *    cpgplot.cpgsvp(xleft, xright, ybot, ytop)
  * 
  * def pgswin(x1, x2, y1, y2):             # <<<<<<<<<<<<<<
@@ -6316,10 +7045,10 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_64pgsvp(CYTHON_UNUSED PyObject *__pyx
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_67pgswin(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_66pgswin[] = "pgswin(x1, x2, y1, y2): defines physical scales";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_67pgswin = {"pgswin", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_67pgswin, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_66pgswin};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_67pgswin(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_73pgswin(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_72pgswin[] = "pgswin(x1, x2, y1, y2): defines physical scales";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_73pgswin = {"pgswin", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_73pgswin, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_72pgswin};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_73pgswin(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_x1 = 0;
   PyObject *__pyx_v_x2 = 0;
   PyObject *__pyx_v_y1 = 0;
@@ -6349,21 +7078,21 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_67pgswin(PyObject *__pyx_self, PyObje
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_x2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgswin", 1, 4, 4, 1); __PYX_ERR(0, 323, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgswin", 1, 4, 4, 1); __PYX_ERR(0, 364, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y1)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgswin", 1, 4, 4, 2); __PYX_ERR(0, 323, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgswin", 1, 4, 4, 2); __PYX_ERR(0, 364, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgswin", 1, 4, 4, 3); __PYX_ERR(0, 323, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgswin", 1, 4, 4, 3); __PYX_ERR(0, 364, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgswin") < 0)) __PYX_ERR(0, 323, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgswin") < 0)) __PYX_ERR(0, 364, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -6380,20 +7109,20 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_67pgswin(PyObject *__pyx_self, PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("pgswin", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 323, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("pgswin", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 364, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgplot._pgplot.pgswin", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_66pgswin(__pyx_self, __pyx_v_x1, __pyx_v_x2, __pyx_v_y1, __pyx_v_y2);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_72pgswin(__pyx_self, __pyx_v_x1, __pyx_v_x2, __pyx_v_y1, __pyx_v_y2);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_66pgswin(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x1, PyObject *__pyx_v_x2, PyObject *__pyx_v_y1, PyObject *__pyx_v_y2) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_72pgswin(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x1, PyObject *__pyx_v_x2, PyObject *__pyx_v_y1, PyObject *__pyx_v_y2) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   float __pyx_t_1;
@@ -6402,20 +7131,20 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_66pgswin(CYTHON_UNUSED PyObject *__py
   float __pyx_t_4;
   __Pyx_RefNannySetupContext("pgswin", 0);
 
-  /* "pgplot/_pgplot.pyx":325
+  /* "pgplot/_pgplot.pyx":366
  * def pgswin(x1, x2, y1, y2):
  *     """pgswin(x1, x2, y1, y2): defines physical scales"""
  *     cpgplot.cpgswin(x1, x2, y1, y2)             # <<<<<<<<<<<<<<
  * 
  * def pgwnad(x1, x2, y1, y2):
  */
-  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_x1); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 325, __pyx_L1_error)
-  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_x2); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 325, __pyx_L1_error)
-  __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_v_y1); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 325, __pyx_L1_error)
-  __pyx_t_4 = __pyx_PyFloat_AsFloat(__pyx_v_y2); if (unlikely((__pyx_t_4 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 325, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_x1); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 366, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_x2); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 366, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_v_y1); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 366, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsFloat(__pyx_v_y2); if (unlikely((__pyx_t_4 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 366, __pyx_L1_error)
   cpgswin(__pyx_t_1, __pyx_t_2, __pyx_t_3, __pyx_t_4);
 
-  /* "pgplot/_pgplot.pyx":323
+  /* "pgplot/_pgplot.pyx":364
  *    cpgplot.cpgsvp(xleft, xright, ybot, ytop)
  * 
  * def pgswin(x1, x2, y1, y2):             # <<<<<<<<<<<<<<
@@ -6435,7 +7164,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_66pgswin(CYTHON_UNUSED PyObject *__py
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":327
+/* "pgplot/_pgplot.pyx":368
  *     cpgplot.cpgswin(x1, x2, y1, y2)
  * 
  * def pgwnad(x1, x2, y1, y2):             # <<<<<<<<<<<<<<
@@ -6444,10 +7173,10 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_66pgswin(CYTHON_UNUSED PyObject *__py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_69pgwnad(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_68pgwnad[] = "pgwnad(x1, x2, y1, y2): defines physical scales";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_69pgwnad = {"pgwnad", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_69pgwnad, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_68pgwnad};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_69pgwnad(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_75pgwnad(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_74pgwnad[] = "pgwnad(x1, x2, y1, y2): defines physical scales";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_75pgwnad = {"pgwnad", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_75pgwnad, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pgplot_7_pgplot_74pgwnad};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_75pgwnad(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_x1 = 0;
   PyObject *__pyx_v_x2 = 0;
   PyObject *__pyx_v_y1 = 0;
@@ -6477,21 +7206,21 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_69pgwnad(PyObject *__pyx_self, PyObje
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_x2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgwnad", 1, 4, 4, 1); __PYX_ERR(0, 327, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgwnad", 1, 4, 4, 1); __PYX_ERR(0, 368, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y1)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgwnad", 1, 4, 4, 2); __PYX_ERR(0, 327, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgwnad", 1, 4, 4, 2); __PYX_ERR(0, 368, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("pgwnad", 1, 4, 4, 3); __PYX_ERR(0, 327, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("pgwnad", 1, 4, 4, 3); __PYX_ERR(0, 368, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgwnad") < 0)) __PYX_ERR(0, 327, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pgwnad") < 0)) __PYX_ERR(0, 368, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -6508,20 +7237,20 @@ static PyObject *__pyx_pw_6pgplot_7_pgplot_69pgwnad(PyObject *__pyx_self, PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("pgwnad", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 327, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("pgwnad", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 368, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgplot._pgplot.pgwnad", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_68pgwnad(__pyx_self, __pyx_v_x1, __pyx_v_x2, __pyx_v_y1, __pyx_v_y2);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_74pgwnad(__pyx_self, __pyx_v_x1, __pyx_v_x2, __pyx_v_y1, __pyx_v_y2);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_68pgwnad(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x1, PyObject *__pyx_v_x2, PyObject *__pyx_v_y1, PyObject *__pyx_v_y2) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_74pgwnad(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x1, PyObject *__pyx_v_x2, PyObject *__pyx_v_y1, PyObject *__pyx_v_y2) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   float __pyx_t_1;
@@ -6530,20 +7259,20 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_68pgwnad(CYTHON_UNUSED PyObject *__py
   float __pyx_t_4;
   __Pyx_RefNannySetupContext("pgwnad", 0);
 
-  /* "pgplot/_pgplot.pyx":329
+  /* "pgplot/_pgplot.pyx":370
  * def pgwnad(x1, x2, y1, y2):
  *     """pgwnad(x1, x2, y1, y2): defines physical scales"""
  *     cpgplot.cpgwnad(x1, x2, y1, y2)             # <<<<<<<<<<<<<<
  * 
  * def pgvstd():
  */
-  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_x1); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 329, __pyx_L1_error)
-  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_x2); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 329, __pyx_L1_error)
-  __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_v_y1); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 329, __pyx_L1_error)
-  __pyx_t_4 = __pyx_PyFloat_AsFloat(__pyx_v_y2); if (unlikely((__pyx_t_4 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 329, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_x1); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 370, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v_x2); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 370, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsFloat(__pyx_v_y1); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 370, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsFloat(__pyx_v_y2); if (unlikely((__pyx_t_4 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 370, __pyx_L1_error)
   cpgwnad(__pyx_t_1, __pyx_t_2, __pyx_t_3, __pyx_t_4);
 
-  /* "pgplot/_pgplot.pyx":327
+  /* "pgplot/_pgplot.pyx":368
  *     cpgplot.cpgswin(x1, x2, y1, y2)
  * 
  * def pgwnad(x1, x2, y1, y2):             # <<<<<<<<<<<<<<
@@ -6563,7 +7292,7 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_68pgwnad(CYTHON_UNUSED PyObject *__py
   return __pyx_r;
 }
 
-/* "pgplot/_pgplot.pyx":331
+/* "pgplot/_pgplot.pyx":372
  *     cpgplot.cpgwnad(x1, x2, y1, y2)
  * 
  * def pgvstd():             # <<<<<<<<<<<<<<
@@ -6572,33 +7301,33 @@ static PyObject *__pyx_pf_6pgplot_7_pgplot_68pgwnad(CYTHON_UNUSED PyObject *__py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pgplot_7_pgplot_71pgvstd(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6pgplot_7_pgplot_70pgvstd[] = "pgvstd(): sets up standard viewport";
-static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_71pgvstd = {"pgvstd", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_71pgvstd, METH_NOARGS, __pyx_doc_6pgplot_7_pgplot_70pgvstd};
-static PyObject *__pyx_pw_6pgplot_7_pgplot_71pgvstd(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6pgplot_7_pgplot_77pgvstd(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6pgplot_7_pgplot_76pgvstd[] = "pgvstd(): sets up standard viewport";
+static PyMethodDef __pyx_mdef_6pgplot_7_pgplot_77pgvstd = {"pgvstd", (PyCFunction)__pyx_pw_6pgplot_7_pgplot_77pgvstd, METH_NOARGS, __pyx_doc_6pgplot_7_pgplot_76pgvstd};
+static PyObject *__pyx_pw_6pgplot_7_pgplot_77pgvstd(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("pgvstd (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pgplot_7_pgplot_70pgvstd(__pyx_self);
+  __pyx_r = __pyx_pf_6pgplot_7_pgplot_76pgvstd(__pyx_self);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pgplot_7_pgplot_70pgvstd(CYTHON_UNUSED PyObject *__pyx_self) {
+static PyObject *__pyx_pf_6pgplot_7_pgplot_76pgvstd(CYTHON_UNUSED PyObject *__pyx_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("pgvstd", 0);
 
-  /* "pgplot/_pgplot.pyx":333
+  /* "pgplot/_pgplot.pyx":374
  * def pgvstd():
  *     """pgvstd(): sets up standard viewport"""
  *     cpgplot.cpgvstd()             # <<<<<<<<<<<<<<
  */
   cpgvstd();
 
-  /* "pgplot/_pgplot.pyx":331
+  /* "pgplot/_pgplot.pyx":372
  *     cpgplot.cpgwnad(x1, x2, y1, y2)
  * 
  * def pgvstd():             # <<<<<<<<<<<<<<
@@ -6782,7 +7511,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 218, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 218, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6838,7 +7567,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  * 
  *             info.buf = PyArray_DATA(self)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 222, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 222, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -7147,7 +7876,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 259, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 259, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -7962,7 +8691,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 799, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 799, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -8030,7 +8759,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 803, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 803, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -8139,7 +8868,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 823, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 823, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8820,7 +9549,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 989, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 989, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -8951,7 +9680,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 995, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 995, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -9079,7 +9808,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")             # <<<<<<<<<<<<<<
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1001, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1001, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -9224,13 +9953,17 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pgcirc, __pyx_k_pgcirc, sizeof(__pyx_k_pgcirc), 0, 0, 1, 1},
   {&__pyx_n_s_pgclos, __pyx_k_pgclos, sizeof(__pyx_k_pgclos), 0, 0, 1, 1},
   {&__pyx_n_s_pgcurs, __pyx_k_pgcurs, sizeof(__pyx_k_pgcurs), 0, 0, 1, 1},
+  {&__pyx_n_s_pgdraw, __pyx_k_pgdraw, sizeof(__pyx_k_pgdraw), 0, 0, 1, 1},
   {&__pyx_n_s_pgebuf, __pyx_k_pgebuf, sizeof(__pyx_k_pgebuf), 0, 0, 1, 1},
   {&__pyx_n_s_pgenv, __pyx_k_pgenv, sizeof(__pyx_k_pgenv), 0, 0, 1, 1},
   {&__pyx_n_s_pgeras, __pyx_k_pgeras, sizeof(__pyx_k_pgeras), 0, 0, 1, 1},
+  {&__pyx_n_s_pgerry, __pyx_k_pgerry, sizeof(__pyx_k_pgerry), 0, 0, 1, 1},
+  {&__pyx_kp_s_pgerry_x_y1_and_y2_have_differin, __pyx_k_pgerry_x_y1_and_y2_have_differin, sizeof(__pyx_k_pgerry_x_y1_and_y2_have_differin), 0, 0, 1, 0},
   {&__pyx_n_s_pggray, __pyx_k_pggray, sizeof(__pyx_k_pggray), 0, 0, 1, 1},
   {&__pyx_n_s_pglab, __pyx_k_pglab, sizeof(__pyx_k_pglab), 0, 0, 1, 1},
   {&__pyx_n_s_pgline, __pyx_k_pgline, sizeof(__pyx_k_pgline), 0, 0, 1, 1},
   {&__pyx_kp_s_pgline_x_and_y_have_differing_nu, __pyx_k_pgline_x_and_y_have_differing_nu, sizeof(__pyx_k_pgline_x_and_y_have_differing_nu), 0, 0, 1, 0},
+  {&__pyx_n_s_pgmove, __pyx_k_pgmove, sizeof(__pyx_k_pgmove), 0, 0, 1, 1},
   {&__pyx_n_s_pgopen, __pyx_k_pgopen, sizeof(__pyx_k_pgopen), 0, 0, 1, 1},
   {&__pyx_n_s_pgpage, __pyx_k_pgpage, sizeof(__pyx_k_pgpage), 0, 0, 1, 1},
   {&__pyx_n_s_pgpanl, __pyx_k_pgpanl, sizeof(__pyx_k_pgpanl), 0, 0, 1, 1},
@@ -9261,6 +9994,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_status, __pyx_k_status, sizeof(__pyx_k_status), 0, 0, 1, 1},
   {&__pyx_n_s_symbol, __pyx_k_symbol, sizeof(__pyx_k_symbol), 0, 0, 1, 1},
+  {&__pyx_n_s_t, __pyx_k_t, sizeof(__pyx_k_t), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_text, __pyx_k_text, sizeof(__pyx_k_text), 0, 0, 1, 1},
   {&__pyx_n_s_toplabel, __pyx_k_toplabel, sizeof(__pyx_k_toplabel), 0, 0, 1, 1},
@@ -9287,6 +10021,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ybot, __pyx_k_ybot, sizeof(__pyx_k_ybot), 0, 0, 1, 1},
   {&__pyx_n_s_ycent, __pyx_k_ycent, sizeof(__pyx_k_ycent), 0, 0, 1, 1},
   {&__pyx_n_s_yf, __pyx_k_yf, sizeof(__pyx_k_yf), 0, 0, 1, 1},
+  {&__pyx_n_s_yf1, __pyx_k_yf1, sizeof(__pyx_k_yf1), 0, 0, 1, 1},
+  {&__pyx_n_s_yf2, __pyx_k_yf2, sizeof(__pyx_k_yf2), 0, 0, 1, 1},
   {&__pyx_n_s_ylabel, __pyx_k_ylabel, sizeof(__pyx_k_ylabel), 0, 0, 1, 1},
   {&__pyx_n_s_ymax, __pyx_k_ymax, sizeof(__pyx_k_ymax), 0, 0, 1, 1},
   {&__pyx_n_s_ymin, __pyx_k_ymin, sizeof(__pyx_k_ymin), 0, 0, 1, 1},
@@ -9298,7 +10034,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 static int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(0, 54, __pyx_L1_error)
   __pyx_builtin_chr = __Pyx_GetBuiltinName(__pyx_n_s_chr); if (!__pyx_builtin_chr) __PYX_ERR(0, 56, __pyx_L1_error)
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 185, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 128, __pyx_L1_error)
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(1, 231, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(1, 989, __pyx_L1_error)
   return 0;
@@ -9321,27 +10057,38 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "pgplot/_pgplot.pyx":185
+  /* "pgplot/_pgplot.pyx":128
+ *     cdef int n = len(x)
+ *     if len(y1) != n or len(y2) != n:
+ *         raise ValueError('pgerry: x, y1 and y2 have differing numbers of elements')             # <<<<<<<<<<<<<<
+ * 
+ *     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)
+ */
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_pgerry_x_y1_and_y2_have_differin); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 128, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__2);
+  __Pyx_GIVEREF(__pyx_tuple__2);
+
+  /* "pgplot/_pgplot.pyx":222
  *     cdef int n = len(x)
  *     if len(y) != n:
  *         raise ValueError('pgline: x and y have differing numbers of elements')             # <<<<<<<<<<<<<<
  * 
  *     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_pgline_x_and_y_have_differing_nu); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 185, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__2);
-  __Pyx_GIVEREF(__pyx_tuple__2);
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_pgline_x_and_y_have_differing_nu); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 222, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "pgplot/_pgplot.pyx":237
+  /* "pgplot/_pgplot.pyx":278
  *     cdef int n = len(x)
  *     if len(y) != n:
  *         raise ValueError('pgpt: x and y have differing numbers of elements')             # <<<<<<<<<<<<<<
  * 
  *     cdef np.ndarray[FTYPE_t, ndim=1] xf = np.asarray(x).astype(FTYPE, copy=False)
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_pgpt_x_and_y_have_differing_numb); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 237, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__3);
-  __Pyx_GIVEREF(__pyx_tuple__3);
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_pgpt_x_and_y_have_differing_numb); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 278, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__4);
+  __Pyx_GIVEREF(__pyx_tuple__4);
 
   /* "../../../.pyenv/versions/3.4.6/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":218
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)
@@ -9350,9 +10097,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(1, 218, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__4);
-  __Pyx_GIVEREF(__pyx_tuple__4);
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(1, 218, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
 
   /* "../../../.pyenv/versions/3.4.6/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":222
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
@@ -9361,9 +10108,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             info.buf = PyArray_DATA(self)
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(1, 222, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__5);
-  __Pyx_GIVEREF(__pyx_tuple__5);
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(1, 222, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__6);
+  __Pyx_GIVEREF(__pyx_tuple__6);
 
   /* "../../../.pyenv/versions/3.4.6/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":259
  *                 if ((descr.byteorder == c'>' and little_endian) or
@@ -9372,9 +10119,9 @@ static int __Pyx_InitCachedConstants(void) {
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(1, 259, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(1, 259, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
 
   /* "../../../.pyenv/versions/3.4.6/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":799
  * 
@@ -9383,9 +10130,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(1, 799, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(1, 799, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
 
   /* "../../../.pyenv/versions/3.4.6/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":803
  *         if ((child.byteorder == c'>' and little_endian) or
@@ -9394,9 +10141,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(1, 803, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(1, 803, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
 
   /* "../../../.pyenv/versions/3.4.6/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":823
  *             t = child.type_num
@@ -9405,9 +10152,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(1, 823, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(1, 823, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
 
   /* "../../../.pyenv/versions/3.4.6/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":989
  *         _import_array()
@@ -9416,9 +10163,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(1, 989, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__10);
-  __Pyx_GIVEREF(__pyx_tuple__10);
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(1, 989, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__11);
+  __Pyx_GIVEREF(__pyx_tuple__11);
 
   /* "../../../.pyenv/versions/3.4.6/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":995
  *         _import_umath()
@@ -9427,30 +10174,30 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(1, 995, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(1, 995, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
 
   /* "../../../.pyenv/versions/3.4.6/lib/python3.4/site-packages/Cython/Includes/numpy/__init__.pxd":1001
  *         _import_umath()
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(1, 1001, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__12);
-  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(1, 1001, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
 
   /* "pgplot/_pgplot.pyx":15
  * 
  * 
  * def pgarro(x1, y1, x2, y2):             # <<<<<<<<<<<<<<
- *     """cpgarro(x1, y1, x2, y2): draw arrow from x1,y1 to x2,y2"""
+ *     """pgarro(x1, y1, x2, y2): draw arrow from x1,y1 to x2,y2"""
  *     cpgplot.cpgarro(x1, y1, x2, y2)
  */
-  __pyx_tuple__13 = PyTuple_Pack(4, __pyx_n_s_x1, __pyx_n_s_y1, __pyx_n_s_x2, __pyx_n_s_y2); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 15, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__13);
-  __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgarro, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_tuple__14 = PyTuple_Pack(4, __pyx_n_s_x1, __pyx_n_s_y1, __pyx_n_s_x2, __pyx_n_s_y2); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
+  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgarro, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 15, __pyx_L1_error)
 
   /* "pgplot/_pgplot.pyx":19
  *     cpgplot.cpgarro(x1, y1, x2, y2)
@@ -9459,10 +10206,10 @@ static int __Pyx_InitCachedConstants(void) {
  *     """pgask(flag): sets prompt state for new pages"""
  *     cpgplot.cpgask(flag)
  */
-  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_n_s_flag); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 19, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__15);
-  __Pyx_GIVEREF(__pyx_tuple__15);
-  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgask, 19, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_n_s_flag); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__16);
+  __Pyx_GIVEREF(__pyx_tuple__16);
+  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgask, 19, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(0, 19, __pyx_L1_error)
 
   /* "pgplot/_pgplot.pyx":23
  *     cpgplot.cpgask(flag)
@@ -9471,10 +10218,10 @@ static int __Pyx_InitCachedConstants(void) {
  *     """pgbox(xopt, xtick, nxsub, yopt, ytick, nysub): sets up axes"""
  *     cpgplot.cpgbox(xopt.encode(), xtick, nxsub, yopt.encode(), ytick, nysub)
  */
-  __pyx_tuple__17 = PyTuple_Pack(6, __pyx_n_s_xopt, __pyx_n_s_xtick, __pyx_n_s_nxsub, __pyx_n_s_yopt, __pyx_n_s_ytick, __pyx_n_s_nysub); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 23, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__17);
-  __Pyx_GIVEREF(__pyx_tuple__17);
-  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(6, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgbox, 23, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_tuple__18 = PyTuple_Pack(6, __pyx_n_s_xopt, __pyx_n_s_xtick, __pyx_n_s_nxsub, __pyx_n_s_yopt, __pyx_n_s_ytick, __pyx_n_s_nysub); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(6, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgbox, 23, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(0, 23, __pyx_L1_error)
 
   /* "pgplot/_pgplot.pyx":27
  *     cpgplot.cpgbox(xopt.encode(), xtick, nxsub, yopt.encode(), ytick, nysub)
@@ -9483,19 +10230,19 @@ static int __Pyx_InitCachedConstants(void) {
  *     """pgbbuf(): begins plot buffering
  *     """
  */
-  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgbbuf, 27, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgbbuf, 27, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 27, __pyx_L1_error)
 
   /* "pgplot/_pgplot.pyx":32
  *     cpgplot.cpgbbuf()
  * 
  * def pgcirc(xcent, ycent, radius):             # <<<<<<<<<<<<<<
- *     """cpgcirc(xcent, ycent, radius): draw a circle of radius radius centred on xcent,ycent"""
+ *     """pgcirc(xcent, ycent, radius): draw a circle of radius radius centred on xcent,ycent"""
  *     cpgplot.cpgcirc(xcent, ycent, radius)
  */
-  __pyx_tuple__20 = PyTuple_Pack(3, __pyx_n_s_xcent, __pyx_n_s_ycent, __pyx_n_s_radius); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 32, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__20);
-  __Pyx_GIVEREF(__pyx_tuple__20);
-  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgcirc, 32, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(3, __pyx_n_s_xcent, __pyx_n_s_ycent, __pyx_n_s_radius); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgcirc, 32, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 32, __pyx_L1_error)
 
   /* "pgplot/_pgplot.pyx":36
  *     cpgplot.cpgcirc(xcent, ycent, radius)
@@ -9504,7 +10251,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     """pgclos(): closes the current device
  *     """
  */
-  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgclos, 36, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgclos, 36, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(0, 36, __pyx_L1_error)
 
   /* "pgplot/_pgplot.pyx":41
  *     cpgplot.cpgclos()
@@ -9513,346 +10260,382 @@ static int __Pyx_InitCachedConstants(void) {
  *     """pgcurs(x, y): puts up a cursor for interactive plots
  * 
  */
-  __pyx_tuple__23 = PyTuple_Pack(6, __pyx_n_s_x, __pyx_n_s_y, __pyx_n_s_c, __pyx_n_s_xf, __pyx_n_s_yf, __pyx_n_s_status); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 41, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__23);
-  __Pyx_GIVEREF(__pyx_tuple__23);
-  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgcurs, 41, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_tuple__24 = PyTuple_Pack(6, __pyx_n_s_x, __pyx_n_s_y, __pyx_n_s_c, __pyx_n_s_xf, __pyx_n_s_yf, __pyx_n_s_status); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__24);
+  __Pyx_GIVEREF(__pyx_tuple__24);
+  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgcurs, 41, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(0, 41, __pyx_L1_error)
 
   /* "pgplot/_pgplot.pyx":58
  *     return (xf,yf,chr(c))
+ * 
+ * def pgdraw(x, y):             # <<<<<<<<<<<<<<
+ *     """pgdraw(x, y): draws a line from the current pen position to x, y"""
+ *     cpgplot.cpgdraw(x, y)
+ */
+  __pyx_tuple__26 = PyTuple_Pack(2, __pyx_n_s_x, __pyx_n_s_y); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__26);
+  __Pyx_GIVEREF(__pyx_tuple__26);
+  __pyx_codeobj__27 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__26, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgdraw, 58, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__27)) __PYX_ERR(0, 58, __pyx_L1_error)
+
+  /* "pgplot/_pgplot.pyx":62
+ *     cpgplot.cpgdraw(x, y)
  * 
  * def pgebuf():             # <<<<<<<<<<<<<<
  *     """pgebuf(): ends plot buffering
  *     """
  */
-  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgebuf, 58, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgebuf, 62, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(0, 62, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":63
+  /* "pgplot/_pgplot.pyx":67
  *     cpgplot.cpgebuf()
  * 
  * def pgenv(xmin, xmax, ymin, ymax, just, axis):             # <<<<<<<<<<<<<<
  *     """pgenv(xmin, xmax, ymin, ymax, just, axis): sets up a standard plot window
  * 
  */
-  __pyx_tuple__26 = PyTuple_Pack(6, __pyx_n_s_xmin, __pyx_n_s_xmax, __pyx_n_s_ymin, __pyx_n_s_ymax, __pyx_n_s_just, __pyx_n_s_axis); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 63, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__26);
-  __Pyx_GIVEREF(__pyx_tuple__26);
-  __pyx_codeobj__27 = (PyObject*)__Pyx_PyCode_New(6, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__26, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgenv, 63, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__27)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_tuple__29 = PyTuple_Pack(6, __pyx_n_s_xmin, __pyx_n_s_xmax, __pyx_n_s_ymin, __pyx_n_s_ymax, __pyx_n_s_just, __pyx_n_s_axis); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__29);
+  __Pyx_GIVEREF(__pyx_tuple__29);
+  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(6, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgenv, 67, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(0, 67, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":94
+  /* "pgplot/_pgplot.pyx":98
  *     cpgplot.cpgenv(xmin, xmax, ymin, ymax, just, axis)
  * 
  * def pgeras():             # <<<<<<<<<<<<<<
  *     """pgeras(): erases all graphics
  *     """
  */
-  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgeras, 94, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_codeobj__31 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgeras, 98, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__31)) __PYX_ERR(0, 98, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":99
- *     cpgplot.cpgeras()
+  /* "pgplot/_pgplot.pyx":105
+ * @cython.boundscheck(False)
+ * @cython.wraparound(False)
+ * def pgerry(x, y1, y2, t):             # <<<<<<<<<<<<<<
+ *     """pgerry(x,y1,y2,t): plots vertical error bars
+ * 
+ */
+  __pyx_tuple__32 = PyTuple_Pack(8, __pyx_n_s_x, __pyx_n_s_y1, __pyx_n_s_y2, __pyx_n_s_t, __pyx_n_s_n, __pyx_n_s_xf, __pyx_n_s_yf1, __pyx_n_s_yf2); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__32);
+  __Pyx_GIVEREF(__pyx_tuple__32);
+  __pyx_codeobj__33 = (PyObject*)__Pyx_PyCode_New(4, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__32, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgerry, 105, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__33)) __PYX_ERR(0, 105, __pyx_L1_error)
+
+  /* "pgplot/_pgplot.pyx":136
+ * 
  * 
  * def pggray(np.ndarray img not None, float fg, float bg, tr=None, i1=None, i2=None, j1=None, j2=None):             # <<<<<<<<<<<<<<
  *     """pggray(img, fg, bg, tr=None, i1=None, i2=None, j1=None, j2=None): plots greyscale
  *     image.
  */
-  __pyx_tuple__29 = PyTuple_Pack(16, __pyx_n_s_img, __pyx_n_s_fg, __pyx_n_s_bg, __pyx_n_s_tr, __pyx_n_s_i1, __pyx_n_s_i2, __pyx_n_s_j1, __pyx_n_s_j2, __pyx_n_s_imgf, __pyx_n_s_trf, __pyx_n_s_nx, __pyx_n_s_ny, __pyx_n_s_ix1, __pyx_n_s_ix2, __pyx_n_s_jy1, __pyx_n_s_jy2); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 99, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__29);
-  __Pyx_GIVEREF(__pyx_tuple__29);
-  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(8, 0, 16, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pggray, 99, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_tuple__34 = PyTuple_Pack(16, __pyx_n_s_img, __pyx_n_s_fg, __pyx_n_s_bg, __pyx_n_s_tr, __pyx_n_s_i1, __pyx_n_s_i2, __pyx_n_s_j1, __pyx_n_s_j2, __pyx_n_s_imgf, __pyx_n_s_trf, __pyx_n_s_nx, __pyx_n_s_ny, __pyx_n_s_ix1, __pyx_n_s_ix2, __pyx_n_s_jy1, __pyx_n_s_jy2); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__34);
+  __Pyx_GIVEREF(__pyx_tuple__34);
+  __pyx_codeobj__35 = (PyObject*)__Pyx_PyCode_New(8, 0, 16, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__34, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pggray, 136, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__35)) __PYX_ERR(0, 136, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":162
+  /* "pgplot/_pgplot.pyx":199
  *     cpgplot.cpggray(&imgf[0,0], nx, ny, ix1, ix2, jy1, jy2, fg, bg, &trf[0])
  * 
  * def pglab(xlabel, ylabel, toplabel):             # <<<<<<<<<<<<<<
  *     """pglab(xlabel, ylabel, toplabel): labels axes and top of a plot"""
  *     cpgplot.cpglab(xlabel.encode(), ylabel.encode(), toplabel.encode())
  */
-  __pyx_tuple__31 = PyTuple_Pack(3, __pyx_n_s_xlabel, __pyx_n_s_ylabel, __pyx_n_s_toplabel); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 162, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__31);
-  __Pyx_GIVEREF(__pyx_tuple__31);
-  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pglab, 162, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 162, __pyx_L1_error)
+  __pyx_tuple__36 = PyTuple_Pack(3, __pyx_n_s_xlabel, __pyx_n_s_ylabel, __pyx_n_s_toplabel); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__36);
+  __Pyx_GIVEREF(__pyx_tuple__36);
+  __pyx_codeobj__37 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__36, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pglab, 199, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__37)) __PYX_ERR(0, 199, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":168
+  /* "pgplot/_pgplot.pyx":205
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * def pgline(x, y):             # <<<<<<<<<<<<<<
  *     """pgline(x,y): plots a line.
  * 
  */
-  __pyx_tuple__33 = PyTuple_Pack(5, __pyx_n_s_x, __pyx_n_s_y, __pyx_n_s_n, __pyx_n_s_xf, __pyx_n_s_yf); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 168, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__33);
-  __Pyx_GIVEREF(__pyx_tuple__33);
-  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgline, 168, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 168, __pyx_L1_error)
+  __pyx_tuple__38 = PyTuple_Pack(5, __pyx_n_s_x, __pyx_n_s_y, __pyx_n_s_n, __pyx_n_s_xf, __pyx_n_s_yf); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(0, 205, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__38);
+  __Pyx_GIVEREF(__pyx_tuple__38);
+  __pyx_codeobj__39 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__38, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgline, 205, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__39)) __PYX_ERR(0, 205, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":191
+  /* "pgplot/_pgplot.pyx":228
  *     cpgplot.cpgline(n, &xf[0], &yf[0])
+ * 
+ * def pgmove(x, y):             # <<<<<<<<<<<<<<
+ *     """pgmove(x, y): moves the pen position to x, y"""
+ *     cpgplot.cpgmove(x, y)
+ */
+  __pyx_tuple__40 = PyTuple_Pack(2, __pyx_n_s_x, __pyx_n_s_y); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__40);
+  __Pyx_GIVEREF(__pyx_tuple__40);
+  __pyx_codeobj__41 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__40, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgmove, 228, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__41)) __PYX_ERR(0, 228, __pyx_L1_error)
+
+  /* "pgplot/_pgplot.pyx":232
+ *     cpgplot.cpgmove(x, y)
  * 
  * def pgopen(device):             # <<<<<<<<<<<<<<
  *     """pgopen(device): opens a plot device.
  * 
  */
-  __pyx_tuple__35 = PyTuple_Pack(1, __pyx_n_s_device); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 191, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__35);
-  __Pyx_GIVEREF(__pyx_tuple__35);
-  __pyx_codeobj__36 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgopen, 191, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__36)) __PYX_ERR(0, 191, __pyx_L1_error)
+  __pyx_tuple__42 = PyTuple_Pack(1, __pyx_n_s_device); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(0, 232, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__42);
+  __Pyx_GIVEREF(__pyx_tuple__42);
+  __pyx_codeobj__43 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__42, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgopen, 232, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__43)) __PYX_ERR(0, 232, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":203
+  /* "pgplot/_pgplot.pyx":244
  *     return cpgplot.cpgopen(device.encode())
  * 
  * def pgpage():             # <<<<<<<<<<<<<<
  *     """pgpage(): advance to next page or panel"""
  *     cpgplot.cpgpage()
  */
-  __pyx_codeobj__37 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgpage, 203, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__37)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgpage, 244, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(0, 244, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":207
+  /* "pgplot/_pgplot.pyx":248
  *     cpgplot.cpgpage()
  * 
  * def pgpanl(ix, iy):             # <<<<<<<<<<<<<<
  *     """pgpanl(ix, iy): switch to a different panel"""
  *     cpgplot.cpgpanl(ix, iy)
  */
-  __pyx_tuple__38 = PyTuple_Pack(2, __pyx_n_s_ix, __pyx_n_s_iy); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(0, 207, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__38);
-  __Pyx_GIVEREF(__pyx_tuple__38);
-  __pyx_codeobj__39 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__38, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgpanl, 207, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__39)) __PYX_ERR(0, 207, __pyx_L1_error)
+  __pyx_tuple__45 = PyTuple_Pack(2, __pyx_n_s_ix, __pyx_n_s_iy); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 248, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__45);
+  __Pyx_GIVEREF(__pyx_tuple__45);
+  __pyx_codeobj__46 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgpanl, 248, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__46)) __PYX_ERR(0, 248, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":211
+  /* "pgplot/_pgplot.pyx":252
  *     cpgplot.cpgpanl(ix, iy)
  * 
  * def pgpap(width, aspect):             # <<<<<<<<<<<<<<
  *    """pgpap(width, aspect): set plot width and aspect"""
  *    cpgplot.cpgpap(width, aspect)
  */
-  __pyx_tuple__40 = PyTuple_Pack(2, __pyx_n_s_width, __pyx_n_s_aspect); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(0, 211, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__40);
-  __Pyx_GIVEREF(__pyx_tuple__40);
-  __pyx_codeobj__41 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__40, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgpap, 211, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__41)) __PYX_ERR(0, 211, __pyx_L1_error)
+  __pyx_tuple__47 = PyTuple_Pack(2, __pyx_n_s_width, __pyx_n_s_aspect); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__47);
+  __Pyx_GIVEREF(__pyx_tuple__47);
+  __pyx_codeobj__48 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__47, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgpap, 252, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__48)) __PYX_ERR(0, 252, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":217
+  /* "pgplot/_pgplot.pyx":258
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * def pgpt(x, y, symbol):             # <<<<<<<<<<<<<<
  *     """pgpt(x,y,symbol): plots points
  * 
  */
-  __pyx_tuple__42 = PyTuple_Pack(6, __pyx_n_s_x, __pyx_n_s_y, __pyx_n_s_symbol, __pyx_n_s_n, __pyx_n_s_xf, __pyx_n_s_yf); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(0, 217, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__42);
-  __Pyx_GIVEREF(__pyx_tuple__42);
-  __pyx_codeobj__43 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__42, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgpt, 217, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__43)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __pyx_tuple__49 = PyTuple_Pack(6, __pyx_n_s_x, __pyx_n_s_y, __pyx_n_s_symbol, __pyx_n_s_n, __pyx_n_s_xf, __pyx_n_s_yf); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 258, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__49);
+  __Pyx_GIVEREF(__pyx_tuple__49);
+  __pyx_codeobj__50 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__49, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgpt, 258, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__50)) __PYX_ERR(0, 258, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":245
+  /* "pgplot/_pgplot.pyx":286
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * def pgpt1(x, y, symbol):             # <<<<<<<<<<<<<<
  *     """pgpt1(x,y,symbol): plots one point
  *     """
  */
-  __pyx_tuple__44 = PyTuple_Pack(3, __pyx_n_s_x, __pyx_n_s_y, __pyx_n_s_symbol); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 245, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__44);
-  __Pyx_GIVEREF(__pyx_tuple__44);
-  __pyx_codeobj__45 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__44, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgpt1, 245, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__45)) __PYX_ERR(0, 245, __pyx_L1_error)
+  __pyx_tuple__51 = PyTuple_Pack(3, __pyx_n_s_x, __pyx_n_s_y, __pyx_n_s_symbol); if (unlikely(!__pyx_tuple__51)) __PYX_ERR(0, 286, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__51);
+  __Pyx_GIVEREF(__pyx_tuple__51);
+  __pyx_codeobj__52 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__51, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgpt1, 286, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__52)) __PYX_ERR(0, 286, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":250
+  /* "pgplot/_pgplot.pyx":291
  *     cpgplot.cpgpt1(x, y, symbol)
  * 
  * def pgptxt(x, y, angle, fjust, text):             # <<<<<<<<<<<<<<
  *     """pgptxt(x, y, angle, fjust, text): draw text at arbitrary position"""
  *     cpgplot.cpgptxt(x, y, angle, fjust, text.encode())
  */
-  __pyx_tuple__46 = PyTuple_Pack(5, __pyx_n_s_x, __pyx_n_s_y, __pyx_n_s_angle, __pyx_n_s_fjust, __pyx_n_s_text); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 250, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__46);
-  __Pyx_GIVEREF(__pyx_tuple__46);
-  __pyx_codeobj__47 = (PyObject*)__Pyx_PyCode_New(5, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__46, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgptxt, 250, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__47)) __PYX_ERR(0, 250, __pyx_L1_error)
+  __pyx_tuple__53 = PyTuple_Pack(5, __pyx_n_s_x, __pyx_n_s_y, __pyx_n_s_angle, __pyx_n_s_fjust, __pyx_n_s_text); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(0, 291, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__53);
+  __Pyx_GIVEREF(__pyx_tuple__53);
+  __pyx_codeobj__54 = (PyObject*)__Pyx_PyCode_New(5, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__53, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgptxt, 291, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__54)) __PYX_ERR(0, 291, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":254
+  /* "pgplot/_pgplot.pyx":295
  *     cpgplot.cpgptxt(x, y, angle, fjust, text.encode())
  * 
  * def pgrect(x1, x2, y1, y2):             # <<<<<<<<<<<<<<
  *    """pgrect(x1, x2, y1, y2): plot a rectangle"""
  *    cpgplot.cpgrect(x1, x2, y1, y2)
  */
-  __pyx_tuple__48 = PyTuple_Pack(4, __pyx_n_s_x1, __pyx_n_s_x2, __pyx_n_s_y1, __pyx_n_s_y2); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 254, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__48);
-  __Pyx_GIVEREF(__pyx_tuple__48);
-  __pyx_codeobj__49 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__48, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgrect, 254, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__49)) __PYX_ERR(0, 254, __pyx_L1_error)
+  __pyx_tuple__55 = PyTuple_Pack(4, __pyx_n_s_x1, __pyx_n_s_x2, __pyx_n_s_y1, __pyx_n_s_y2); if (unlikely(!__pyx_tuple__55)) __PYX_ERR(0, 295, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__55);
+  __Pyx_GIVEREF(__pyx_tuple__55);
+  __pyx_codeobj__56 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__55, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgrect, 295, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__56)) __PYX_ERR(0, 295, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":258
+  /* "pgplot/_pgplot.pyx":299
  *    cpgplot.cpgrect(x1, x2, y1, y2)
  * 
  * def pgqvp(units=0):             # <<<<<<<<<<<<<<
  *    """pgqvp(units=0): returns (x1,x2,y1,y2) location of viewport
  * 
  */
-  __pyx_tuple__50 = PyTuple_Pack(5, __pyx_n_s_units, __pyx_n_s_x1, __pyx_n_s_x2, __pyx_n_s_y1, __pyx_n_s_y2); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(0, 258, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__50);
-  __Pyx_GIVEREF(__pyx_tuple__50);
-  __pyx_codeobj__51 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__50, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgqvp, 258, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__51)) __PYX_ERR(0, 258, __pyx_L1_error)
+  __pyx_tuple__57 = PyTuple_Pack(5, __pyx_n_s_units, __pyx_n_s_x1, __pyx_n_s_x2, __pyx_n_s_y1, __pyx_n_s_y2); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(0, 299, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__57);
+  __Pyx_GIVEREF(__pyx_tuple__57);
+  __pyx_codeobj__58 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__57, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgqvp, 299, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__58)) __PYX_ERR(0, 299, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":273
+  /* "pgplot/_pgplot.pyx":314
  *    return (x1,x2,y1,y2)
  * 
  * def pgsci(ci):             # <<<<<<<<<<<<<<
  *     """pgsci(ci): sets colour index"""
  *     cpgplot.cpgsci(ci)
  */
-  __pyx_tuple__52 = PyTuple_Pack(1, __pyx_n_s_ci); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 273, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__52);
-  __Pyx_GIVEREF(__pyx_tuple__52);
-  __pyx_codeobj__53 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__52, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgsci, 273, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__53)) __PYX_ERR(0, 273, __pyx_L1_error)
+  __pyx_tuple__59 = PyTuple_Pack(1, __pyx_n_s_ci); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(0, 314, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__59);
+  __Pyx_GIVEREF(__pyx_tuple__59);
+  __pyx_codeobj__60 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__59, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgsci, 314, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__60)) __PYX_ERR(0, 314, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":277
+  /* "pgplot/_pgplot.pyx":318
  *     cpgplot.cpgsci(ci)
  * 
  * def pgscir(icilo, icihi):             # <<<<<<<<<<<<<<
  *     """pgscir(icilo, icihi): sets range of colour indices"""
  *     cpgplot.cpgscir(icilo, icihi)
  */
-  __pyx_tuple__54 = PyTuple_Pack(2, __pyx_n_s_icilo, __pyx_n_s_icihi); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 277, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__54);
-  __Pyx_GIVEREF(__pyx_tuple__54);
-  __pyx_codeobj__55 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__54, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgscir, 277, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__55)) __PYX_ERR(0, 277, __pyx_L1_error)
+  __pyx_tuple__61 = PyTuple_Pack(2, __pyx_n_s_icilo, __pyx_n_s_icihi); if (unlikely(!__pyx_tuple__61)) __PYX_ERR(0, 318, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__61);
+  __Pyx_GIVEREF(__pyx_tuple__61);
+  __pyx_codeobj__62 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__61, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgscir, 318, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__62)) __PYX_ERR(0, 318, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":281
+  /* "pgplot/_pgplot.pyx":322
  *     cpgplot.cpgscir(icilo, icihi)
  * 
  * def pgsch(ch):             # <<<<<<<<<<<<<<
  *     """pgsch(ch): sets character height"""
  *     cpgplot.cpgsch(ch)
  */
-  __pyx_tuple__56 = PyTuple_Pack(1, __pyx_n_s_ch); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 281, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__56);
-  __Pyx_GIVEREF(__pyx_tuple__56);
-  __pyx_codeobj__57 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__56, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgsch, 281, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__57)) __PYX_ERR(0, 281, __pyx_L1_error)
+  __pyx_tuple__63 = PyTuple_Pack(1, __pyx_n_s_ch); if (unlikely(!__pyx_tuple__63)) __PYX_ERR(0, 322, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__63);
+  __Pyx_GIVEREF(__pyx_tuple__63);
+  __pyx_codeobj__64 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__63, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgsch, 322, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__64)) __PYX_ERR(0, 322, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":285
+  /* "pgplot/_pgplot.pyx":326
  *     cpgplot.cpgsch(ch)
  * 
  * def pgscf(font):             # <<<<<<<<<<<<<<
  *     """pgscf(font): sets font (1 to 4)"""
  *     cpgplot.cpgscf(font)
  */
-  __pyx_tuple__58 = PyTuple_Pack(1, __pyx_n_s_font); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(0, 285, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__58);
-  __Pyx_GIVEREF(__pyx_tuple__58);
-  __pyx_codeobj__59 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__58, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgscf, 285, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__59)) __PYX_ERR(0, 285, __pyx_L1_error)
+  __pyx_tuple__65 = PyTuple_Pack(1, __pyx_n_s_font); if (unlikely(!__pyx_tuple__65)) __PYX_ERR(0, 326, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__65);
+  __Pyx_GIVEREF(__pyx_tuple__65);
+  __pyx_codeobj__66 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__65, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgscf, 326, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__66)) __PYX_ERR(0, 326, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":289
+  /* "pgplot/_pgplot.pyx":330
  *     cpgplot.cpgscf(font)
  * 
  * def pgscr(ci, r, g, b):             # <<<<<<<<<<<<<<
  *     """pgscr(ci, r, g, b): sets rgb value of colour index ci
  * 
  */
-  __pyx_tuple__60 = PyTuple_Pack(4, __pyx_n_s_ci, __pyx_n_s_r, __pyx_n_s_g, __pyx_n_s_b); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(0, 289, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__60);
-  __Pyx_GIVEREF(__pyx_tuple__60);
-  __pyx_codeobj__61 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__60, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgscr, 289, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__61)) __PYX_ERR(0, 289, __pyx_L1_error)
+  __pyx_tuple__67 = PyTuple_Pack(4, __pyx_n_s_ci, __pyx_n_s_r, __pyx_n_s_g, __pyx_n_s_b); if (unlikely(!__pyx_tuple__67)) __PYX_ERR(0, 330, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__67);
+  __Pyx_GIVEREF(__pyx_tuple__67);
+  __pyx_codeobj__68 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__67, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgscr, 330, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__68)) __PYX_ERR(0, 330, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":296
+  /* "pgplot/_pgplot.pyx":337
  *     cpgplot.cpgscr(ci, r, g, b)
  * 
  * def pgsfs(fs):             # <<<<<<<<<<<<<<
  *     """pgsfs(fs): sets the fill area style
  * 
  */
-  __pyx_tuple__62 = PyTuple_Pack(1, __pyx_n_s_fs); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(0, 296, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__62);
-  __Pyx_GIVEREF(__pyx_tuple__62);
-  __pyx_codeobj__63 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__62, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgsfs, 296, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__63)) __PYX_ERR(0, 296, __pyx_L1_error)
+  __pyx_tuple__69 = PyTuple_Pack(1, __pyx_n_s_fs); if (unlikely(!__pyx_tuple__69)) __PYX_ERR(0, 337, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__69);
+  __Pyx_GIVEREF(__pyx_tuple__69);
+  __pyx_codeobj__70 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__69, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgsfs, 337, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__70)) __PYX_ERR(0, 337, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":303
+  /* "pgplot/_pgplot.pyx":344
  *     cpgplot.cpgsfs(fs)
  * 
  * def pgsls(ls):             # <<<<<<<<<<<<<<
  *     """pgsls(ls): sets line style"""
  *     cpgplot.cpgsls(ls)
  */
-  __pyx_tuple__64 = PyTuple_Pack(1, __pyx_n_s_ls); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(0, 303, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__64);
-  __Pyx_GIVEREF(__pyx_tuple__64);
-  __pyx_codeobj__65 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__64, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgsls, 303, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__65)) __PYX_ERR(0, 303, __pyx_L1_error)
+  __pyx_tuple__71 = PyTuple_Pack(1, __pyx_n_s_ls); if (unlikely(!__pyx_tuple__71)) __PYX_ERR(0, 344, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__71);
+  __Pyx_GIVEREF(__pyx_tuple__71);
+  __pyx_codeobj__72 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__71, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgsls, 344, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__72)) __PYX_ERR(0, 344, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":307
+  /* "pgplot/_pgplot.pyx":348
  *     cpgplot.cpgsls(ls)
  * 
  * def pgslw(lw):             # <<<<<<<<<<<<<<
  *     """pgslw(lw): sets line width"""
  *     cpgplot.cpgslw(lw)
  */
-  __pyx_tuple__66 = PyTuple_Pack(1, __pyx_n_s_lw); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(0, 307, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__66);
-  __Pyx_GIVEREF(__pyx_tuple__66);
-  __pyx_codeobj__67 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__66, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgslw, 307, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__67)) __PYX_ERR(0, 307, __pyx_L1_error)
+  __pyx_tuple__73 = PyTuple_Pack(1, __pyx_n_s_lw); if (unlikely(!__pyx_tuple__73)) __PYX_ERR(0, 348, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__73);
+  __Pyx_GIVEREF(__pyx_tuple__73);
+  __pyx_codeobj__74 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__73, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgslw, 348, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__74)) __PYX_ERR(0, 348, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":311
+  /* "pgplot/_pgplot.pyx":352
  *     cpgplot.cpgslw(lw)
  * 
  * def pgslct(devid):             # <<<<<<<<<<<<<<
  *     """pgslct(devid): selects device opened with identifier devid"""
  *     cpgplot.cpgslct(devid)
  */
-  __pyx_tuple__68 = PyTuple_Pack(1, __pyx_n_s_devid); if (unlikely(!__pyx_tuple__68)) __PYX_ERR(0, 311, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__68);
-  __Pyx_GIVEREF(__pyx_tuple__68);
-  __pyx_codeobj__69 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__68, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgslct, 311, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__69)) __PYX_ERR(0, 311, __pyx_L1_error)
+  __pyx_tuple__75 = PyTuple_Pack(1, __pyx_n_s_devid); if (unlikely(!__pyx_tuple__75)) __PYX_ERR(0, 352, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__75);
+  __Pyx_GIVEREF(__pyx_tuple__75);
+  __pyx_codeobj__76 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__75, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgslct, 352, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__76)) __PYX_ERR(0, 352, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":315
+  /* "pgplot/_pgplot.pyx":356
  *     cpgplot.cpgslct(devid)
  * 
  * def pgsubp(nx, ny):             # <<<<<<<<<<<<<<
  *     """pgsubp(nx, ny): subdivides view surface into panels"""
  *     cpgplot.cpgsubp(nx, ny)
  */
-  __pyx_tuple__70 = PyTuple_Pack(2, __pyx_n_s_nx, __pyx_n_s_ny); if (unlikely(!__pyx_tuple__70)) __PYX_ERR(0, 315, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__70);
-  __Pyx_GIVEREF(__pyx_tuple__70);
-  __pyx_codeobj__71 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__70, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgsubp, 315, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__71)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __pyx_tuple__77 = PyTuple_Pack(2, __pyx_n_s_nx, __pyx_n_s_ny); if (unlikely(!__pyx_tuple__77)) __PYX_ERR(0, 356, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__77);
+  __Pyx_GIVEREF(__pyx_tuple__77);
+  __pyx_codeobj__78 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__77, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgsubp, 356, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__78)) __PYX_ERR(0, 356, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":319
+  /* "pgplot/_pgplot.pyx":360
  *     cpgplot.cpgsubp(nx, ny)
  * 
  * def pgsvp(xleft, xright, ybot, ytop):             # <<<<<<<<<<<<<<
  *    """pgsvp(xleft, xright, ybot, ytop): sets viewport"""
  *    cpgplot.cpgsvp(xleft, xright, ybot, ytop)
  */
-  __pyx_tuple__72 = PyTuple_Pack(4, __pyx_n_s_xleft, __pyx_n_s_xright, __pyx_n_s_ybot, __pyx_n_s_ytop); if (unlikely(!__pyx_tuple__72)) __PYX_ERR(0, 319, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__72);
-  __Pyx_GIVEREF(__pyx_tuple__72);
-  __pyx_codeobj__73 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__72, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgsvp, 319, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__73)) __PYX_ERR(0, 319, __pyx_L1_error)
+  __pyx_tuple__79 = PyTuple_Pack(4, __pyx_n_s_xleft, __pyx_n_s_xright, __pyx_n_s_ybot, __pyx_n_s_ytop); if (unlikely(!__pyx_tuple__79)) __PYX_ERR(0, 360, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__79);
+  __Pyx_GIVEREF(__pyx_tuple__79);
+  __pyx_codeobj__80 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__79, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgsvp, 360, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__80)) __PYX_ERR(0, 360, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":323
+  /* "pgplot/_pgplot.pyx":364
  *    cpgplot.cpgsvp(xleft, xright, ybot, ytop)
  * 
  * def pgswin(x1, x2, y1, y2):             # <<<<<<<<<<<<<<
  *     """pgswin(x1, x2, y1, y2): defines physical scales"""
  *     cpgplot.cpgswin(x1, x2, y1, y2)
  */
-  __pyx_tuple__74 = PyTuple_Pack(4, __pyx_n_s_x1, __pyx_n_s_x2, __pyx_n_s_y1, __pyx_n_s_y2); if (unlikely(!__pyx_tuple__74)) __PYX_ERR(0, 323, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__74);
-  __Pyx_GIVEREF(__pyx_tuple__74);
-  __pyx_codeobj__75 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__74, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgswin, 323, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__75)) __PYX_ERR(0, 323, __pyx_L1_error)
+  __pyx_tuple__81 = PyTuple_Pack(4, __pyx_n_s_x1, __pyx_n_s_x2, __pyx_n_s_y1, __pyx_n_s_y2); if (unlikely(!__pyx_tuple__81)) __PYX_ERR(0, 364, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__81);
+  __Pyx_GIVEREF(__pyx_tuple__81);
+  __pyx_codeobj__82 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__81, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgswin, 364, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__82)) __PYX_ERR(0, 364, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":327
+  /* "pgplot/_pgplot.pyx":368
  *     cpgplot.cpgswin(x1, x2, y1, y2)
  * 
  * def pgwnad(x1, x2, y1, y2):             # <<<<<<<<<<<<<<
  *     """pgwnad(x1, x2, y1, y2): defines physical scales"""
  *     cpgplot.cpgwnad(x1, x2, y1, y2)
  */
-  __pyx_tuple__76 = PyTuple_Pack(4, __pyx_n_s_x1, __pyx_n_s_x2, __pyx_n_s_y1, __pyx_n_s_y2); if (unlikely(!__pyx_tuple__76)) __PYX_ERR(0, 327, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__76);
-  __Pyx_GIVEREF(__pyx_tuple__76);
-  __pyx_codeobj__77 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__76, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgwnad, 327, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__77)) __PYX_ERR(0, 327, __pyx_L1_error)
+  __pyx_tuple__83 = PyTuple_Pack(4, __pyx_n_s_x1, __pyx_n_s_x2, __pyx_n_s_y1, __pyx_n_s_y2); if (unlikely(!__pyx_tuple__83)) __PYX_ERR(0, 368, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__83);
+  __Pyx_GIVEREF(__pyx_tuple__83);
+  __pyx_codeobj__84 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__83, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgwnad, 368, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__84)) __PYX_ERR(0, 368, __pyx_L1_error)
 
-  /* "pgplot/_pgplot.pyx":331
+  /* "pgplot/_pgplot.pyx":372
  *     cpgplot.cpgwnad(x1, x2, y1, y2)
  * 
  * def pgvstd():             # <<<<<<<<<<<<<<
  *     """pgvstd(): sets up standard viewport"""
  *     cpgplot.cpgvstd()
  */
-  __pyx_codeobj__78 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgvstd, 331, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__78)) __PYX_ERR(0, 331, __pyx_L1_error)
+  __pyx_codeobj__85 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_astro_phsaap_code_Python_p, __pyx_n_s_pgvstd, 372, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__85)) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -10033,7 +10816,7 @@ PyMODINIT_FUNC PyInit__pgplot(void)
  * 
  * 
  * def pgarro(x1, y1, x2, y2):             # <<<<<<<<<<<<<<
- *     """cpgarro(x1, y1, x2, y2): draw arrow from x1,y1 to x2,y2"""
+ *     """pgarro(x1, y1, x2, y2): draw arrow from x1,y1 to x2,y2"""
  *     cpgplot.cpgarro(x1, y1, x2, y2)
  */
   __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_1pgarro, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
@@ -10081,7 +10864,7 @@ PyMODINIT_FUNC PyInit__pgplot(void)
  *     cpgplot.cpgbbuf()
  * 
  * def pgcirc(xcent, ycent, radius):             # <<<<<<<<<<<<<<
- *     """cpgcirc(xcent, ycent, radius): draw a circle of radius radius centred on xcent,ycent"""
+ *     """pgcirc(xcent, ycent, radius): draw a circle of radius radius centred on xcent,ycent"""
  *     cpgplot.cpgcirc(xcent, ycent, radius)
  */
   __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_9pgcirc, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
@@ -10116,349 +10899,385 @@ PyMODINIT_FUNC PyInit__pgplot(void)
   /* "pgplot/_pgplot.pyx":58
  *     return (xf,yf,chr(c))
  * 
+ * def pgdraw(x, y):             # <<<<<<<<<<<<<<
+ *     """pgdraw(x, y): draws a line from the current pen position to x, y"""
+ *     cpgplot.cpgdraw(x, y)
+ */
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_15pgdraw, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgdraw, __pyx_t_2) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "pgplot/_pgplot.pyx":62
+ *     cpgplot.cpgdraw(x, y)
+ * 
  * def pgebuf():             # <<<<<<<<<<<<<<
  *     """pgebuf(): ends plot buffering
  *     """
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_15pgebuf, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_17pgebuf, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgebuf, __pyx_t_2) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgebuf, __pyx_t_2) < 0) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":63
+  /* "pgplot/_pgplot.pyx":67
  *     cpgplot.cpgebuf()
  * 
  * def pgenv(xmin, xmax, ymin, ymax, just, axis):             # <<<<<<<<<<<<<<
  *     """pgenv(xmin, xmax, ymin, ymax, just, axis): sets up a standard plot window
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_17pgenv, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_19pgenv, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgenv, __pyx_t_2) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgenv, __pyx_t_2) < 0) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":94
+  /* "pgplot/_pgplot.pyx":98
  *     cpgplot.cpgenv(xmin, xmax, ymin, ymax, just, axis)
  * 
  * def pgeras():             # <<<<<<<<<<<<<<
  *     """pgeras(): erases all graphics
  *     """
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_19pgeras, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_21pgeras, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgeras, __pyx_t_2) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgeras, __pyx_t_2) < 0) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":99
- *     cpgplot.cpgeras()
+  /* "pgplot/_pgplot.pyx":105
+ * @cython.boundscheck(False)
+ * @cython.wraparound(False)
+ * def pgerry(x, y1, y2, t):             # <<<<<<<<<<<<<<
+ *     """pgerry(x,y1,y2,t): plots vertical error bars
+ * 
+ */
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_23pgerry, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgerry, __pyx_t_2) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "pgplot/_pgplot.pyx":136
+ * 
  * 
  * def pggray(np.ndarray img not None, float fg, float bg, tr=None, i1=None, i2=None, j1=None, j2=None):             # <<<<<<<<<<<<<<
  *     """pggray(img, fg, bg, tr=None, i1=None, i2=None, j1=None, j2=None): plots greyscale
  *     image.
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_21pggray, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_25pggray, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 136, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pggray, __pyx_t_2) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pggray, __pyx_t_2) < 0) __PYX_ERR(0, 136, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":162
+  /* "pgplot/_pgplot.pyx":199
  *     cpgplot.cpggray(&imgf[0,0], nx, ny, ix1, ix2, jy1, jy2, fg, bg, &trf[0])
  * 
  * def pglab(xlabel, ylabel, toplabel):             # <<<<<<<<<<<<<<
  *     """pglab(xlabel, ylabel, toplabel): labels axes and top of a plot"""
  *     cpgplot.cpglab(xlabel.encode(), ylabel.encode(), toplabel.encode())
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_23pglab, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 162, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_27pglab, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 199, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pglab, __pyx_t_2) < 0) __PYX_ERR(0, 162, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pglab, __pyx_t_2) < 0) __PYX_ERR(0, 199, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":168
+  /* "pgplot/_pgplot.pyx":205
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * def pgline(x, y):             # <<<<<<<<<<<<<<
  *     """pgline(x,y): plots a line.
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_25pgline, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 168, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_29pgline, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgline, __pyx_t_2) < 0) __PYX_ERR(0, 168, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgline, __pyx_t_2) < 0) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":191
+  /* "pgplot/_pgplot.pyx":228
  *     cpgplot.cpgline(n, &xf[0], &yf[0])
+ * 
+ * def pgmove(x, y):             # <<<<<<<<<<<<<<
+ *     """pgmove(x, y): moves the pen position to x, y"""
+ *     cpgplot.cpgmove(x, y)
+ */
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_31pgmove, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgmove, __pyx_t_2) < 0) __PYX_ERR(0, 228, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "pgplot/_pgplot.pyx":232
+ *     cpgplot.cpgmove(x, y)
  * 
  * def pgopen(device):             # <<<<<<<<<<<<<<
  *     """pgopen(device): opens a plot device.
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_27pgopen, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_33pgopen, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 232, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgopen, __pyx_t_2) < 0) __PYX_ERR(0, 191, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgopen, __pyx_t_2) < 0) __PYX_ERR(0, 232, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":203
+  /* "pgplot/_pgplot.pyx":244
  *     return cpgplot.cpgopen(device.encode())
  * 
  * def pgpage():             # <<<<<<<<<<<<<<
  *     """pgpage(): advance to next page or panel"""
  *     cpgplot.cpgpage()
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_29pgpage, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_35pgpage, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 244, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgpage, __pyx_t_2) < 0) __PYX_ERR(0, 203, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgpage, __pyx_t_2) < 0) __PYX_ERR(0, 244, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":207
+  /* "pgplot/_pgplot.pyx":248
  *     cpgplot.cpgpage()
  * 
  * def pgpanl(ix, iy):             # <<<<<<<<<<<<<<
  *     """pgpanl(ix, iy): switch to a different panel"""
  *     cpgplot.cpgpanl(ix, iy)
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_31pgpanl, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 207, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_37pgpanl, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 248, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgpanl, __pyx_t_2) < 0) __PYX_ERR(0, 207, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgpanl, __pyx_t_2) < 0) __PYX_ERR(0, 248, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":211
+  /* "pgplot/_pgplot.pyx":252
  *     cpgplot.cpgpanl(ix, iy)
  * 
  * def pgpap(width, aspect):             # <<<<<<<<<<<<<<
  *    """pgpap(width, aspect): set plot width and aspect"""
  *    cpgplot.cpgpap(width, aspect)
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_33pgpap, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 211, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_39pgpap, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 252, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgpap, __pyx_t_2) < 0) __PYX_ERR(0, 211, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgpap, __pyx_t_2) < 0) __PYX_ERR(0, 252, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":217
+  /* "pgplot/_pgplot.pyx":258
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * def pgpt(x, y, symbol):             # <<<<<<<<<<<<<<
  *     """pgpt(x,y,symbol): plots points
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_35pgpt, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_41pgpt, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 258, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgpt, __pyx_t_2) < 0) __PYX_ERR(0, 217, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgpt, __pyx_t_2) < 0) __PYX_ERR(0, 258, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":245
+  /* "pgplot/_pgplot.pyx":286
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * def pgpt1(x, y, symbol):             # <<<<<<<<<<<<<<
  *     """pgpt1(x,y,symbol): plots one point
  *     """
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_37pgpt1, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 245, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_43pgpt1, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgpt1, __pyx_t_2) < 0) __PYX_ERR(0, 245, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgpt1, __pyx_t_2) < 0) __PYX_ERR(0, 286, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":250
+  /* "pgplot/_pgplot.pyx":291
  *     cpgplot.cpgpt1(x, y, symbol)
  * 
  * def pgptxt(x, y, angle, fjust, text):             # <<<<<<<<<<<<<<
  *     """pgptxt(x, y, angle, fjust, text): draw text at arbitrary position"""
  *     cpgplot.cpgptxt(x, y, angle, fjust, text.encode())
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_39pgptxt, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 250, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_45pgptxt, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgptxt, __pyx_t_2) < 0) __PYX_ERR(0, 250, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgptxt, __pyx_t_2) < 0) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":254
+  /* "pgplot/_pgplot.pyx":295
  *     cpgplot.cpgptxt(x, y, angle, fjust, text.encode())
  * 
  * def pgrect(x1, x2, y1, y2):             # <<<<<<<<<<<<<<
  *    """pgrect(x1, x2, y1, y2): plot a rectangle"""
  *    cpgplot.cpgrect(x1, x2, y1, y2)
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_41pgrect, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 254, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_47pgrect, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 295, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgrect, __pyx_t_2) < 0) __PYX_ERR(0, 254, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgrect, __pyx_t_2) < 0) __PYX_ERR(0, 295, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":258
+  /* "pgplot/_pgplot.pyx":299
  *    cpgplot.cpgrect(x1, x2, y1, y2)
  * 
  * def pgqvp(units=0):             # <<<<<<<<<<<<<<
  *    """pgqvp(units=0): returns (x1,x2,y1,y2) location of viewport
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_43pgqvp, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 258, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_49pgqvp, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 299, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgqvp, __pyx_t_2) < 0) __PYX_ERR(0, 258, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgqvp, __pyx_t_2) < 0) __PYX_ERR(0, 299, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":273
+  /* "pgplot/_pgplot.pyx":314
  *    return (x1,x2,y1,y2)
  * 
  * def pgsci(ci):             # <<<<<<<<<<<<<<
  *     """pgsci(ci): sets colour index"""
  *     cpgplot.cpgsci(ci)
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_45pgsci, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 273, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_51pgsci, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 314, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgsci, __pyx_t_2) < 0) __PYX_ERR(0, 273, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgsci, __pyx_t_2) < 0) __PYX_ERR(0, 314, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":277
+  /* "pgplot/_pgplot.pyx":318
  *     cpgplot.cpgsci(ci)
  * 
  * def pgscir(icilo, icihi):             # <<<<<<<<<<<<<<
  *     """pgscir(icilo, icihi): sets range of colour indices"""
  *     cpgplot.cpgscir(icilo, icihi)
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_47pgscir, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 277, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_53pgscir, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 318, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgscir, __pyx_t_2) < 0) __PYX_ERR(0, 277, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgscir, __pyx_t_2) < 0) __PYX_ERR(0, 318, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":281
+  /* "pgplot/_pgplot.pyx":322
  *     cpgplot.cpgscir(icilo, icihi)
  * 
  * def pgsch(ch):             # <<<<<<<<<<<<<<
  *     """pgsch(ch): sets character height"""
  *     cpgplot.cpgsch(ch)
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_49pgsch, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 281, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_55pgsch, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 322, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgsch, __pyx_t_2) < 0) __PYX_ERR(0, 281, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgsch, __pyx_t_2) < 0) __PYX_ERR(0, 322, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":285
+  /* "pgplot/_pgplot.pyx":326
  *     cpgplot.cpgsch(ch)
  * 
  * def pgscf(font):             # <<<<<<<<<<<<<<
  *     """pgscf(font): sets font (1 to 4)"""
  *     cpgplot.cpgscf(font)
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_51pgscf, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 285, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_57pgscf, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 326, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgscf, __pyx_t_2) < 0) __PYX_ERR(0, 285, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgscf, __pyx_t_2) < 0) __PYX_ERR(0, 326, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":289
+  /* "pgplot/_pgplot.pyx":330
  *     cpgplot.cpgscf(font)
  * 
  * def pgscr(ci, r, g, b):             # <<<<<<<<<<<<<<
  *     """pgscr(ci, r, g, b): sets rgb value of colour index ci
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_53pgscr, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 289, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_59pgscr, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 330, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgscr, __pyx_t_2) < 0) __PYX_ERR(0, 289, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgscr, __pyx_t_2) < 0) __PYX_ERR(0, 330, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":296
+  /* "pgplot/_pgplot.pyx":337
  *     cpgplot.cpgscr(ci, r, g, b)
  * 
  * def pgsfs(fs):             # <<<<<<<<<<<<<<
  *     """pgsfs(fs): sets the fill area style
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_55pgsfs, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 296, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_61pgsfs, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 337, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgsfs, __pyx_t_2) < 0) __PYX_ERR(0, 296, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgsfs, __pyx_t_2) < 0) __PYX_ERR(0, 337, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":303
+  /* "pgplot/_pgplot.pyx":344
  *     cpgplot.cpgsfs(fs)
  * 
  * def pgsls(ls):             # <<<<<<<<<<<<<<
  *     """pgsls(ls): sets line style"""
  *     cpgplot.cpgsls(ls)
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_57pgsls, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 303, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_63pgsls, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 344, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgsls, __pyx_t_2) < 0) __PYX_ERR(0, 303, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgsls, __pyx_t_2) < 0) __PYX_ERR(0, 344, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":307
+  /* "pgplot/_pgplot.pyx":348
  *     cpgplot.cpgsls(ls)
  * 
  * def pgslw(lw):             # <<<<<<<<<<<<<<
  *     """pgslw(lw): sets line width"""
  *     cpgplot.cpgslw(lw)
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_59pgslw, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 307, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_65pgslw, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 348, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgslw, __pyx_t_2) < 0) __PYX_ERR(0, 307, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgslw, __pyx_t_2) < 0) __PYX_ERR(0, 348, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":311
+  /* "pgplot/_pgplot.pyx":352
  *     cpgplot.cpgslw(lw)
  * 
  * def pgslct(devid):             # <<<<<<<<<<<<<<
  *     """pgslct(devid): selects device opened with identifier devid"""
  *     cpgplot.cpgslct(devid)
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_61pgslct, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 311, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_67pgslct, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 352, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgslct, __pyx_t_2) < 0) __PYX_ERR(0, 311, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgslct, __pyx_t_2) < 0) __PYX_ERR(0, 352, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":315
+  /* "pgplot/_pgplot.pyx":356
  *     cpgplot.cpgslct(devid)
  * 
  * def pgsubp(nx, ny):             # <<<<<<<<<<<<<<
  *     """pgsubp(nx, ny): subdivides view surface into panels"""
  *     cpgplot.cpgsubp(nx, ny)
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_63pgsubp, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_69pgsubp, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 356, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgsubp, __pyx_t_2) < 0) __PYX_ERR(0, 315, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgsubp, __pyx_t_2) < 0) __PYX_ERR(0, 356, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":319
+  /* "pgplot/_pgplot.pyx":360
  *     cpgplot.cpgsubp(nx, ny)
  * 
  * def pgsvp(xleft, xright, ybot, ytop):             # <<<<<<<<<<<<<<
  *    """pgsvp(xleft, xright, ybot, ytop): sets viewport"""
  *    cpgplot.cpgsvp(xleft, xright, ybot, ytop)
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_65pgsvp, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 319, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_71pgsvp, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 360, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgsvp, __pyx_t_2) < 0) __PYX_ERR(0, 319, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgsvp, __pyx_t_2) < 0) __PYX_ERR(0, 360, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":323
+  /* "pgplot/_pgplot.pyx":364
  *    cpgplot.cpgsvp(xleft, xright, ybot, ytop)
  * 
  * def pgswin(x1, x2, y1, y2):             # <<<<<<<<<<<<<<
  *     """pgswin(x1, x2, y1, y2): defines physical scales"""
  *     cpgplot.cpgswin(x1, x2, y1, y2)
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_67pgswin, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 323, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_73pgswin, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 364, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgswin, __pyx_t_2) < 0) __PYX_ERR(0, 323, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgswin, __pyx_t_2) < 0) __PYX_ERR(0, 364, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":327
+  /* "pgplot/_pgplot.pyx":368
  *     cpgplot.cpgswin(x1, x2, y1, y2)
  * 
  * def pgwnad(x1, x2, y1, y2):             # <<<<<<<<<<<<<<
  *     """pgwnad(x1, x2, y1, y2): defines physical scales"""
  *     cpgplot.cpgwnad(x1, x2, y1, y2)
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_69pgwnad, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 327, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_75pgwnad, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 368, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgwnad, __pyx_t_2) < 0) __PYX_ERR(0, 327, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgwnad, __pyx_t_2) < 0) __PYX_ERR(0, 368, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgplot/_pgplot.pyx":331
+  /* "pgplot/_pgplot.pyx":372
  *     cpgplot.cpgwnad(x1, x2, y1, y2)
  * 
  * def pgvstd():             # <<<<<<<<<<<<<<
  *     """pgvstd(): sets up standard viewport"""
  *     cpgplot.cpgvstd()
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_71pgvstd, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 331, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6pgplot_7_pgplot_77pgvstd, NULL, __pyx_n_s_pgplot__pgplot); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgvstd, __pyx_t_2) < 0) __PYX_ERR(0, 331, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pgvstd, __pyx_t_2) < 0) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pgplot/_pgplot.pyx":1
@@ -11106,33 +11925,6 @@ bad:
 }
 #endif
 
-/* ArgTypeTest */
-      static void __Pyx_RaiseArgumentTypeInvalid(const char* name, PyObject *obj, PyTypeObject *type) {
-    PyErr_Format(PyExc_TypeError,
-        "Argument '%.200s' has incorrect type (expected %.200s, got %.200s)",
-        name, type->tp_name, Py_TYPE(obj)->tp_name);
-}
-static CYTHON_INLINE int __Pyx_ArgTypeTest(PyObject *obj, PyTypeObject *type, int none_allowed,
-    const char *name, int exact)
-{
-    if (unlikely(!type)) {
-        PyErr_SetString(PyExc_SystemError, "Missing type object");
-        return 0;
-    }
-    if (none_allowed && obj == Py_None) return 1;
-    else if (exact) {
-        if (likely(Py_TYPE(obj) == type)) return 1;
-        #if PY_MAJOR_VERSION == 2
-        else if ((type == &PyBaseString_Type) && likely(__Pyx_PyBaseString_CheckExact(obj))) return 1;
-        #endif
-    }
-    else {
-        if (likely(PyObject_TypeCheck(obj, type))) return 1;
-    }
-    __Pyx_RaiseArgumentTypeInvalid(name, obj, type);
-    return 0;
-}
-
 /* GetModuleGlobalName */
       static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name) {
     PyObject *result;
@@ -11712,6 +12504,33 @@ static CYTHON_INLINE void __Pyx_SafeReleaseBuffer(Py_buffer* info) {
   if (info->buf == NULL) return;
   if (info->suboffsets == __Pyx_minusones) info->suboffsets = NULL;
   __Pyx_ReleaseBuffer(info);
+}
+
+/* ArgTypeTest */
+          static void __Pyx_RaiseArgumentTypeInvalid(const char* name, PyObject *obj, PyTypeObject *type) {
+    PyErr_Format(PyExc_TypeError,
+        "Argument '%.200s' has incorrect type (expected %.200s, got %.200s)",
+        name, type->tp_name, Py_TYPE(obj)->tp_name);
+}
+static CYTHON_INLINE int __Pyx_ArgTypeTest(PyObject *obj, PyTypeObject *type, int none_allowed,
+    const char *name, int exact)
+{
+    if (unlikely(!type)) {
+        PyErr_SetString(PyExc_SystemError, "Missing type object");
+        return 0;
+    }
+    if (none_allowed && obj == Py_None) return 1;
+    else if (exact) {
+        if (likely(Py_TYPE(obj) == type)) return 1;
+        #if PY_MAJOR_VERSION == 2
+        else if ((type == &PyBaseString_Type) && likely(__Pyx_PyBaseString_CheckExact(obj))) return 1;
+        #endif
+    }
+    else {
+        if (likely(PyObject_TypeCheck(obj, type))) return 1;
+    }
+    __Pyx_RaiseArgumentTypeInvalid(name, obj, type);
+    return 0;
 }
 
 /* PyIntBinop */
