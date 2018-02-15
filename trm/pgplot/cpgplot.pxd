@@ -9,10 +9,6 @@ cdef extern from "cpgplot.h":
    void cpgaxis(const char *opt, float x1, float y1, float x2, float y2, float v1, float v2,
                 float step, int nsub, float dmajl, float dmajr, float fmin, float disp, float orient)
 
-   void cpgebuf()
-   void cpgeras()
-   void cpgerr1(int dir, float x, float y, float e, float t)
-
    int cpgband(int mode, int posn, float xref, float yref, float *x, float *y, char *ch_scalar)
    void cpgbbuf()
    void cpgbin(int nbin, const float *x, const float *data, int center)
@@ -27,8 +23,11 @@ cdef extern from "cpgplot.h":
 
    void cpgdraw(float x, float y)
 
+   void cpgebuf()
    void cpgenv(float xmin, float xmax, float ymin, float ymax,
                int just, int axis)
+   void cpgeras()
+   void cpgerr1(int dir, float x, float y, float e, float t)
    void cpgerrx(int n, const float *x1, const float *x2, const float *y, float t)
    void cpgerry(int n, const float *x, const float *y1, const float *y2, float t)
 
@@ -83,13 +82,13 @@ cdef extern from "cpgplot.h":
 
    void cpgwnad(float x1, float x2, float y1, float y2)
 
-   #int cpgbeg(int unit, const char *file, int nxsub, int nysub);
+
    #void cpgconb(const float *a, int idim, int jdim, int i1, int i2, int j1, int j2, const float *c, int nc, const float *tr, float blank);
    #void cpgconf(const float *a, int idim, int jdim, int i1, int i2, int j1, int j2, float c1, float c2, const float *tr);
    #void cpgconl(const float *a, int idim, int jdim, int i1, int i2, int j1, int j2, float c, const float *tr, const char *label, int intval, int minint);
    #void cpgcons(const float *a, int idim, int jdim, int i1, int i2, int j1, int j2, const float *c, int nc, const float *tr);
    #void cpgctab(const float *l, const float *r, const float *g, const float *b, int nc, float contra, float bright);
-   #void cpgend(void);
+
    #void cpgerrb(int dir, int n, const float *x, const float *y, const float *e, float t);
    #void cpgetxt(void);
    #void cpghi2d(const float *data, int nxv, int nyv, int ix1, int ix2, int iy1, int iy2, const float *x, int ioff, float bias, Logical center, float *ylims);
@@ -139,3 +138,8 @@ cdef extern from "cpgplot.h":
    #void cpgvsiz(float xleft, float xright, float ybot, float ytop);
    #void cpgwedg(const char *side, float disp, float width, float fg, float bg, con#st char *label);
 
+
+   # Redundant routines:
+   #
+   #int cpgbeg(int unit, const char *file, int nxsub, int nysub)
+   #void cpgend(void);
