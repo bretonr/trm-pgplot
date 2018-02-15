@@ -32,6 +32,7 @@
         ],
         "library_dirs": [
             "/usr/X11R6/lib",
+            "/opt/local/lib",
             "/storage/astro1/phsaap/software/pgplot"
         ]
     },

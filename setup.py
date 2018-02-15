@@ -9,7 +9,7 @@ from Cython.Build import cythonize
 # setup the paths to get the libraries and headers
 include_dirs = []
 libraries    = ['cpgplot', 'pgplot', 'X11', 'png', 'm', 'z', 'gfortran']
-library_dirs = ['/usr/X11R6/lib']
+library_dirs = ['/usr/X11R6/lib', '/opt/local/lib']
 
 include_dirs.append(numpy.get_include())
 
