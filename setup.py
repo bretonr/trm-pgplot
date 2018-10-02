@@ -22,8 +22,6 @@ if os.name == 'posix':
 else:
     raise Exception('os = {:s} not supported'.format(os.name))
 
-print(include_dirs)
-
 pgplot = [Extension(
         'trm.pgplot._pgplot',
         [os.path.join('trm','pgplot','_pgplot.pyx')],
