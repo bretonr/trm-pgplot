@@ -1,7 +1,6 @@
 import numpy as np
 cimport numpy as np
 cimport cython
-
 cimport cpgplot
 
 FTYPE = np.float32
