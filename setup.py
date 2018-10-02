@@ -22,6 +22,8 @@ if os.name == 'posix':
 else:
     raise Exception('os = {:s} not supported'.format(os.name))
 
+print(include_dirs)
+
 pgplot = [Extension(
         'trm.pgplot._pgplot',
         [os.path.join('trm','pgplot','_pgplot.pyx')],
@@ -37,7 +39,8 @@ pgplot = [Extension(
 setup(name='trm.pgplot',
       version = '0.9',
       packages = ['trm', 'trm.pgplot',],
-      ext_modules=cythonize(pgplot),
+      ext_modules=cythonize(pgplot, include_path=['trm/pgplot']),
+      zip_safe=False,
 
       # metadata
       author='Tom Marsh',
