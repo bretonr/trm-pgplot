@@ -13,11 +13,12 @@ installation can be a right pain. At minimum pgplot and numpy must
 have been compiled with the same fortran compiler e.g. either g77/g95
 or, most likely nowadays, gfortran. Have a look at
 http://deneb.astro.warwick.ac.uk/phsaap/software/ for a script
-designed to help a little with PGPLOT installation. Once you have
-managed it, don't forget to defined the environment variable
-PGPLOT_DIR as needed by PGPLOT; this is used to pick up the location
-of the header file cpgplot.h and libraries. e.g. If using bash, you
-would have somewhere in your .bashrc config file something like:
+designed to help a little with PGPLOT installation. I recommend not
+bothering with the PNG drivers. Once you have managed it, don't forget
+to define the environment variable PGPLOT_DIR as needed by PGPLOT;
+this is used to pick up the location of the header file cpgplot.h and
+libraries. e.g. If using bash, you would have somewhere in your
+.bashrc config file something like:
 
   export PGPLOT_DIR=/path/to/my/pgplot
 
