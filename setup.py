@@ -1,5 +1,5 @@
 from setuptools import setup, Extension
-import os, numpy
+import os, numpy, sys
 from codecs import open
 from os import path
 from Cython.Build import cythonize
@@ -8,7 +8,7 @@ from Cython.Build import cythonize
 
 # setup the paths to get the libraries and headers
 include_dirs = []
-libraries    = ['cpgplot', 'pgplot', 'X11', 'm', 'gfortran']
+libraries    = ['cpgplot', 'pgplot', 'X11', 'm', 'gfortran', 'png', 'z']
 library_dirs = ['/usr/X11R6/lib', '/opt/local/lib']
 
 include_dirs.append(numpy.get_include())
@@ -18,7 +18,7 @@ if os.name == 'posix':
         library_dirs.append(os.environ['PGPLOT_DIR'])
         include_dirs.append(os.environ['PGPLOT_DIR'])
     else:
-        print('Environment variable PGPLOT_DIR not defined!', file=sys.stderr)
+        raise Exception('Environment variable PGPLOT_DIR not defined!')
 else:
     raise Exception('os = {:s} not supported'.format(os.name))
 
