@@ -132,7 +132,7 @@ def pgerry(x, y1, y2, t):
     cpgplot.cpgerry(n, &xf[0], &yf1[0], &yf2[0], t)
 
 
-def pggray(np.ndarray img not None, float fg, float bg, tr=None, i1=None, i2=None, j1=None, j2=None):
+def pggray(np.ndarray[float, ndim=2, mode="c"] img not None, float fg, float bg, tr=None, i1=None, i2=None, j1=None, j2=None):
     """pggray(img, fg, bg, tr=None, i1=None, i2=None, j1=None, j2=None): plots greyscale
     image.
 
