@@ -8,8 +8,16 @@ from Cython.Build import cythonize
 
 # setup the paths to get the libraries and headers
 include_dirs = []
-#libraries    = ['cpgplot', 'pgplot', 'X11', 'm', 'gfortran', 'png', 'z']
-libraries    = ['cpgplot', 'pgplot', 'X11', 'm', 'gfortran']
+if 'PGPLOT_PNG' in os.environ:
+    if os.environ['PGPLOT_PNG'] == 'true':
+        libraries = ['cpgplot', 'pgplot', 'X11', 'm', 'gfortran', 'png', 'z']
+    elif os.environ['PGPLOT_PNG'] == 'false':
+        libraries = ['cpgplot', 'pgplot', 'X11', 'm', 'gfortran']
+    else:
+        raise Exception('Environment variable PGPLOT_PNG neither "true" nor "false"')
+else:
+    raise Exception('Environment variable PGPLOT_PNG not defined')
+
 library_dirs = ['/usr/X11R6/lib', '/opt/local/lib']
 
 include_dirs.append(numpy.get_include())

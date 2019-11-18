@@ -13,24 +13,28 @@ installation can be a right pain. At minimum pgplot and numpy must
 have been compiled with the same fortran compiler e.g. either g77/g95
 or, most likely nowadays, gfortran. Have a look at
 http://deneb.astro.warwick.ac.uk/phsaap/software/ for a script
-designed to help a little with PGPLOT installation. I recommend not
-bothering with the PNG drivers. Once you have managed it, don't forget
-to define the environment variable PGPLOT_DIR as needed by PGPLOT;
-this is used to pick up the location of the header file cpgplot.h and
+designed to help a little with PGPLOT installation. PGPLOT's PNG
+drivers seem to cause me trouble nowadays and I have given up on
+them. Once you have managed to install PGPLOT, don't forget to define
+the environment variable PGPLOT_DIR as needed by PGPLOT; this is used
+to pick up the location of the header file cpgplot.h and
 libraries. e.g. If using bash, you would have somewhere in your
 .bashrc config file something like:
 
   export PGPLOT_DIR=/path/to/my/pgplot
 
 and the directory pointed to should include files like cgplot.h, libpgplot.a,
-libpgplot.so and similar.
+libpgplot.so and similar. I have had issues with linking in the PNG library and
+have given up, but some people need to use because that's how their PGPLOT was
+built, therefore you must now define an environment variable PGPLOT_PNG to be
+either "true" or "false" to select or ignore the PNG libraries.
 
 Once you have passed this painful hurdle, its the usual python setup, e.g.
 
   pip3 install . --user
 
 run from the directory cloned directory containing this README.  It is
-possible that it needs extra libraries; if so look at the list
+still possible that it needs extra libraries; if so look at the list
 "libraries" in setup.py
 
 Differences from PGPLOT
