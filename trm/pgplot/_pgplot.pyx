@@ -132,7 +132,7 @@ def pgerry(x, y1, y2, t):
     cpgplot.cpgerry(n, &xf[0], &yf1[0], &yf2[0], t)
 
 
-def pggray(np.ndarray[float, ndim=2, mode="c"] img not None, float fg, float bg, tr=None, i1=None, i2=None, j1=None, j2=None):
+def pggray(img, float fg, float bg, tr=None, i1=None, i2=None, j1=None, j2=None):
     """pggray(img, fg, bg, tr=None, i1=None, i2=None, j1=None, j2=None): plots greyscale
     image.
 
@@ -171,29 +171,37 @@ def pggray(np.ndarray[float, ndim=2, mode="c"] img not None, float fg, float bg,
 
     """
 
-    # we need the array to have float32 type. If it does already, we do so
-    # without copying to save time.
-    cdef np.ndarray[FTYPE_t, ndim=2] imgf = img.astype(FTYPE, copy=False)
+    # beat the array into conformity if need be
+    if not img.flags['C_CONTIGUOUS'] or img.dtype != FTYPE:
+        img_cpy = np.ascontiguousarray(img, dtype=FTYPE)
+    else:
+        img_cpy = img
 
-    # similarly for the transform array which we initialise if it is None on input
-    # except we do copy since it is modified below
-    tr = np.array([1,1,0,1,0,1],dtype=FTYPE) if tr is None else tr
-    cdef np.ndarray[FTYPE_t, ndim=1] trf = np.asarray(tr).astype(FTYPE)
+    # take a memview of it
+    cdef float[:,::1] img_mv = img_cpy
+
+    # initialise the transform array if it is None on input,
+    # copy it since it is modified below
+    if tr is None:
+        trf = np.array([1,1,0,1,0,1],dtype=FTYPE)
+    else:
+        trf = np.asarray(tr).astype(FTYPE)
+    cdef float[:] tr_mv = trf
 
     # get image dimensions
-    cdef int nx = img.shape[1]
-    cdef int ny = img.shape[0]
+    cdef int nx = img_mv.shape[1]
+    cdef int ny = img_mv.shape[0]
 
     # correct from 0 to 1 offsets
     cdef int ix1 = 1 if i1 is None else i1+1
     cdef int ix2 = nx if i2 is None else i2
     cdef int jy1 = 1 if j1 is None else j1+1
     cdef int jy2 = ny if j2 is None else j2
-    trf[0] -= trf[1]+trf[2]
-    trf[3] -= trf[4]+trf[5]
+    tr_mv[0] -= tr_mv[1]+tr_mv[2]
+    tr_mv[3] -= tr_mv[4]+tr_mv[5]
 
     # finally call cpggray
-    cpgplot.cpggray(&imgf[0,0], nx, ny, ix1, ix2, jy1, jy2, fg, bg, &trf[0])
+    cpgplot.cpggray(&img_mv[0,0], nx, ny, ix1, ix2, jy1, jy2, fg, bg, &tr_mv[0])
 
 def pglab(xlabel, ylabel, toplabel):
     """pglab(xlabel, ylabel, toplabel): labels axes and top of a plot"""
