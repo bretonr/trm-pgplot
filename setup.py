@@ -8,7 +8,8 @@ from Cython.Build import cythonize
 
 # setup the paths to get the libraries and headers
 include_dirs = []
-libraries    = ['cpgplot', 'pgplot', 'X11', 'm', 'gfortran', 'png', 'z']
+#libraries    = ['cpgplot', 'pgplot', 'X11', 'm', 'gfortran', 'png', 'z']
+libraries    = ['cpgplot', 'pgplot', 'X11', 'm', 'gfortran']
 library_dirs = ['/usr/X11R6/lib', '/opt/local/lib']
 
 include_dirs.append(numpy.get_include())
@@ -35,7 +36,7 @@ pgplot = [Extension(
           ]
 
 setup(name='trm.pgplot',
-      version = '0.9',
+      version = '0.91',
       packages = ['trm', 'trm.pgplot',],
       ext_modules=cythonize(pgplot, include_path=['trm/pgplot']),
       zip_safe=False,
