@@ -18,7 +18,8 @@ if 'PGPLOT_PNG' in os.environ:
 else:
     raise Exception('Environment variable PGPLOT_PNG not defined')
 
-library_dirs = ['/usr/X11R6/lib', '/opt/local/lib']
+library_dirs = ['/usr/X11R6/lib', '/opt/local/lib', 'opt/homebrew/lib']
+library_dirs = [d for d in library_dirs if os.path.exists(d)]
 
 include_dirs.append(numpy.get_include())
 
