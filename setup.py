@@ -45,7 +45,7 @@ pgplot = [Extension(
           ]
 
 setup(name='trm.pgplot',
-      version = '0.92',
+      version = '0.93',
       packages = ['trm', 'trm.pgplot',],
       ext_modules=cythonize(pgplot, include_path=['trm/pgplot']),
       zip_safe=False,
