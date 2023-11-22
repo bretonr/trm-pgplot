@@ -11,11 +11,24 @@ Installation
 You must have pgplot, python and 'numpy' installed. Be warned, pgplot
 installation can be a right pain. At minimum pgplot and numpy must
 have been compiled with the same fortran compiler e.g. either g77/g95
-or, most likely nowadays, gfortran. Have a look at
-http://deneb.astro.warwick.ac.uk/phsaap/software/ for a script
-designed to help a little with PGPLOT installation. PGPLOT's PNG
-drivers seem to cause me trouble nowadays and I have given up on
-them. Once you have managed to install PGPLOT, don't forget to define
+or, most likely nowadays, gfortran.  
+
+PGPLOT's PNG drivers seem to cause some trouble nowadays and you may want to
+give up on them. If you do, set the environment variable PGPLOT_PNG to 
+"false" and trm.pgplot will be installed without PNG support.
+
+Another gotcha when installing PGPLOT is that if you don't have g77 you'll
+probably have to manually edit the makefile to change the FORTRAN compiler:
+
+  FCOMPL=gfortran
+
+If you do this, you'll also have to make sure the shared PGPLOT library is 
+linked against the gfortran and x11 libraries, e.g change the SHARED_LD 
+entry to:
+
+  SHARED_LD=gcc -shared  -o libpgplot.so -lgfortran -lX11
+
+Once you have managed to install PGPLOT, don't forget to define
 the environment variable PGPLOT_DIR as needed by PGPLOT; this is used
 to pick up the location of the header file cpgplot.h and
 libraries. e.g. If using bash, you would have somewhere in your
