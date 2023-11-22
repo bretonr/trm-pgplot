@@ -13,6 +13,9 @@ installation can be a right pain. At minimum pgplot and numpy must
 have been compiled with the same fortran compiler e.g. either g77/g95
 or, most likely nowadays, gfortran.  
 
+On Macs, I strongly recommend installing using homebrew. You'll have to tap
+the `linked recipe <https://github.com/kazuakiyama/homebrew-pgplot>`_. 
+
 PGPLOT's PNG drivers seem to cause some trouble nowadays and you may want to
 give up on them. If you do, set the environment variable PGPLOT_PNG to 
 "false" and trm.pgplot will be installed without PNG support.
