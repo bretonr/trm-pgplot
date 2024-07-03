@@ -8,7 +8,7 @@ DTYPE = np.float64
 ITYPE = np.int32
 ctypedef np.float32_t FTYPE_t
 ctypedef np.float64_t DTYPE_t
-ctypedef np.int_t ITYPE_t
+ctypedef np.int32_t ITYPE_t
 
 
 def pgarro(x1, y1, x2, y2):
